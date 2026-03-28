@@ -1,7 +1,8 @@
 package five.edu.cn;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Collections;
+import java.util.List;
 
 public class Model {
 private static Model instance=new Model();
@@ -14,17 +15,21 @@ public static final int Black=-1;
 public static final int Space=0;
 public static final int width=19;
 private int [][]data=new int [width][width];
-public static LinkedList<Chess>list=new LinkedList<Chess>();
+private LinkedList<Chess>list=new LinkedList<Chess>();
 public int[][] getData() {
-	return data;
+	int[][] copy = new int[width][width];
+	for(int i = 0; i < width; i++) {
+		System.arraycopy(data[i], 0, copy[i], 0, width);
+	}
+	return copy;
 }
-public LinkedList<Chess> getList() {
-	return list;
+public List<Chess> getList() {
+	return Collections.unmodifiableList(list);
 }
 private int lastrow;
 private int lastcol;
-public boolean putChess(int row,int col,int color){
-	if(row>width||row<0||col<0||col>width||data[row][col]!=Space)return false;
+public synchronized boolean putChess(int row,int col,int color){
+	if(row>=width||row<0||col<0||col>=width||data[row][col]!=Space)return false;
 	else {
 		data[row][col]=color;
 		list.add(new Chess(row,col,color));
@@ -33,14 +38,14 @@ public boolean putChess(int row,int col,int color){
 		return true;
 	}
 }
-public int getChess(int row,int col){
+public synchronized int getChess(int row,int col){
 if(row>=0&&row<width&&col>=0&&col<width)return data[row][col];
 	else return Space;
 }
-public int judge(){
+public synchronized int judge(){
+	if(list.isEmpty()) return Space;
 	int m=data[lastrow][lastcol];
 	int num=1;
-	//同一行
 	for(int i=lastcol+1;i<width;i++){
 		if(data[lastrow][i]==m){num++;
 	if(num==5)return m;
@@ -52,19 +57,17 @@ public int judge(){
 		if(num==5)return m;}
 		else break;
 	}
-	//samecol
 	num=1;
 	for(int i=lastrow+1;i<width;i++){
 		if(data[i][lastcol]==m){num++;
 		if(num==5)return m;}
 		else break;
 	}
-	for(int i=lastrow-1;i>0;i--){
+	for(int i=lastrow-1;i>=0;i--){
 		if(data[i][lastcol]==m){num++;
 		if(num==5)return m;}
 		else break;
 	}
-	//left斜线
 	num=1;
 	for(int i=lastrow-1, j=lastcol-1;i>=0&&j>=0;i--,j--){
 		if(data[i][j]==m){num++;
@@ -76,7 +79,6 @@ public int judge(){
 		if(num==5)return m;}
 		else break;
 	}
-	//右斜线
 	num=1;
 	for(int i=lastrow-1, j=lastcol+1;i>=0&&j<width;i--,j++){
 		if(data[i][j]==m){num++;
@@ -88,14 +90,17 @@ public int judge(){
 		if(num==5)return m;}
 		else break;
 	}
-	return Space;//没人赢
+	return Space;
 }
-public void clearchess(){
+public synchronized void clearchess(){
 	list=new LinkedList<>();
 	data=new int [width][width];
 	ChessPanel.getInstance().repaint();
 }
-public void back(){
+public synchronized void back(){
+	if(list.size() < 2) {
+		return;
+	}
 	int row1=list.getLast().row;
 	int col1=list.getLast().col;
 	data[row1][col1]=Space;

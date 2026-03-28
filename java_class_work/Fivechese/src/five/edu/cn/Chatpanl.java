@@ -2,11 +2,8 @@ package five.edu.cn;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.GridBagLayout;
 import java.awt.Image;
-import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -16,17 +13,17 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 public class Chatpanl extends JPanel {
 private static Chatpanl instance=new Chatpanl();
 private JScrollPane scrollpane=new JScrollPane();
-private JButton snebt=new JButton("·¢ËÍ");
+private JButton snebt=new JButton("å‘é€");
 private JTextField writeboard=new JTextField();
-public JTextArea readboard=new JTextArea();
+private JTextArea readboard=new JTextArea();
 private JPanel pane1=new JPanel();
 private JPanel pane2=new JPanel();
 private JPanel pane3=new JPanel();
@@ -43,34 +40,42 @@ private Chatpanl() {
 			scrollpane.setPreferredSize(new Dimension(width/3,height/2));
 			readboard.setPreferredSize(new Dimension(width/3,height/2));
 	        writeboard.setPreferredSize(new Dimension(width/3,height/4));
-		   
 		}
 	});
-	new Thread(){
-		public void run(){
-			snebt.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					// TODO Auto-generated method stub
-					NetHelper.getInstance().setChat(writeboard.getText());
-				}
-			});
+	snebt.addActionListener(new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			String text = writeboard.getText();
+			if (text != null && !text.trim().isEmpty()) {
+				NetHelper.getInstance().setChat(text);
+				writeboard.setText("");
+			}
 		}
-	}.start();
+	});
 	setLayout(new BorderLayout());
-	pane1.add(new JLabel("ÏûÏ¢ÏÔÊ¾¿ò"));
+	pane1.add(new JLabel("æ¶ˆæ¯æ˜¾ç¤ºåŒº"));
     scrollpane.setViewportView(readboard);
+    readboard.setEditable(false);
     pane1.add(scrollpane);
-	pane2.add(new JLabel("ÁÄÌìÊäÈë¿ò"));
+	pane2.add(new JLabel("è¾“å…¥æ¶ˆæ¯"));
 	pane2.add(writeboard,BorderLayout.WEST);
 	pane2.add(snebt,BorderLayout.EAST);
 	add(pane2,BorderLayout.SOUTH);
 	add(pane1,BorderLayout.NORTH);
-	repaint();
 }
 public static Chatpanl getInstance(){
 	return instance;
+}
+
+public void appendMessage(final String message) {
+	if (message == null) {
+		return;
+	}
+	SwingUtilities.invokeLater(new Runnable() {
+		public void run() {
+			readboard.append(message + "\n");
+		}
+	});
 }
 protected void paintComponent(Graphics g) {
 	  super.paintComponent(g);

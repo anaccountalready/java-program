@@ -3,17 +3,14 @@ package five.edu.cn;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.net.UnknownHostException;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class NetPanel extends JPanel{
-	private JButton listenButton=new JButton("¿ªÊ¼¼àÌı");
-	private JButton connectButton =new JButton("Á¬½Ó·şÎñÆ÷");
+	private JButton listenButton=new JButton("å¼€å§‹ç›‘å¬");
+	private JButton connectButton =new JButton("è¿æ¥æœåŠ¡å™¨");
 	private JTextField ipTF=new JTextField(20);
 private static NetPanel instance=new NetPanel();
 private NetPanel () {
@@ -26,17 +23,18 @@ private NetPanel () {
 		
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
 			Control.getInstance().beginlisten();
 			listenButton.setEnabled(false);
+			connectButton.setEnabled(false);
 		}
 	});
 	connectButton.addActionListener(new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
 			String ip=ipTF.getText();
-		   
+			Control.getInstance().connect(ip);
+			listenButton.setEnabled(false);
+			connectButton.setEnabled(false);
 		}
 	});
 	

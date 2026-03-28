@@ -1,31 +1,26 @@
 package five.edu.cn;
 
 import java.awt.BorderLayout;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
 
 public class Main {
 	
 public static void main(String a[]){
-	JFrame f=new JFrame("ŒÂ◊”∆Â");
-	f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	f.getContentPane().setLayout(new BorderLayout());
-	f.getContentPane().add(ChessPanel.getInstance(),BorderLayout.CENTER);
-	f.getContentPane().add(NetPanel.getInstance(),BorderLayout.NORTH);
-	f.getContentPane().add(Chatpanl.getInstance(),BorderLayout.EAST);
-	f.setSize(800,600);
-	f.setVisible(true);
-new Thread(){public void run(){
-	new BackGroundMusic();
-	BackGroundMusic.main(null);
-}}.start();	
-	
-	
+	SwingUtilities.invokeLater(new Runnable() {
+		public void run() {
+			JFrame f=new JFrame("‰∫îÂ≠êÊ£ã");
+			f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			f.getContentPane().setLayout(new BorderLayout());
+			f.getContentPane().add(ChessPanel.getInstance(),BorderLayout.CENTER);
+			f.getContentPane().add(NetPanel.getInstance(),BorderLayout.NORTH);
+			f.getContentPane().add(Chatpanl.getInstance(),BorderLayout.EAST);
+			f.setSize(800,600);
+			f.setVisible(true);
+			BackGroundMusic.getInstance().play();
+		}
+	});
 }
 
 }

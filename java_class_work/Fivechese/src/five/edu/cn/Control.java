@@ -1,9 +1,6 @@
 package five.edu.cn;
 
-import java.util.LinkedList;
-
 import javax.swing.JOptionPane;
-import javax.swing.plaf.OptionPaneUI;
 
 public class Control {
 private static Control instance=new Control();
@@ -29,8 +26,8 @@ public void setOtherColor(int otherColor) {
 	this.otherColor = otherColor;
 }
 public void setMode(){
-	Object[] MOde={"µ¥»úÄ£Ê½","ÍøÂç¶ÔÕ½"};
-	int x=JOptionPane.showOptionDialog(null, "ÇëÑ¡ÔñÓÎÏ·Ä£Ê½", "ÓÎÏ·Ä£Ê½", JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE, null, MOde, MOde[0]);
+	Object[] MOde={"æœ¬åœ°æ¨¡å¼","ç½‘ç»œå¯¹æˆ˜"};
+	int x=JOptionPane.showOptionDialog(null, "è¯·é€‰æ‹©æ¸¸æˆæ¨¡å¼", "æ¸¸æˆæ¨¡å¼", JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE, null, MOde, MOde[0]);
 	if(x==0)netMode=false;
 	else netMode=true;
 }
@@ -41,20 +38,24 @@ public void setColor(){
 	}
 }
 private void setLocalColor() {
-	// TODO Auto-generated method stub
-	Object[] MOde={"ºÚÆå","°×Æå"};
-	int x=JOptionPane.showOptionDialog(null, "ÇëÑ¡ÔñÏÂÆåÑÕÉ«", "Ñ¡ÔñÆå×ÓÑÕÉ«", JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE, null, MOde, MOde[0]);
-	if(x==0){
-		localColor=Model.Black;
-	}else {localColor=Model.white;}
-}
+		Object[] MOde={"é»‘æ£‹","ç™½æ£‹"};
+		int x=JOptionPane.showOptionDialog(null, "è¯·é€‰æ‹©ä½ çš„æ£‹å­é¢œè‰²", "é€‰æ‹©æ£‹å­é¢œè‰²", JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE, null, MOde, MOde[0]);
+		if(x==0){
+			localColor=Model.Black;
+		}else {
+			localColor=Model.white;
+		}
+	}
 private void netmodesetcolor() {
-	// TODO Auto-generated method stub
-	Object[] MOde={"ºÚÆå","°×Æå"};
-	int x=JOptionPane.showOptionDialog(null, "ÇëÔÚË½ÏÂÓë¶ÓÊÖÉÌÈ¶ºóÑ¡ÔñÏÂÆåÑÕÉ«·ñÔò»á³öÏÖ´íÎó", "Ñ¡ÔñÆå×ÓÑÕÉ«", JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE, null, MOde, MOde[0]);
-	if(x==0)localColor=Model.Black;else localColor=Model.white;
-    otherColor=-localColor;
-}
+		Object[] MOde={"é»‘æ£‹","ç™½æ£‹"};
+		int x=JOptionPane.showOptionDialog(null, "ä¸»æœºç©å®¶å°†ä¼˜å…ˆé€‰æ‹©æ£‹å­é¢œè‰²ï¼Œè¯·é€‰æ‹©ä½ çš„æ£‹å­é¢œè‰²", "é€‰æ‹©æ£‹å­é¢œè‰²", JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE, null, MOde, MOde[0]);
+		if(x==0){
+			localColor=Model.Black;
+		}else {
+			localColor=Model.white;
+		}
+	    otherColor=-localColor;
+	}
 public boolean isAllowPutChess() {
 	return allowPutChess;
 }
@@ -75,10 +76,16 @@ public void localPutChess(int row,int col){
 	}
 }
 public void localremoveChess(){
-	if(!netMode){Model.getInstance().back();}
+	if(Model.getInstance().getList().size() < 2) {
+		JOptionPane.showMessageDialog(null, "æ²¡æœ‰è¶³å¤Ÿçš„æ£‹å­å¯ä»¥æ‚”æ£‹");
+		return;
+	}
+	if(!netMode){
+		Model.getInstance().back();
+		ChessPanel.getInstance().repaint();
+	}
 	else{
 		netModeremoveChess();
-		
 	}
 }
 public void netOtherPutChess(int row,int col){
@@ -88,45 +95,43 @@ public void netOtherPutChess(int row,int col){
 		allowPutChess=true;
 		int winner=Model.getInstance().judge();
 		if(winner==-1){
-			JOptionPane.showMessageDialog(null, "ºÚÆå»ñÊ¤");
+			JOptionPane.showMessageDialog(null, "é»‘æ–¹è·èƒœ");
 		}
 		else if(winner==1){
-			JOptionPane.showMessageDialog(null, "°×Æå»ñÊ¤");
-		}}
+			JOptionPane.showMessageDialog(null, "ç™½æ–¹è·èƒœ");
+		}
+	}
 }
 private void netModePutChess(int row, int col) {
-	// TODO Auto-generated method stub
-	if(!allowPutChess)return;
-	boolean success=Model.getInstance().putChess(row, col, localColor);
-	if(success){
-		ChessPanel.getInstance().repaint();
-		NetHelper.getInstance().sentChess(row, col);
-		allowPutChess=false;
-		int winner=Model.getInstance().judge();
-		if(winner==-1){
-			JOptionPane.showMessageDialog(null, "ºÚÆå»ñÊ¤");
-		}
-		else if(winner==1){
-			JOptionPane.showMessageDialog(null, "°×Æå»ñÊ¤");
+		if(!allowPutChess)return;
+		boolean success=Model.getInstance().putChess(row, col, localColor);
+		if(success){
+			ChessPanel.getInstance().repaint();
+			NetHelper.getInstance().sentChess(row, col);
+			allowPutChess=false;
+			int winner=Model.getInstance().judge();
+			if(winner==-1){
+				JOptionPane.showMessageDialog(null, "é»‘æ–¹è·èƒœ");
+			}
+			else if(winner==1){
+				JOptionPane.showMessageDialog(null, "ç™½æ–¹è·èƒœ");
+			}
 		}
 	}
-}
 private void localModePutChess(int row, int col) {
-	boolean success=Model.getInstance().putChess(row, col, localColor);
-	if(success){
-		ChessPanel.getInstance().repaint();
-		localColor=-localColor;
-		int winner=Model.getInstance().judge();
-		if(winner==-1){
-			JOptionPane.showMessageDialog(null, "ºÚÆå»ñÊ¤");
+		boolean success=Model.getInstance().putChess(row, col, localColor);
+		if(success){
+			ChessPanel.getInstance().repaint();
+			localColor=-localColor;
+			int winner=Model.getInstance().judge();
+			if(winner==-1){
+				JOptionPane.showMessageDialog(null, "é»‘æ–¹è·èƒœ");
+			}
+			else if(winner==1){
+				JOptionPane.showMessageDialog(null, "ç™½æ–¹è·èƒœ");
+			}
 		}
-		else if(winner==1){
-			JOptionPane.showMessageDialog(null, "°×Æå»ñÊ¤");
-		}
-		
 	}
-	else ;
-}
 public void beginlisten() {
 	// TODO Auto-generated method stub
 	NetHelper.getInstance().beginListen();
@@ -137,11 +142,14 @@ public void connect(String ip) {
 	NetHelper.getInstance().connect(ip);
 }
 public void netModeremoveChess(){
-	if(Model.getInstance().getList().getLast().color==otherColor){
-	Model.getInstance().back();
-	ChessPanel.getInstance().repaint();
-	NetHelper.getInstance().sentbackmsg();}
-	else JOptionPane.showMessageDialog(null, "ÇëµÈ´ı¶ÔÊÖÏÂÍê²ÅÄÜ»ÚÆå");
+	if(Model.getInstance().getList().isEmpty() || Model.getInstance().getList().get(Model.getInstance().getList().size()-1).color==otherColor){
+		Model.getInstance().back();
+		ChessPanel.getInstance().repaint();
+		NetHelper.getInstance().sentbackmsg();
+	}
+	else {
+		JOptionPane.showMessageDialog(null, "ç­‰å¾…å¯¹æ–¹ä¸‹æ£‹åæ‰èƒ½æ‚”æ£‹");
+	}
 }
 public void netotherremoveChess() {
 	// TODO Auto-generated method stub
@@ -150,8 +158,7 @@ public void netotherremoveChess() {
 	ChessPanel.getInstance().repaint();
 }
 public void netOthershowmsg(String line){
-	// TODO Auto-generated method stub
-	Chatpanl.getInstance().readboard.append("¶ÔÊÖËµ£º"+line+"\n");
+	Chatpanl.getInstance().appendMessage("å¯¹æ–¹è¯´:"+line);
 }
 
 
