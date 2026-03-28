@@ -26,13 +26,28 @@ import javax.swing.JPanel;
 public class ChessPanel extends JPanel{
 	private int gap=50;//jiange
 	private int unit=10;
-	private int lx=10;//ÆåÅÌ×óÉÏ½ÇµÄ×ø±ê
+	private int lx=10;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï½Çµï¿½ï¿½ï¿½ï¿½ï¿½
 	private int ly=10;
 	Image imageIcon=new ImageIcon("painting/view.jpg").getImage();
-private static ChessPanel instance=new ChessPanel();
-private ChessPanel(){
 	
-	JButton backbt=new JButton("»ÚÆå");
+	// Enum singleton implementation, thread-safe and prevents reflection attacks
+	public enum SingletonHolder {
+		INSTANCE;
+		private final ChessPanel instance;
+		
+		SingletonHolder() {
+			instance = new ChessPanel();
+		}
+		
+		public ChessPanel getInstance() {
+			return instance;
+		}
+	}
+	
+	// Private constructor to prevent external instantiation
+	private ChessPanel(){
+	
+	JButton backbt=new JButton("ï¿½ï¿½ï¿½ï¿½");
 	add(backbt);
 	backbt.addActionListener(new ActionListener() {
 		
@@ -43,14 +58,14 @@ private ChessPanel(){
 			repaint();
 		}
 	});
-	JButton startbt=new JButton("ÖØÐÂ¿ªÊ¼ÓÎÏ·");
+	JButton startbt=new JButton("ï¿½ï¿½ï¿½Â¿ï¿½Ê¼ï¿½ï¿½Ï·");
 	add(startbt);
     startbt.addActionListener(new ActionListener() {
 		
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			// TODO Auto-generated method stub
-			int choice = JOptionPane.showConfirmDialog(null,"ÊÇ·ñÖØÐÂ¿ªÊ¼ÓÎÏ·","ÖØÐÂ¿ªÊ¼ÓÎÏ·",JOptionPane.OK_CANCEL_OPTION);
+			int choice = JOptionPane.showConfirmDialog(null,"ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Â¿ï¿½Ê¼ï¿½ï¿½Ï·","ï¿½ï¿½ï¿½Â¿ï¿½Ê¼ï¿½ï¿½Ï·",JOptionPane.OK_CANCEL_OPTION);
 			if(choice == JOptionPane.OK_OPTION) {
 				Model.getInstance().clearchess();
 				repaint();
@@ -59,7 +74,7 @@ private ChessPanel(){
 			}
 		}
 	});
-    JButton startbt1=new JButton("¿ªÊ¼ÓÎÏ·");
+    JButton startbt1=new JButton("ï¿½ï¿½Ê¼ï¿½ï¿½Ï·");
     add(startbt1);
     startbt1.addActionListener(new ActionListener() {
 		
@@ -73,21 +88,21 @@ private ChessPanel(){
 			
 		}
 	});
-	JButton endbt=new JButton("ÍË³öÓÎÏ·");
+	JButton endbt=new JButton("ï¿½Ë³ï¿½ï¿½ï¿½Ï·");
 	add(endbt);
 	endbt.addActionListener(new ActionListener() {
 		
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			// TODO Auto-generated method stub
-			int choice = JOptionPane.showConfirmDialog(null,"ÊÇ·ñÍË³öÓÎÏ·","ÍË³öÓÎÏ·",JOptionPane.OK_CANCEL_OPTION);
+			int choice = JOptionPane.showConfirmDialog(null,"ï¿½Ç·ï¿½ï¿½Ë³ï¿½ï¿½ï¿½Ï·","ï¿½Ë³ï¿½ï¿½ï¿½Ï·",JOptionPane.OK_CANCEL_OPTION);
 			if(choice == JOptionPane.OK_OPTION) {
 				System.exit(0);
 			}
 					
 		}
 	});
-	JButton fuPan=new JButton("¸´ÅÌ");
+	JButton fuPan=new JButton("ï¿½ï¿½ï¿½ï¿½");
 	add(fuPan);
 	fuPan.addActionListener(new ActionListener() {
 		
@@ -127,7 +142,7 @@ private ChessPanel(){
 			unit=(min-2*gap)/(Model.width-1);
 			lx=(width-18*unit)/2;
 			ly=(height-18*unit)/2;
-		    repaint();//×Ô¶¯µ÷ÓÃpaintcomponent£¨£©
+		    repaint();//ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½paintcomponentï¿½ï¿½ï¿½ï¿½
 		}
 	});
 
@@ -146,7 +161,9 @@ addMouseListener(new MouseAdapter() {
 		Control.getInstance().localPutChess(row, col);
 	}
 });}
-public static ChessPanel getInstance(){return instance;}
+public static ChessPanel getInstance(){
+	return SingletonHolder.INSTANCE.getInstance();
+}
 protected void paintComponent(Graphics g) {
   super.paintComponent(g);
 g.drawImage(imageIcon, 0, 0, this.getWidth(), this.getHeight(), this);
@@ -157,15 +174,15 @@ private void drawchess(Graphics g) {
 	// TODO Auto-generated method stub
 	Model m=Model.getInstance();
 	for(Chess n:m.getList()){
-	if(n.color==-1){
+	if(n.getColor()==-1){
 		g.setColor(Color.BLACK);
-		g.fillOval(lx+n.col*unit-unit/2, ly+n.row*unit-unit/2, unit, unit);
+		g.fillOval(lx+n.getCol()*unit-unit/2, ly+n.getRow()*unit-unit/2, unit, unit);
 	}
-	else if(n.color==1){
+	else if(n.getColor()==1){
 		g.setColor(Color.WHITE);
-		g.fillOval(lx+n.col*unit-unit/2, ly+n.row*unit-unit/2, unit, unit);
+		g.fillOval(lx+n.getCol()*unit-unit/2, ly+n.getRow()*unit-unit/2, unit, unit);
 	}
-	else if(n.color==0){};
+	else if(n.getColor()==0){};
 	}
 	
 }

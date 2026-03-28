@@ -6,12 +6,27 @@ import javax.swing.JOptionPane;
 import javax.swing.plaf.OptionPaneUI;
 
 public class Control {
-private static Control instance=new Control();
-private Control(){
-}
-public static Control getInstance(){
-	return instance;
-}
+	// Enum singleton implementation, thread-safe and prevents reflection attacks
+	public enum SingletonHolder {
+		INSTANCE;
+		private final Control instance;
+		
+		SingletonHolder() {
+			instance = new Control();
+		}
+		
+		public Control getInstance() {
+			return instance;
+		}
+	}
+	
+	// Private constructor to prevent external instantiation
+	private Control(){
+	}
+	
+	public static Control getInstance(){
+		return SingletonHolder.INSTANCE.getInstance();
+	}
 private int localColor=Model.Black;
 private boolean netMode=false;
 private boolean allowPutChess=true;
@@ -29,8 +44,8 @@ public void setOtherColor(int otherColor) {
 	this.otherColor = otherColor;
 }
 public void setMode(){
-	Object[] MOde={"µ¥»úÄ£Ê½","ÍøÂç¶ÔÕ½"};
-	int x=JOptionPane.showOptionDialog(null, "ÇëÑ¡ÔñÓÎÏ·Ä£Ê½", "ÓÎÏ·Ä£Ê½", JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE, null, MOde, MOde[0]);
+	Object[] MOde={"ï¿½ï¿½ï¿½ï¿½Ä£Ê½","ï¿½ï¿½ï¿½ï¿½ï¿½Õ½"};
+	int x=JOptionPane.showOptionDialog(null, "ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½Ï·Ä£Ê½", "ï¿½ï¿½Ï·Ä£Ê½", JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE, null, MOde, MOde[0]);
 	if(x==0)netMode=false;
 	else netMode=true;
 }
@@ -42,16 +57,16 @@ public void setColor(){
 }
 private void setLocalColor() {
 	// TODO Auto-generated method stub
-	Object[] MOde={"ºÚÆå","°×Æå"};
-	int x=JOptionPane.showOptionDialog(null, "ÇëÑ¡ÔñÏÂÆåÑÕÉ«", "Ñ¡ÔñÆå×ÓÑÕÉ«", JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE, null, MOde, MOde[0]);
+	Object[] MOde={"ï¿½ï¿½ï¿½ï¿½","ï¿½ï¿½ï¿½ï¿½"};
+	int x=JOptionPane.showOptionDialog(null, "ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«", "Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«", JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE, null, MOde, MOde[0]);
 	if(x==0){
 		localColor=Model.Black;
 	}else {localColor=Model.white;}
 }
 private void netmodesetcolor() {
 	// TODO Auto-generated method stub
-	Object[] MOde={"ºÚÆå","°×Æå"};
-	int x=JOptionPane.showOptionDialog(null, "ÇëÔÚË½ÏÂÓë¶ÓÊÖÉÌÈ¶ºóÑ¡ÔñÏÂÆåÑÕÉ«·ñÔò»á³öÏÖ´íÎó", "Ñ¡ÔñÆå×ÓÑÕÉ«", JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE, null, MOde, MOde[0]);
+	Object[] MOde={"ï¿½ï¿½ï¿½ï¿½","ï¿½ï¿½ï¿½ï¿½"};
+	int x=JOptionPane.showOptionDialog(null, "ï¿½ï¿½ï¿½ï¿½Ë½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¶ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ï¿½", "Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«", JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE, null, MOde, MOde[0]);
 	if(x==0)localColor=Model.Black;else localColor=Model.white;
     otherColor=-localColor;
 }
@@ -88,10 +103,10 @@ public void netOtherPutChess(int row,int col){
 		allowPutChess=true;
 		int winner=Model.getInstance().judge();
 		if(winner==-1){
-			JOptionPane.showMessageDialog(null, "ºÚÆå»ñÊ¤");
+			JOptionPane.showMessageDialog(null, "ï¿½ï¿½ï¿½ï¿½ï¿½Ê¤");
 		}
 		else if(winner==1){
-			JOptionPane.showMessageDialog(null, "°×Æå»ñÊ¤");
+			JOptionPane.showMessageDialog(null, "ï¿½ï¿½ï¿½ï¿½ï¿½Ê¤");
 		}}
 }
 private void netModePutChess(int row, int col) {
@@ -104,10 +119,10 @@ private void netModePutChess(int row, int col) {
 		allowPutChess=false;
 		int winner=Model.getInstance().judge();
 		if(winner==-1){
-			JOptionPane.showMessageDialog(null, "ºÚÆå»ñÊ¤");
+			JOptionPane.showMessageDialog(null, "ï¿½ï¿½ï¿½ï¿½ï¿½Ê¤");
 		}
 		else if(winner==1){
-			JOptionPane.showMessageDialog(null, "°×Æå»ñÊ¤");
+			JOptionPane.showMessageDialog(null, "ï¿½ï¿½ï¿½ï¿½ï¿½Ê¤");
 		}
 	}
 }
@@ -118,10 +133,10 @@ private void localModePutChess(int row, int col) {
 		localColor=-localColor;
 		int winner=Model.getInstance().judge();
 		if(winner==-1){
-			JOptionPane.showMessageDialog(null, "ºÚÆå»ñÊ¤");
+			JOptionPane.showMessageDialog(null, "ï¿½ï¿½ï¿½ï¿½ï¿½Ê¤");
 		}
 		else if(winner==1){
-			JOptionPane.showMessageDialog(null, "°×Æå»ñÊ¤");
+			JOptionPane.showMessageDialog(null, "ï¿½ï¿½ï¿½ï¿½ï¿½Ê¤");
 		}
 		
 	}
@@ -141,7 +156,7 @@ public void netModeremoveChess(){
 	Model.getInstance().back();
 	ChessPanel.getInstance().repaint();
 	NetHelper.getInstance().sentbackmsg();}
-	else JOptionPane.showMessageDialog(null, "ÇëµÈ´ý¶ÔÊÖÏÂÍê²ÅÄÜ»ÚÆå");
+	else JOptionPane.showMessageDialog(null, "ï¿½ï¿½È´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü»ï¿½ï¿½ï¿½");
 }
 public void netotherremoveChess() {
 	// TODO Auto-generated method stub
@@ -151,7 +166,7 @@ public void netotherremoveChess() {
 }
 public void netOthershowmsg(String line){
 	// TODO Auto-generated method stub
-	Chatpanl.getInstance().readboard.append("¶ÔÊÖËµ£º"+line+"\n");
+	Chatpanl.getInstance().readboard.append("ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½"+line+"\n");
 }
 
 
