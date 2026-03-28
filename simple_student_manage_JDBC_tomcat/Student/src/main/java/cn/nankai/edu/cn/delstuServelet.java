@@ -1,0 +1,67 @@
+package cn.nankai.edu.cn;
+
+import java.io.IOException;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class delstuServelet
+ */
+@WebServlet("/delstu")
+public class delstuServelet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public delstuServelet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+    //存储过程控制下的更新操作
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		String id=request.getParameter("stu_id");
+		JDBCemo.getInstence();
+		String sql="{call delstu(?,?)}";
+		CallableStatement callstate;
+		try {
+			callstate = JDBCemo.connection.prepareCall(sql);
+			callstate.setInt(1, Integer.valueOf(id));
+			//注册输出参数
+			callstate.registerOutParameter(2, java.sql.Types.INTEGER);
+			callstate.execute();
+			int output=callstate.getInt(2);
+			System.out.println(output);
+			request.getSession().setAttribute("t_error", output);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		JDBCemo.destroy();
+		 response.sendRedirect("del_stu.jsp");
+			return;
+		
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}

@@ -1,0 +1,12 @@
+package big.work.cn;
+
+public class Userbook {
+ User data[];
+public void adduser(User user){}
+public void removeuser(User user){}
+public User finduser(int id){return data[id];}
+public void list(){
+	
+}
+
+}

@@ -1,0 +1,8 @@
+package big.work.cn;
+
+import java.net.InetSocketAddress;
+import java.net.Socket;
+
+public class Client {
+Socket s=new Socket(new InetSocketAddress(0), 8908)
+}

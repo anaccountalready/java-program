@@ -1,0 +1,57 @@
+package cn.game.nankai.cn;
+class View{
+	void showstart(){
+		System.out.println("please input the position: ");
+	}
+	void showboard(Model s){
+		for(int i=0;i<15;i++)
+			for(int j=0;j<15;j++)
+				{System.out.print(s.singleinstance().getboard()[i][j]);}
+		System.out.print('\n');
+	}
+	void showend(){
+		
+	}
+}
+class Control{
+	char color='¡ð';
+	void  changecolor(boolean x){
+		if(x==true)color='¡ñ';
+		else ;
+	}
+	
+}
+class Model{
+	private char[][]cheseboard;
+	private Model board;
+	Model(){
+		cheseboard=new char[15][15];
+		for(int i=0;i<15;i++){
+			for(int j=0;j<15;j++){
+				cheseboard[i][j]='Ê®';
+			}
+		}
+	}
+	Model singleinstance(){
+		if(board==null)new Model();
+		return board;
+	}
+	char[][] getboard(){
+		return cheseboard;
+	}
+	boolean putchese(int x,int y){
+		if(x>15||x<0||y>15||y<0)return false;
+		else return true;
+	}
+	//char winner(){
+				
+	//}
+}
+public class PlayChese {
+	View v=new View();
+	Control c=new Control();
+	Model m=new Model();
+	public static void main(String []args){
+		
+	}
+	}

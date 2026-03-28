@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename compilation unit &apos;cn.nankai.edu.cn.t2.java&apos; to &apos;T2.java&apos;&#x0D;&#x0A;- Original project: &apos;Test2&apos;&#x0D;&#x0A;- Original element: &apos;cn.nankai.edu.cn.t2.java&apos;&#x0D;&#x0A;- Renamed element: &apos;cn.nankai.edu.cn.T2.java&apos;" description="Rename compilation unit &apos;t2.java&apos;" flags="2" id="org.eclipse.jdt.ui.rename.compilationunit" input="/src&lt;cn.nankai.edu.cn{t2.java" name="T2.java" references="false" stamp="1665384924160" version="1.0"/>
+</session>

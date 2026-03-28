@@ -1,0 +1,50 @@
+package big.work.cn;
+
+public class Disk {
+String name;
+int id;
+double price;
+int num;
+public Disk(String name, int id, double price, int num) {
+	super();
+	this.name = name;
+	this.id = id;
+	this.price = price;
+	this.num = num;
+}
+public Disk(int id,int num) {
+	// TODO Auto-generated constructor stub
+	this.id=id;
+	this.num=num;
+}
+@Override
+public String toString() {
+	return "Disk [name=" + name + ", id=" + id + ", price=" + price + ", num="
+			+ num + "]";
+}
+public String getName() {
+	return name;
+}
+public void setName(String name) {
+	this.name = name;
+}
+public int getId() {
+	return id;
+}
+public void setId(int id) {
+	this.id = id;
+}
+public double getPrice() {
+	return price;
+}
+public void setPrice(double price) {
+	this.price = price;
+}
+public int getNum() {
+	return num;
+}
+public void setNum(int num) {
+	this.num = num;
+}
+}
+

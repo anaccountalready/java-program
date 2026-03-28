@@ -1,0 +1,55 @@
+package big.work.cn;
+
+import java.util.Arrays;
+
+public class CDbook {
+Disk []data=new Disk[1000];
+Disk[]userdata=new Disk[1000];
+int CDkind=0;
+
+@Override
+public String toString() {
+	return "CDbook [data=" + Arrays.toString(data) + ", userdata="
+			+ Arrays.toString(userdata)+"]";
+}
+public CDbook() {
+	for(Disk m:data){
+		if(m!=null)CDkind++;
+	}
+}
+public void addCD(Disk cd) {
+	if(data[cd.id]==null){data[cd.id]=cd;CDkind++;}
+	else {data[cd.id].num+=cd.num;}
+}
+public void adduserCD(Disk cd) {
+	 if(userdata[cd.id]==null){userdata[cd.id]=cd;}
+	else {userdata[cd.id].num+=cd.num;}
+}
+public void remove(Disk cd){
+	if(data[cd.id]==null){
+		System.out.println("库中没有进过id为"+cd.id+"的CD");
+		System.out.println("将进货id为"+cd.id+"的CD"+cd.num+"个");
+		addCD(cd);
+		}
+	else if(data[cd.id].num>=cd.num){data[cd.id].num-=cd.num;}
+	else if(data[cd.id].num<cd.num){
+		System.out.println("库中有id为"+cd.id+"的光盘数量为"+data[cd.id].num+"故不够借出,将库里的该CD全部借出");
+		data[cd.id].num=0;
+		System.out.println("将进货id为"+cd.id+"的CD"+cd.num+"个");
+		addCD(cd);
+		}
+}
+public void userremove(Disk cd){
+userdata[cd.id].num-=cd.num;
+	}
+public Disk find(int id){
+	if(data[id]==null){System.out.println("库中没有id为"+id+"的CD");return null;}
+	else return data[id];
+}
+public void list(){
+	if(CDkind!=0)for(Disk m:data){
+		if(m!=null)System.out.println(m);
+	}
+	else System.out.println("仓库里没有进过任何种类的CD");
+}
+}

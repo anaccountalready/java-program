@@ -1,0 +1,28 @@
+package cn.edu.nankai.cn;
+
+public class T {
+	public static void main(String[] args) {
+		//创建存放两个两位数的字符串数组
+		String[] ar_str1, ar_str2;
+		int sum = 0; //吸血鬼数字个数计数器
+		int count = 0; //算法循环次数计数器
+		for (int i = 10; i < 100; i++) { //寻找的第一个两位数
+			for (int j = i + 1; j < 100; j++) { //寻找的第二个两位数
+				int i_val = i * j; //两个两位数的乘积
+				if (i_val < 1000 || i_val > 9999)
+					continue; //积小于1000或大于9999排除,继续下一轮环
+				count++; //计算循环次数
+				ar_str1 = String.valueOf(i_val).split(""); //将乘积后的数字拆分成单个字符串并放在字符串数组中
+				ar_str2 = (String.valueOf(i) + String.valueOf(j)).split(""); //同样将两个两位数拼成一个字符串并拆分成单个字符串放在字符串数组中
+				java.util.Arrays.sort(ar_str1); //对两个数组中的元素进行排序
+				java.util.Arrays.sort(ar_str2);
+				if (java.util.Arrays.equals(ar_str1, ar_str2)) { //乘积排序与两个两位数的所有单个字符串进行比较
+					// 排序后比较，为真则找到一组（也就是说他们比较左边四个数右边四个数比较完全相等的时候返回true，记为一组吸血鬼数字）
+					sum++;//吸血鬼数字个数计数
+					System.out.println("第" + sum + "组: " + i + "*" + j + "=" + i_val);
+				}
+			}
+		}
+		System.out.println("共找到" + sum + "组吸血鬼数" + "\ncount = " + count);
+	}
+}

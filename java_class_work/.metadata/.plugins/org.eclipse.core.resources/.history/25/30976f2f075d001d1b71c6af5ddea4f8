@@ -1,0 +1,30 @@
+package big.work.cn;
+
+public class User {
+int id;
+String name;
+int money;
+CDbook tools=new CDbook();
+public User(int id, String name, int money, CDbook tools) {
+	super();
+	this.id = id;
+	this.name = name;
+	this.money = money;
+	this.tools = tools;
+}
+public User(int id, String name, int money) {
+	// TODO Auto-generated constructor stub
+	super();
+	this.id = id;
+	this.name = name;
+	this.money = money;
+	this.tools=null;
+}
+@Override
+public String toString() {
+	if(this!=null)return "User [id=" + id + ", name=" + name + ", money=" + money
+			+ tools+"]";
+	else return"没有id为"+id+"的用户";
+}
+
+}

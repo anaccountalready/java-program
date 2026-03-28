@@ -1,0 +1,74 @@
+package big.work.cn;
+
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+import org.omg.CORBA.PUBLIC_MEMBER;
+
+public class Serverside  {
+	static BufferedReader reader=null;
+	static BufferedWriter writer=null;
+	static String line=null;
+	static ServerSocket ss;
+	static Socket s;
+public Serverside() throws NumberFormatException, IOException{
+	ss = new ServerSocket(Integer.parseInt(Server.sP));
+    Server.text2.append("服务localhost启动,端口为"+Server.sP+"等待接入"+"\n");
+    s=ss.accept();
+    Server.text2.append("接入客户端"+s.getLocalPort()+"\n");
+  if(s.isConnected()){ 
+    Server.o=true;
+   reader=new BufferedReader(new InputStreamReader(s.getInputStream()));
+	 writer=new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
+}
+  }
+public void run() throws IOException {
+	// TODO Auto-generated method stub
+	//new Thread(){public void run(){}}.start();
+	
+	while(true){ 
+		new Thread(){public void run(){
+			try {
+				if((line=reader.readLine())!=null){Server.text2.append("服务器已收到：客户端"+s+"的消息"+Client.text1.getText()+"\n");
+				 System.out.println("啥也没有");}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}}.start();
+		new Thread(){public void run(){Server.b1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				try {
+					writer.write(Server.text1.getText());
+					writer.flush();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				Server.text2.append("向客户端发送"+Server.text1.getText()+"\n");
+				System.out.println("我点击");
+				return;
+			}
+		});}}.start();
+		
+				
+	    
+	}
+}
+public static void main(String[] args) throws NumberFormatException, IOException {
+	new Serverside().run();
+}
+}

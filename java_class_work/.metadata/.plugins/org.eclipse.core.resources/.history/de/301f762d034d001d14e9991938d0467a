@@ -1,0 +1,19 @@
+package cn.edu.nankai.cn;
+import java.util.*;
+public class T {
+	public static void  main(String []args){
+		for(int i=10;i<100;i++){
+			for(int j=10;j<100;j++){
+				int m=i*j;
+				if(m>9999||m<1000)continue;
+				else{
+					String[] str1=String.valueOf(m).split("");
+					String[] str2=(String.valueOf(i)+String.valueOf(j)).split("");
+					Arrays.sort(str1);
+					Arrays.sort(str2);
+					if(Arrays.equals(str1,str2))System.out.println(i+"*"+j+"="+m);
+				}
+			}
+		}
+	}
+}

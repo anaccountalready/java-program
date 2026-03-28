@@ -1,0 +1,42 @@
+package cn.edu.nankai.cn;
+import java.io.File;
+import java.util.Scanner;
+class Sum{
+	static int filenum=0;//总文件夹数
+	static double sumsize=0; //文件尺寸总和
+	static int lfnum=0;//文件数总和
+	void sum(File f){
+		   if(f.isFile()){
+				filenum++;
+				sumsize+=f.length();
+			}
+			else if(f.isDirectory()){
+				System.out.println(f.getName());
+				lfnum++;
+				File[]l=f.listFiles();
+				for(File m:l){
+				 sum(m);
+				}		
+			}
+		}
+}
+public class T20 {
+public static void main(String arg[]){
+	System.out.println(new Sum().getClass().getName());
+	//C:\\Users\\Ha ha\\Desktop\\resource
+	//C:\Users\Ha ha\Desktop\ppt模板
+	//C:\Users\Ha ha\workspace\TExample
+	//C:\Users\Ha ha\workspace\TExample\JavaPainter
+	while(true){
+	Scanner s=new Scanner(System.in);
+    File f1=new File(s.nextLine());
+	Sum test1=new Sum();
+	test1.lfnum=0;
+	test1.filenum=0;
+	test1.sumsize=0;
+	test1.sum(f1);
+	System.out.println("文件夹数"+test1.lfnum);
+	System.out.println("文件数"+test1.filenum);
+	System.out.println("文件尺寸总和"+test1.sumsize);}
+	}
+}

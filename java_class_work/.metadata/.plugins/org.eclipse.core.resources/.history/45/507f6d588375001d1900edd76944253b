@@ -1,0 +1,65 @@
+package big.work.cn;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+public class ClientSide {
+	static BufferedReader reader=null;
+	static BufferedWriter writer=null;
+	static String line=null;
+	static Socket c;
+ClientSide() throws NumberFormatException, UnknownHostException, IOException{
+ c=new Socket(Client.ip,Integer.parseInt(Client.cp));
+if(c.isConnected()){	
+Client.text2.append("客户端成功连入服务器"+"\n");
+}}
+public void run() throws IOException {
+	 reader=new BufferedReader(new InputStreamReader(c.getInputStream()));
+	 writer=new BufferedWriter(new OutputStreamWriter(c.getOutputStream()));
+	// TODO Auto-generated method stub
+		new Thread(){public void run(){
+			 try {
+				 //BufferedReader类的readLine()不知道什么是一行，所以写入write()时要\n
+				while((line=reader.readLine())!=null){
+						Client.text2.append("客户端已接受到：服务器的消息："+line+"\n");
+}                
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}}}.start();
+		new Thread(){public void run(){
+			
+			//在发送按钮上添加监视器
+			Client.b.addActionListener(new ActionListener() {@Override
+				public void actionPerformed(ActionEvent arg0) {
+					// TODO Auto-generated method stub
+					Client.text2.append("向服务器端发送"+Client.text1.getText()+"\n");
+					try {
+						writer.write(Client.text1.getText()+"\n");
+						writer.flush();
+						
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			});
+		}}.start();
+	 
+}
+
+public static void main(String[] args) throws NumberFormatException, UnknownHostException, IOException {
+	new ClientSide().run();
+}
+
+}

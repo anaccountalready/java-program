@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename compilation unit &apos;cn.game.nankai.cn.Chese.java&apos; to &apos;PlayChese.java&apos;&#x0D;&#x0A;- Original project: &apos;Game&apos;&#x0D;&#x0A;- Original element: &apos;cn.game.nankai.cn.Chese.java&apos;&#x0D;&#x0A;- Renamed element: &apos;cn.game.nankai.cn.PlayChese.java&apos;" description="Rename compilation unit &apos;Chese.java&apos;" flags="2" id="org.eclipse.jdt.ui.rename.compilationunit" input="/src&lt;cn.game.nankai.cn{Chese.java" name="PlayChese.java" references="false" stamp="1666972078623" version="1.0"/>
+</session>

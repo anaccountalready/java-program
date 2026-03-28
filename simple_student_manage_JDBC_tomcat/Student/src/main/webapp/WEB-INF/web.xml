@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" version="4.0">
+  <display-name>Student</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>DelScore</display-name>
+    <servlet-name>DelScore</servlet-name>
+    <jsp-file>/DelScore.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DelScore</servlet-name>
+    <url-pattern>/DelScore</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>show_cla</display-name>
+    <servlet-name>show_cla</servlet-name>
+    <jsp-file>/show_cla.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>show_cla</servlet-name>
+    <url-pattern>/show_cla</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>show_claSerlvet</display-name>
+    <servlet-name>show_claSerlvet</servlet-name>
+    <jsp-file>/show_cla.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>show_claSerlvet</servlet-name>
+    <url-pattern>/show_claSerlvet</url-pattern>
+  </servlet-mapping>
+</web-app>

@@ -1,0 +1,27 @@
+package big.work.cn;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class Server {
+public static void main(String arg[]) throws IOException{
+	ServerSocket ss=new ServerSocket(8010);
+	InetAddress address=InetAddress.getLocalHost();
+	String ip=address.getHostAddress();
+	Socket s=ss.accept();
+	BufferedReader in=new BufferedReader(new InputStreamReader(s.getInputStream()));
+	PrintWriter out=new PrintWriter(s.getOutputStream());
+	String line;
+	while((line=in.readLine())!=null){
+		System.out.println(line);
+	}
+	ss.close();
+}
+
+}

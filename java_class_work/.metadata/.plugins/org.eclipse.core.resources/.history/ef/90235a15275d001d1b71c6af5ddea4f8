@@ -1,0 +1,226 @@
+package big.work.cn;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+/**实现了基本借光盘店的功能如下:
+ * 用户管理usersmanage()实现功能:显示当前所有用户信息【重写了CDbook的toString让显示更清晰】
+                                                            一次删除多个用户（会提示删除的用户是否存在，数量是否正确【不正确则返回上级菜单】）
+                                                             添加多个用户的功能还有根据用户id查找
+                                                            添加用户余额
+ * 光盘管理cdmanage()实现功能: 显示当前仓库中的CD的信息
+                                                         借出CD【会分别对用户的tools中的userdata[]进行修改，对仓库中CD的data[]进行修改；
+                                                         并会抵扣押金每张为价格的二分之一;
+                                                         当用户余额不够抵扣时就不会借出；
+                                                         当没有用户需要的CD，会进货一定数量{用户需要数量}的CD，但当时不会借出；
+                                                         或者用户所需的CD不够时，会将现有的借给用户；并会进货一定数量{用户原需要数量}的CD，但当时不会继续借出；】
+                                                          归还CD【同借出CD的第一行，且会归还所归还光盘的押金】
+                                                         进货仓库CD
+                                                         根据CD的id查找CD*/
+public class Boss {
+Userbook userbook=new Userbook();
+CDbook cdbook=new CDbook();
+BufferedReader in=new BufferedReader(new InputStreamReader(System.in));
+public static void main(String[] args) throws IOException {
+	new Boss().begin();
+}
+public void begin() throws IOException{
+	while(true){
+		 printMainMenu();
+		 String line=in.readLine();
+		 int chioce=Integer.parseInt(line);
+		 switch(chioce){
+		 case 1:
+			 usersmanage();
+			 break;
+		 case 2:
+			 cdmanage();
+			 break;
+		 case 3:return;
+		 default :return;
+		 }
+	}
+}
+private void cdmanage() throws IOException {
+	// TODO Auto-generated method stub
+	while(true){
+		 printCDMenu();
+		 String line=in.readLine();
+		 int chioce=Integer.parseInt(line);
+		 switch(chioce){
+		 case 1:
+			cdbook.list();
+			 break;
+		 case 2:
+			 
+			 System.out.println("请输入借CD的用户的个数");
+			 String c1=in.readLine();
+			 int pn=Integer.parseInt(c1);
+			 while(pn--!=0){
+			 System.out.println("请依次输入需要借CD的用户id和借CD的种类数和借每种CD的id+数量:(以空格分割)");
+			 String l1=in.readLine();
+			 String []l2=new String[1000];
+			 l2=l1.split(" ");
+			 if(userbook.finduser(Integer.parseInt(l2[0]))==null){System.out.println("该用户未被收录，请返回用户管理添加该用户后再执行该操作");break;}
+			 else {
+				 int lentks=Integer.parseInt(l2[1]);//借CD的种类数
+					 for(int x1=2,x2=3;lentks>0;x1+=2,x2+=2)
+					 { Disk disk=new Disk(Integer.parseInt(l2[x1]),Integer.parseInt(l2[x2]));
+						if( cdbook.find(disk.id)!=null){
+							if((userbook.finduser(Integer.parseInt(l2[0])).money-cdbook.find(disk.id).price)*Integer.parseInt(l2[x2])/2>=0)
+							{cdbook.remove(disk);
+							disk.num=Integer.parseInt(l2[x2]);//将disk.num恢复成要被借走的数目
+							userbook.finduser(Integer.parseInt(l2[0])).tools.adduserCD(disk);
+							userbook.finduser(Integer.parseInt(l2[0])).money-=(cdbook.find(disk.id).price)*Integer.parseInt(l2[x2])/2;//压的租金
+							disk=cdbook.find(disk.id);
+							userbook.finduser(Integer.parseInt(l2[0])).tools.userdata[Integer.parseInt(l2[x1])].price=disk.price;
+							}
+							else {System.out.println("当前用户的抵扣押金不够，无法借给id为"+userbook.finduser(Integer.parseInt(l2[0])).id+"的用户了");}
+							}
+						else cdbook.remove(disk);
+						lentks--;
+					 }
+				}
+			 }
+			 break;
+		 case 3:
+			
+			 System.out.println("请输入归还CD的用户的个数");
+			 String c2=in.readLine();
+			 int pen=Integer.parseInt(c2);
+			 while(pen--!=0){
+			 System.out.println("请依次输入需要归还CD的用户id和借归还CD的种类数和归还每种CD的id+数量:(以空格分割)");
+			 String l1=in.readLine();
+			 String []l2=new String[1000];
+			 l2=l1.split(" ");
+			 if(userbook.finduser(Integer.parseInt(l2[0]))==null){System.out.println("记录可能出错，该用户未被收录，请仔细确认当初是否添加该用户，如需要添加则请返回用户管理添加该用户后再执行该操作");break;}
+			 else {
+				 int lentks=Integer.parseInt(l2[1]);//归还CD的种类数
+					 for(int x1=2,x2=3;lentks!=0;x1+=2,x2+=2)
+					 { Disk disk=new Disk(Integer.parseInt(l2[x1]),Integer.parseInt(l2[x2]));
+					       cdbook.addCD(disk);
+					       disk.num=Integer.parseInt(l2[x2]);//将disk.num恢复成要归还的数目
+							userbook.finduser(Integer.parseInt(l2[0])).tools.userremove(disk);
+							userbook.finduser(Integer.parseInt(l2[0])).money+=(cdbook.find(disk.id).price)*Integer.parseInt(l2[x2])/2;//归还压的租金
+							disk=cdbook.find(disk.id);
+							userbook.finduser(Integer.parseInt(l2[0])).tools.userdata[Integer.parseInt(l2[x1])].price=disk.price;
+					        lentks--;
+					 }
+				} }
+			 break;
+		 case 4:
+			 
+			 System.out.println("请输入需要添加新CD的种类数和每一种CD的id和价格和数量:用空格分割");
+			 String l5=in.readLine();
+			 String []l6=new String[1000];
+			 l6=l5.split(" ");
+			 int adnum=Integer.parseInt(l6[0]);
+			 for(int i=1,j=2,k=3;adnum>0;i+=3,j+=3,k+=3){
+				 int cdid=Integer.parseInt(l6[i]);
+				 double cdprice=Integer.parseInt(l6[j]);
+				 int cdnum=Integer.parseInt(l6[k]);
+				 Disk disk=new Disk(cdid,cdprice,cdnum);
+				 cdbook.addCD(disk);
+				 adnum--;
+			 }
+				 
+			 
+			 break;
+		 case 5:System.out.println("请输入查找CD的id");
+		 String l4=in.readLine();
+		if(cdbook.find(Integer.parseInt(l4))!=null) {System.out.println(cdbook.find(Integer.parseInt(l4)));}
+		break;
+		 case 6:return;
+		 default :return;
+		 }
+	}
+}
+
+private void usersmanage() throws IOException {
+	// TODO Auto-generated method stub
+	while(true){
+		 printusersMenu();
+		 String line=in.readLine();
+		 int chioce=Integer.parseInt(line);
+		 switch(chioce){
+		 case 1:
+			 userbook.list();
+			 break;
+		 case 2:
+			 System.out.println("请依次输入需要输入要删除用户的数量和其id:（以空格分割）");
+			 String l=in.readLine();
+			 String []c=new String[1000];
+			 c=l.split(" ");
+			 int movenum=Integer.parseInt(c[0]);
+			 if(movenum>userbook.usernum){System.out.println("输入有误，当前用户总数为:"+userbook.usernum+";将返回上级菜单");break;}
+			 else{
+				 for(int y=1;movenum>0;y++){
+				if(userbook.finduser(Integer.parseInt(c[y]))!=null)
+				{userbook.removeuser(userbook.finduser(Integer.parseInt(c[y])));movenum--;}
+				else movenum--;
+				
+			}}
+			 break;
+		 case 3:
+			
+		     System.out.println("请依次输入需要添加用户的数量以及每一位用户的id 名字 充值余额:（以空格分割）");
+			 String str=in.readLine();
+			 String [] as=new String[1000];
+			 as=str.split(" ");
+			 int addsum=Integer.parseInt(as[0]);
+			 for(int y=1,z=2,w=3;addsum>0;y+=3,z+=3,w+=3){
+			 User newuser=new User(Integer.parseInt(as[y]),as[z],Integer.parseInt(as[w]));
+			 userbook.adduser(newuser);
+			 addsum--;
+			 }
+			 break;
+		case 4:
+			 System.out.println("请输入要查找用户的id:");
+			 String x=in.readLine();
+			 int j=Integer.parseInt(x);
+			if(userbook.finduser(j)!=null) System.out.println(userbook.finduser(j));
+			 break;
+		 case 5:
+            System.out.println("请输入要添加余额的用户的数量和每一位用户的id和添加金额:(用空格分割):");
+            String x6=in.readLine();
+            String []x7=new String[1000];
+             x7=x6.split(" ");
+			 int j6=Integer.parseInt(x7[0]);
+			 for(int y=1,z=2;j6>0;y+=2,z+=2){
+				if(userbook.finduser(Integer.parseInt(x7[y]))!=null){userbook.finduser(j6).money+=Integer.parseInt(x7[z]);} 
+				else System.out.println("记录可能出错，该用户未被收录，请仔细确认当初是否添加该用户，如需要添加则请返回用户管理添加该用户后再执行该操作");
+				}
+			 case 6:return;
+		 default :return;
+		 }
+	}
+}
+private void printusersMenu() {
+	// TODO Auto-generated method stub
+	System.out.println("1:显示当前所有用户");
+	System.out.println("2:删除用户");
+	System.out.println("3:添加新用户");
+	System.out.println("4:查找用户");
+	System.out.println("5:添加用户余额");
+	System.out.println("6:退出用户菜单");
+	System.out.println("请输入数字进行选择");
+}
+private void printCDMenu() {
+	// TODO Auto-generated method stub
+	System.out.println("1:显示当前所有种类CD");
+	System.out.println("2:借出CD");
+	System.out.println("3:归还CD");
+	System.out.println("4:添加新CD");
+	System.out.println("5:查找所需CD");
+	System.out.println("6:退出CD菜单");
+	System.out.println("请输入数字进行选择");
+}
+private void printMainMenu() {
+	// TODO Auto-generated method stub
+	System.out.println("1:进入用户管理");
+	System.out.println("2:进入光盘管理");
+	System.out.println("3:退出主菜单");
+	System.out.println("请输入数字进行选择");
+}
+
+}

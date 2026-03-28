@@ -1,0 +1,5 @@
+package big.work.cn;
+
+abstract public class Kinds {
+
+}

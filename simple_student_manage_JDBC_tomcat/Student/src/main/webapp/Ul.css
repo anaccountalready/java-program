@@ -1,0 +1,46 @@
+@charset "UTF-8";
+ul {
+	
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0;
+    background-color: #b0c4de;
+    width: 220px;
+    max-width: 220px;
+    overflow: auto;
+    overflow-x:hidden;
+    overflow: hidden;
+
+    /*width: 0px;*/
+}
+li{
+	list-style-type:disc;
+	
+}
+ul a{
+	text-decoration:none;
+	 background: #b0c4de;
+	 color:#400040;
+    font-size: 14px;
+    padding: 10px 15px 10px 15px;
+    display: block;
+    cursor: pointer;
+    border-left: 4px solid transparent;
+    
+}
+ul a:hover{
+    background: #800080!important;
+    color: #fff;
+    border-color:  #400040!important;
+}
+ul a.active{
+    background: #ff00ff!important;
+    color: #fff;
+    border-color:  #800080!important;
+}
+ul a cite{
+    font-size: 14px;
+}
+
+

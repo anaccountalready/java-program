@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="FileSystemImportWizard">
+		<item value="false" key="WizardFileSystemResourceImportPage1.STORE_OVERWRITE_EXISTING_RESOURCES_ID"/>
+		<item value="false" key="WizardFileSystemResourceImportPage1.STORE_CREATE_CONTAINER_STRUCTURE_ID"/>
+		<list key="WizardFileSystemResourceImportPage1.STORE_SOURCE_NAMES_ID">
+			<item value="C:\Users\Ha ha\Desktop\database_project-master"/>
+			<item value="C:\Users\Ha ha\Desktop\2111038-赵梦雨-Java大作业\Fivechese"/>
+			<item value="C:\Users\Ha ha\workspace\FiveChese"/>
+			<item value="C:\Users\Ha ha\Documents\FiveChese"/>
+			<item value="C:\Users\Ha ha\Documents\FiveChese\Fu\tool\check"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.internal.QuickAccess">
+		<item value="1440" key="dialogWidth"/>
+		<item value="781" key="dialogHeight"/>
+		<list key="orderedProviders">
+			<item value="org.eclipse.e4.ui.parts"/>
+		</list>
+		<list key="textArray">
+			<item value="va"/>
+			<item value="v"/>
+		</list>
+		<list key="orderedElements">
+			<item value="org.eclipse.debug.ui.VariableView"/>
+		</list>
+		<list key="textEntries">
+			<item value="2"/>
+		</list>
+	</section>
+	<section name="WorkbenchPreferenceDialogSettings">
+		<item value="9" key="DIALOG_Y_ORIGIN"/>
+		<item value="469" key="DIALOG_X_ORIGIN"/>
+	</section>
+	<section name="NewWizardAction">
+	</section>
+	<section name="InstallationDialogSettings">
+		<item value="1052" key="DIALOG_WIDTH"/>
+		<item value="-230" key="DIALOG_Y_ORIGIN"/>
+		<item value="-66" key="DIALOG_X_ORIGIN"/>
+		<item value="1080" key="DIALOG_HEIGHT"/>
+		<item value="1|Microsoft YaHei UI|9.0|0|WINDOWS|1|-18|0|0|0|400|0|0|0|1|0|0|0|0|Microsoft YaHei UI" key="DIALOG_FONT_NAME"/>
+	</section>
+	<section name="ImportExportAction">
+		<item value="org.eclipse.ui.wizards.import.FileSystem" key="ImportExportPage.STORE_SELECTED_IMPORT_WIZARD_ID"/>
+		<item value="org.eclipse.jdt.internal.ui.javadocexport.JavadocWizard" key="ImportExportPage.STORE_SELECTED_EXPORT_WIZARD_ID"/>
+		<list key="ImportExportPage.STORE_EXPANDED_IMPORT_CATEGORIES">
+			<item value="org.eclipse.ui.Basic"/>
+		</list>
+		<list key="ImportExportPage.STORE_EXPANDED_EXPORT_CATEGORIES">
+			<item value="org.eclipse.jdt.ui.Java"/>
+		</list>
+	</section>
+</section>

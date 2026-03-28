@@ -1,0 +1,28 @@
+package big.work.cn;
+
+public class User {
+int id;
+String name;
+int money;
+CDbook tools=new CDbook();
+public User(int id, String name, int money, CDbook tools) {
+	super();
+	this.id = id;
+	this.name = name;
+	this.money = money;
+	this.tools = tools;
+}
+public User(int id, String name, int money) {
+	// TODO Auto-generated constructor stub
+	super();
+	this.id = id;
+	this.name = name;
+	this.money = money;
+}
+@Override
+public String toString() {
+	return "User [id=" + id + ", name=" + name + ", money=" + money
+			+ ", tools=" + tools + "]";
+}
+
+}

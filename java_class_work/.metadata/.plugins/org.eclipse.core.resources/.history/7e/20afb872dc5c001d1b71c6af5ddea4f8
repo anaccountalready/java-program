@@ -1,0 +1,91 @@
+package big.work.cn;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Boss {
+Userbook userbook;
+CDbook diskbook;
+BufferedReader in=new BufferedReader(new InputStreamReader(System.in));
+public static void main(String[] args) throws IOException {
+	new Boss().begin();
+}
+public void begin() throws IOException{
+	while(true){
+		 printMainMenu();
+		 String line=in.readLine();
+		 int chioce=Integer.parseInt(line);
+		 switch(chioce){
+		 case 1:
+			 usersmanage();
+			 break;
+		 case 2:
+			 cdmanage();
+			 break;
+		 case 3:return;
+		 }
+	}
+}
+private void cdmanage() throws IOException {
+	// TODO Auto-generated method stub
+	while(true){
+		 printCDMenu();
+		 String line=in.readLine();
+		 int chioce=Integer.parseInt(line);
+		 switch(chioce){
+		 case 1:
+			 
+			 break;
+		 case 2:break;
+		 case 3:break;
+		 case 4:break;
+		 case 5:return;
+		 }
+	}
+}
+
+private void usersmanage() throws IOException {
+	// TODO Auto-generated method stub
+	while(true){
+		 printusersMenu();
+		 String line=in.readLine();
+		 int chioce=Integer.parseInt(line);
+		 switch(chioce){
+		 case 1:
+			 
+			 break;
+		 case 2:break;
+		 case 3:break;
+		 case 4:break;
+		 case 5:return;
+		 }
+	}
+}
+private void printusersMenu() {
+	// TODO Auto-generated method stub
+	System.out.println("1:显示当前所有用户");
+	System.out.println("2:删除用户");
+	System.out.println("3:添加新用户");
+	System.out.println("4:查找用户");
+	System.out.println("5:退出用户菜单");
+	System.out.println("请输入数字进行选择");
+}
+private void printCDMenu() {
+	// TODO Auto-generated method stub
+	System.out.println("1:显示当前所有种类CD");
+	System.out.println("2:借出CD");
+	System.out.println("3:添加新CD");
+	System.out.println("4:查找所需CD");
+	System.out.println("5:退出CD菜单");
+	System.out.println("请输入数字进行选择");
+}
+private void printMainMenu() {
+	// TODO Auto-generated method stub
+	System.out.println("1:进入用户管理");
+	System.out.println("2:进入光盘管理");
+	System.out.println("3:退出主菜单");
+	System.out.println("请输入数字进行选择");
+}
+
+}

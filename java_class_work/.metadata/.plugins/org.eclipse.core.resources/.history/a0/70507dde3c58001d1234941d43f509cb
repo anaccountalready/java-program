@@ -1,0 +1,29 @@
+package cn.game.nankai.cn;
+class View{
+	
+}
+class Control{
+	int color;
+	int changecolor(boolean x){
+		
+	}
+	
+}
+class Model{
+	private char[][]cheseboard;
+	private Model board;
+	Model(){
+		cheseboard=new char[15][15];
+	}
+	Model singleinstance(){
+		if(board==null)new Model();
+		return board;
+	}
+	boolean putchese(int x,int y){
+		if(x>15||x<0||y>15||y<0)return false;
+		else return true;
+	}
+}
+public class PlayChese {
+	
+	}

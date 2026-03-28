@@ -1,0 +1,143 @@
+package cn.game.nankai.cn;
+import java.util.*;
+class View{
+	public static void showstart(){
+		System.out.println("please input the position: ");
+	}
+	public static void showboard(){
+		for(int i=0;i<15;i++)
+			{for(int j=0;j<15;j++)
+				System.out.print(Model.singleinstance().getboard(i, j));
+		System.out.print('\n');}
+	}
+	public static void showend(int l,int r){
+		if(Model.winner(l,r)=='○')System.out.println("The White Chese Wins");
+		else if(Model.winner(l,r)=='●') System.out.println("The Black Chese Wins");
+		else return;
+	}
+}
+class Control{
+	static public char color='○';
+	static void  changecolor(){
+		if(color=='○')color='●';
+		else color='○' ;
+	}
+	
+}
+class Model{
+	private static char[][]cheseboard;
+	private static  Model board;
+	   static {cheseboard=new char[15][15];
+		for(int i=0;i<15;i++){
+			for(int j=0;j<15;j++){
+				cheseboard[i][j]='十';}
+			}
+		}
+		private Model(){}
+	public static Model singleinstance(){
+		if(board==null)return new Model();
+		return board;
+	}
+	public char getboard(int i,int j){
+		return cheseboard[i][j]; 
+	}
+	
+	public boolean putchese(int x,int y){
+		if(x>15||x<0||y>15||y<0){System.out.println("The Potision is over the board1");return false;}
+		else if(cheseboard[x][y]=='○'||cheseboard[x][y]=='●'){System.out.println("The position has been occupied");return false;}
+		else {cheseboard[x][y]=Control.color;return true;}
+	}
+	public static char winner(int l,int r){
+		char result='0';
+	int num=1;//记录棋子；
+	//同一列
+	for(int i=l-1;i>=0;i--){
+		if(cheseboard[i][r]==Control.color){num++;
+		if(num==5)result= Control.color;
+		}
+		else break;
+		}
+	for(int i=l+1;i<15;i++){
+	if(cheseboard[i][r]==Control.color){num++;
+	if(num==5)result= Control.color;
+	}
+	else break;
+	}
+	num=1;
+	//同一行
+	for(int i=r-1;i>=0;i--){
+		if(cheseboard[l][i]==Control.color){num++;
+		if(num==5)result= Control.color;
+		}
+		else break;
+		}
+	for(int i=r+1;i<15;i++){
+	if(cheseboard[l][i]==Control.color){num++;
+	if(num==5)result= Control.color;
+	}
+	else break;
+	}
+	num=1;
+	//左斜线
+	for(int i=l-1,j=r-1;i>=0&&j>=0;i--,j--){
+		if(cheseboard[i][j]==Control.color){num++;
+		if(num==5)result= Control.color;
+		}
+		else break;
+		}
+	for(int i=l+1,j=r+1;i<15&&j<15;i++,j++){
+		if(cheseboard[i][j]==Control.color){num++;
+		if(num==5)result= Control.color;
+		}
+		else break;
+		}
+	num=1;
+	//右斜线
+	for(int i=l-1,j=r+1;i>=0&&j<15;i--,j++){
+		if(cheseboard[i][j]==Control.color){num++;
+		if(num==5)result= Control.color;
+		}
+		else break;
+		}
+	for(int i=l+1,j=r-1;i<15&&j>=0;i++,j--){
+		if(cheseboard[i][j]==Control.color){num++;
+		if(num==5)result= Control.color;
+		}
+		else break;
+		}
+	return result;
+	}
+}
+public class PlayChese {
+	public static void main(String []args){
+		View v=new View();
+		Control c=new Control();
+		int sum=0;
+	while(true){
+		v.showstart();
+		Scanner s1=new Scanner(System.in);
+		Scanner s2=new Scanner(System.in);
+		int l,r;
+		l=s1.nextInt();
+		r=s2.nextInt();
+		boolean x=Model.singleinstance().putchese(l, r);
+		//下棋成功
+		if(Model.singleinstance().putchese(l, r)){
+			sum++;
+			if(sum>=9){
+			if(Model.winner(l,r)=='○'||Model.winner(l,r)=='●'){v.showend(l,r);break;}
+			else;}
+			else;
+			Control.changecolor();
+			v.showstart();
+			v.showboard();
+		}
+		//下棋不成功
+		else{
+			v.showstart();
+			v.showboard();
+			continue;
+		}
+		}
+	}
+	}

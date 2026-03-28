@@ -1,0 +1,122 @@
+package big.work.cn;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Boss {
+Userbook userbook=new Userbook();
+CDbook diskbook=new CDbook();
+BufferedReader in=new BufferedReader(new InputStreamReader(System.in));
+public static void main(String[] args) throws IOException {
+	new Boss().begin();
+}
+public void begin() throws IOException{
+	while(true){
+		 printMainMenu();
+		 String line=in.readLine();
+		 int chioce=Integer.parseInt(line);
+		 switch(chioce){
+		 case 1:
+			 usersmanage();
+			 break;
+		 case 2:
+			 cdmanage();
+			 break;
+		 case 3:return;
+		 }
+	}
+}
+private void cdmanage() throws IOException {
+	// TODO Auto-generated method stub
+	while(true){
+		 printCDMenu();
+		 String line=in.readLine();
+		 int chioce=Integer.parseInt(line);
+		 switch(chioce){
+		 case 1:
+			 
+			 break;
+		 case 2:break;
+		 case 3:break;
+		 case 4:break;
+		 case 5:return;
+		 }
+	}
+}
+
+private void usersmanage() throws IOException {
+	// TODO Auto-generated method stub
+	while(true){
+		 printusersMenu();
+		 String line=in.readLine();
+		 int chioce=Integer.parseInt(line);
+		 switch(chioce){
+		 case 1:
+			 userbook.list();
+			 break;
+		 case 2:
+			 System.out.println("请依次输入需要输入要删除用户的数量和其id:");
+			 String l=in.readLine();
+			 String []c=new String[1000];
+			 c=l.split(" ");
+			 int movenum=Integer.parseInt(c[0]);
+			 if(movenum>userbook.usernum){System.out.println("输入有误，当前用户总数为:"+userbook.usernum+";将返回上级菜单");}
+			 else{for(int y=1;movenum>0;y++){
+				if(userbook.finduser(Integer.parseInt(c[y]))!=null)
+				{userbook.removeuser(userbook.finduser(Integer.parseInt(c[y])));movenum--;}
+				else movenum--;
+				
+			}}
+			 break;
+		 case 3:
+			 //4 0 x1 12 1 x2 13 2 x3 14 3 x4 15
+		     System.out.println("请依次输入需要添加用户的数量以及每一位用户的id，名字，充值余额:");
+			 String str=in.readLine();
+			 String [] as=new String[1000];
+			 as=str.split(" ");
+			 int addsum=Integer.parseInt(as[0]);
+			 for(int y=1,z=2,w=3;addsum>0;y+=3,z+=3,w+=3){
+			 User newuser=new User(Integer.parseInt(as[y]),as[z],Integer.parseInt(as[w]));
+			 userbook.adduser(newuser);
+			 System.out.println(newuser);
+			 addsum--;
+			 }
+			 break;
+		case 4:
+			 System.out.println("请输入要查找用户的id:");
+			 String x=in.readLine();
+			 int j=Integer.parseInt(x);
+			if(userbook.finduser(j)!=null) System.out.println(userbook.finduser(j));
+			 break;
+		 case 5:return;
+		 }
+	}
+}
+private void printusersMenu() {
+	// TODO Auto-generated method stub
+	System.out.println("1:显示当前所有用户");
+	System.out.println("2:删除用户");
+	System.out.println("3:添加新用户");
+	System.out.println("4:查找用户");
+	System.out.println("5:退出用户菜单");
+	System.out.println("请输入数字进行选择");
+}
+private void printCDMenu() {
+	// TODO Auto-generated method stub
+	System.out.println("1:显示当前所有种类CD");
+	System.out.println("2:借出CD");
+	System.out.println("3:添加新CD");
+	System.out.println("4:查找所需CD");
+	System.out.println("5:退出CD菜单");
+	System.out.println("请输入数字进行选择");
+}
+private void printMainMenu() {
+	// TODO Auto-generated method stub
+	System.out.println("1:进入用户管理");
+	System.out.println("2:进入光盘管理");
+	System.out.println("3:退出主菜单");
+	System.out.println("请输入数字进行选择");
+}
+
+}

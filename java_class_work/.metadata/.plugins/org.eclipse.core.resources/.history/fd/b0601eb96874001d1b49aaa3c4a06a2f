@@ -1,0 +1,29 @@
+package big.work.cn;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+import org.omg.CORBA.portable.OutputStream;
+
+public class Client {
+public static void main(String []args) throws UnknownHostException, IOException{
+	Socket c=new Socket("10.130.197.201",8080);
+	BufferedReader in=new BufferedReader(new InputStreamReader(c.getInputStream()));
+	PrintWriter out=new PrintWriter(c.getOutputStream());
+	InetAddress address=InetAddress.getLocalHost();
+	String ip=address.getHostAddress();
+	out.write("客户端："+ip+"接入服务器");
+	out.flush();
+	String line;
+	while((line=in.readLine())!=null){
+		System.out.println(line);
+	}
+	c.close();
+}
+}

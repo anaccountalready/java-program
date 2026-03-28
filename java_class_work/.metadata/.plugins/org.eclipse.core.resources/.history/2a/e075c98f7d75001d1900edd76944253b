@@ -1,0 +1,107 @@
+package big.work.cn;
+
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.peer.TextAreaPeer;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+import org.w3c.dom.css.DocumentCSS;
+public class Client {
+	static JPanel p1=new JPanel();
+	static JPanel p2=new JPanel();
+	static JPanel p3=new JPanel();
+	static JPanel p4=new JPanel();
+    static JTextField text0=new JTextField();
+	static JTextField text3=new JTextField();
+	static JTextArea text1=new JTextArea();
+	static JTextArea text2=new JTextArea();
+	static JPanel LiaotianPanel2 =new JPanel();
+	static JButton b=new JButton("发送");
+	static String ip=null;
+	static String cp=null;
+	static Font mfont=new Font("楷体", Font.BOLD, 15);
+	public void closeclient(){
+	System.exit(0);
+}
+public static void main(String []args) throws UnknownHostException, IOException{
+	   JFrame f=new JFrame("Client");
+	  f.setSize(800, 800);
+		text1.setLineWrap(true);
+	   text2.setLineWrap(true);
+	   text2.setEditable(false);
+	   text1.setEditable(true);
+	   text1.setFont(mfont);
+		text2.setFont(mfont);
+		text0.setFont(mfont);
+		text3.setFont(mfont);
+		text0.setPreferredSize(new Dimension(100, 30));
+		text3.setPreferredSize(new Dimension(100, 30));
+		text1.setPreferredSize(new Dimension(600, 300));
+		text2.setPreferredSize(new Dimension(600, 300));
+		JScrollPane js=new JScrollPane(text2);
+		js.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		js.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		b.setPreferredSize(new Dimension(100,30));
+		JLabel l0=new JLabel("请输入服务器地址");
+		JLabel l1=new JLabel("端口");
+		JLabel l2=new JLabel("需要发送的信息");
+		JLabel l3=new JLabel("日志");
+		p1.add(l0);
+		p1.add(text0);//地址
+		p1.add(l1);
+		p1.add(text3);//端口
+		p2.add(l2);
+		p2.add(text1);
+		p4.add(b);
+		p3.add(l3);
+		p3.add(js);
+		LiaotianPanel2.setLayout(new FlowLayout());
+		LiaotianPanel2.add(p1);
+		LiaotianPanel2.add(p2);
+		LiaotianPanel2.add(p4);
+		LiaotianPanel2.add(p3);
+		LiaotianPanel2.setPreferredSize(new Dimension(700, 700));
+	f.getContentPane().add(LiaotianPanel2);
+	f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	f.setVisible(true);
+	while(ip==null||cp==null){
+		text0.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				Client.ip=text0.getText();
+			}});//text0Listener
+		text3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				Client.cp=text3.getText();}});//text3.listener
+	}
+         ClientSide.main(null);
+		
+	
+}
+}
+
