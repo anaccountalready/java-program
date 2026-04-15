@@ -9,11 +9,12 @@ import javax.swing.JOptionPane;
 
 import five.edu.cn.model.Chess;
 import five.edu.cn.model.Model;
+import five.edu.cn.model.NetworkListener;
 import five.edu.cn.util.NetHelper;
 import five.edu.cn.view.ChessPanel;
 import five.edu.cn.view.ChatPanel;
 
-public class Control {
+public class Control implements NetworkListener {
     private static final Logger LOGGER = Logger.getLogger(Control.class.getName());
 
     private static volatile Control instance;
@@ -31,6 +32,7 @@ public class Control {
         this.allowPutChess = new AtomicBoolean(true);
         this.localColor = Model.BLACK;
         this.otherColor = Model.WHITE;
+        NetHelper.getInstance().setNetworkListener(this);
     }
 
     public static Control getInstance() {
@@ -150,7 +152,8 @@ public class Control {
         }
     }
 
-    public void handleRemoteMove(int row, int col) {
+    @Override
+    public void onRemoteMove(int row, int col) {
         boolean success = model.putChess(row, col, otherColor);
         if (success) {
             ChessPanel.getInstance().repaint();
@@ -198,7 +201,8 @@ public class Control {
         }
     }
 
-    public void handleRemoteUndo() {
+    @Override
+    public void onRemoteUndo() {
         if (model.undo()) {
             allowPutChess.set(false);
             ChessPanel.getInstance().repaint();
@@ -219,7 +223,8 @@ public class Control {
         }
     }
 
-    public void handleRemoteChat(String text) {
+    @Override
+    public void onRemoteChat(String text) {
         if (text != null && !text.isEmpty()) {
             ChatPanel.getInstance().appendMessage("对手: " + text);
         }

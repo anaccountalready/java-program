@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -18,7 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
-import five.edu.cn.controller.Control;
+import five.edu.cn.model.NetworkListener;
 
 public class NetHelper implements Closeable {
     private static final Logger LOGGER = Logger.getLogger(NetHelper.class.getName());
@@ -41,6 +40,7 @@ public class NetHelper implements Closeable {
     private PrintWriter writer;
     private Thread readThread;
     private Thread listenThread;
+    private NetworkListener listener;
 
     private NetHelper() {
         this.executorService = Executors.newCachedThreadPool();
@@ -57,6 +57,10 @@ public class NetHelper implements Closeable {
             }
         }
         return instance;
+    }
+
+    public void setNetworkListener(NetworkListener listener) {
+        this.listener = listener;
     }
 
     public void beginListen() {
@@ -176,7 +180,9 @@ public class NetHelper implements Closeable {
             } else if (line.startsWith("chat")) {
                 parseChatMessage(line);
             } else if ("reback".equals(line)) {
-                Control.getInstance().handleRemoteUndo();
+                if (listener != null) {
+                    listener.onRemoteUndo();
+                }
             } else {
                 LOGGER.warning("Unknown message type: " + line.substring(0, Math.min(20, line.length())));
             }
@@ -201,7 +207,9 @@ public class NetHelper implements Closeable {
                 return;
             }
             
-            Control.getInstance().handleRemoteMove(row, col);
+            if (listener != null) {
+                listener.onRemoteMove(row, col);
+            }
         } catch (NumberFormatException e) {
             LOGGER.log(Level.SEVERE, "Invalid number format in chess message", e);
         }
@@ -210,8 +218,8 @@ public class NetHelper implements Closeable {
     private void parseChatMessage(String line) {
         try {
             String content = line.substring(4);
-            if (content != null && !content.isEmpty()) {
-                Control.getInstance().handleRemoteChat(content);
+            if (content != null && !content.isEmpty() && listener != null) {
+                listener.onRemoteChat(content);
             }
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error parsing chat message", e);
