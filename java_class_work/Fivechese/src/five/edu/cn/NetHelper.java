@@ -204,7 +204,12 @@ public class NetHelper {
                 String[] array = data.split(",");
                 int row = Integer.parseInt(array[0]);
                 int col = Integer.parseInt(array[1]);
-                int color = (Model.list.size() % 2 == 0) ? Model.Black : Model.white;
+                int color;
+                if (array.length >= 3) {
+                    color = Integer.parseInt(array[2]);
+                } else {
+                    color = (Model.list.size() % 2 == 0) ? Model.Black : Model.white;
+                }
                 Model.getInstance().putChess(row, col, color);
             }
         }
@@ -217,7 +222,13 @@ public class NetHelper {
         String[] array = line.split(",");
         int row = Integer.parseInt(array[0]);
         int col = Integer.parseInt(array[1]);
-        Control.getInstance().netOtherPutChess(row, col);
+        int color;
+        if (array.length >= 3) {
+            color = Integer.parseInt(array[2]);
+        } else {
+            color = (Model.list.size() % 2 == 0) ? Model.Black : Model.white;
+        }
+        Control.getInstance().netOtherPutChess(row, col, color);
     }
     
     protected void parseChatWithName(String line) {
@@ -238,7 +249,7 @@ public class NetHelper {
         if (out != null && isConnected) {
             new Thread() {
                 public void run() {
-                    out.println("PutChess:" + row + "," + col);
+                    out.println("PutChess:" + row + "," + col + "," + Control.getInstance().getLocalColor());
                 }
             }.start();
         }

@@ -121,8 +121,7 @@ public class Control {
         }
     }
     
-    public void netOtherPutChess(int row, int col) {
-        int color = (Model.list.size() % 2 == 0) ? Model.Black : Model.white;
+    public void netOtherPutChess(int row, int col, int color) {
         boolean success = Model.getInstance().putChess(row, col, color);
         
         if (success) {
