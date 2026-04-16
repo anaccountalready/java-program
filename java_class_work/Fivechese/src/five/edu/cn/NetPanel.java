@@ -14,7 +14,8 @@ public class NetPanel extends JPanel {
     private JButton createRoomButton = new JButton("创建房间");
     private JButton joinRoomButton = new JButton("加入房间");
     private JButton disconnectButton = new JButton("断开连接");
-    private JTextField ipTF = new JTextField(15);
+    private JTextField ipTF = new JTextField(12);
+    private JTextField portTF = new JTextField(6);
     private JTextField nameTF = new JTextField(10);
     private JLabel roleLabel = new JLabel("角色: 未连接");
     private JLabel statusLabel = new JLabel("状态: 未连接");
@@ -22,7 +23,7 @@ public class NetPanel extends JPanel {
     private static NetPanel instance = new NetPanel();
     
     private NetPanel() {
-        setLayout(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        setLayout(new FlowLayout(FlowLayout.LEFT, 8, 5));
         
         add(new JLabel("用户名:"));
         add(nameTF);
@@ -31,6 +32,10 @@ public class NetPanel extends JPanel {
         add(new JLabel("服务器IP:"));
         add(ipTF);
         ipTF.setText("localhost");
+        
+        add(new JLabel("端口:"));
+        add(portTF);
+        portTF.setText("8900");
         
         add(createRoomButton);
         add(joinRoomButton);
@@ -45,8 +50,22 @@ public class NetPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 String userName = nameTF.getText().trim();
+                String portStr = portTF.getText().trim();
+                
                 if (userName.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "请输入用户名！");
+                    return;
+                }
+                
+                int port;
+                try {
+                    port = Integer.parseInt(portStr);
+                    if (port < 1024 || port > 65535) {
+                        JOptionPane.showMessageDialog(null, "端口号必须在1024-65535之间！");
+                        return;
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "请输入有效的端口号！");
                     return;
                 }
                 
@@ -55,9 +74,10 @@ public class NetPanel extends JPanel {
                 disconnectButton.setEnabled(true);
                 nameTF.setEnabled(false);
                 ipTF.setEnabled(false);
+                portTF.setEnabled(false);
                 
-                NetHelper.getInstance().createRoom(userName);
-                statusLabel.setText("状态: 已创建房间");
+                NetHelper.getInstance().createRoom(userName, port);
+                statusLabel.setText("状态: 已创建房间(端口:" + port + ")");
             }
         });
         
@@ -66,6 +86,7 @@ public class NetPanel extends JPanel {
             public void actionPerformed(ActionEvent arg0) {
                 String userName = nameTF.getText().trim();
                 String ip = ipTF.getText().trim();
+                String portStr = portTF.getText().trim();
                 
                 if (userName.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "请输入用户名！");
@@ -76,14 +97,27 @@ public class NetPanel extends JPanel {
                     return;
                 }
                 
+                int port;
+                try {
+                    port = Integer.parseInt(portStr);
+                    if (port < 1024 || port > 65535) {
+                        JOptionPane.showMessageDialog(null, "端口号必须在1024-65535之间！");
+                        return;
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "请输入有效的端口号！");
+                    return;
+                }
+                
                 createRoomButton.setEnabled(false);
                 joinRoomButton.setEnabled(false);
                 disconnectButton.setEnabled(true);
                 nameTF.setEnabled(false);
                 ipTF.setEnabled(false);
+                portTF.setEnabled(false);
                 
-                NetHelper.getInstance().joinRoom(ip, userName);
-                statusLabel.setText("状态: 已连接到 " + ip);
+                NetHelper.getInstance().joinRoom(ip, port, userName);
+                statusLabel.setText("状态: 已连接到 " + ip + ":" + port);
             }
         });
         
@@ -91,17 +125,19 @@ public class NetPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 NetHelper.getInstance().disconnect();
+                Control.getInstance().resetNetMode();
                 
                 createRoomButton.setEnabled(true);
                 joinRoomButton.setEnabled(true);
                 disconnectButton.setEnabled(false);
                 nameTF.setEnabled(true);
                 ipTF.setEnabled(true);
+                portTF.setEnabled(true);
                 
                 roleLabel.setText("角色: 未连接");
                 statusLabel.setText("状态: 未连接");
                 
-                Chatpanl.getInstance().readboard.append("=== 已断开连接 ===\n");
+                Chatpanl.getInstance().readboard.append("=== 已断开连接，已切换到本地模式 ===\n");
             }
         });
     }

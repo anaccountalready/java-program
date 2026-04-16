@@ -9,13 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RoomServer {
-    public static final int PORT = 8900;
+    private int port = 8900;
     private ServerSocket serverSocket;
     private List<ClientHandler> clients = new ArrayList<>();
     private ClientHandler blackPlayer = null;
     private ClientHandler whitePlayer = null;
     private List<ClientHandler> spectators = new ArrayList<>();
     private String chessHistory = "";
+    private boolean isRunning = false;
     
     private static RoomServer instance;
     
@@ -28,30 +29,58 @@ public class RoomServer {
         return instance;
     }
     
-    public void start() {
+    public void start(int port) {
+        if (isRunning) {
+            System.out.println("服务器已在运行中");
+            return;
+        }
+        
+        this.port = port;
+        this.isRunning = true;
+        this.clients.clear();
+        this.blackPlayer = null;
+        this.whitePlayer = null;
+        this.spectators.clear();
+        this.chessHistory = "";
+        
         new Thread() {
             public void run() {
                 try {
-                    serverSocket = new ServerSocket(PORT);
-                    System.out.println("房间服务器启动，端口: " + PORT);
-                    while (true) {
+                    serverSocket = new ServerSocket(port);
+                    System.out.println("房间服务器启动，端口: " + port);
+                    while (isRunning) {
                         Socket socket = serverSocket.accept();
                         ClientHandler handler = new ClientHandler(socket);
                         clients.add(handler);
                         new Thread(handler).start();
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    if (isRunning) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }.start();
     }
     
     public void stop() {
+        isRunning = false;
         try {
             if (serverSocket != null) {
                 serverSocket.close();
             }
+            for (ClientHandler handler : clients) {
+                try {
+                    handler.socket.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            clients.clear();
+            blackPlayer = null;
+            whitePlayer = null;
+            spectators.clear();
+            chessHistory = "";
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -168,7 +197,7 @@ public class RoomServer {
         public void run() {
             try {
                 String line;
-                while ((line = reader.readLine()) != null) {
+                while (isRunning && (line = reader.readLine()) != null) {
                     processMessage(line);
                 }
             } catch (Exception e) {

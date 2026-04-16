@@ -10,12 +10,12 @@ import java.net.UnknownHostException;
 import javax.swing.JOptionPane;
 
 public class NetHelper {
-    public static final int PORT = 8900;
     private Socket s;
     private BufferedReader reader;
     private PrintWriter out;
     private String userName;
     private int myRole = ClientInfo.ROLE_SPECTATOR;
+    private int currentPort = 8900;
     private boolean isConnected = false;
     private boolean isRoomOwner = false;
     
@@ -55,10 +55,11 @@ public class NetHelper {
         return isRoomOwner;
     }
     
-    public void createRoom(String userName) {
+    public void createRoom(String userName, int port) {
         this.userName = userName;
+        this.currentPort = port;
         this.isRoomOwner = true;
-        RoomServer.getInstance().start();
+        RoomServer.getInstance().start(port);
         
         try {
             Thread.sleep(500);
@@ -66,18 +67,19 @@ public class NetHelper {
             e.printStackTrace();
         }
         
-        connectToServer("localhost", userName);
+        connectToServer("localhost", port, userName);
     }
     
-    public void joinRoom(String ip, String userName) {
+    public void joinRoom(String ip, int port, String userName) {
         this.userName = userName;
+        this.currentPort = port;
         this.isRoomOwner = false;
-        connectToServer(ip, userName);
+        connectToServer(ip, port, userName);
     }
     
-    private void connectToServer(String ip, String userName) {
+    private void connectToServer(String ip, int port, String userName) {
         try {
-            s = new Socket(ip, PORT);
+            s = new Socket(ip, port);
             reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
             out = new PrintWriter(s.getOutputStream(), true);
             isConnected = true;
@@ -85,7 +87,7 @@ public class NetHelper {
             
             out.println("LOGIN:" + userName);
             
-            Chatpanl.getInstance().readboard.append("=== 已连接到房间 ===\n");
+            Chatpanl.getInstance().readboard.append("=== 已连接到房间(" + ip + ":" + port + ") ===\n");
             
         } catch (UnknownHostException e) {
             JOptionPane.showMessageDialog(null, "无法连接到服务器：" + e.getMessage());
@@ -288,6 +290,7 @@ public class NetHelper {
     
     public void disconnect() {
         isConnected = false;
+        myRole = ClientInfo.ROLE_SPECTATOR;
         try {
             if (s != null) {
                 s.close();

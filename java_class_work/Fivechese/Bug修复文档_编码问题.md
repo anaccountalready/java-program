@@ -8,6 +8,8 @@
 |---------|---------|---------|---------|
 | Bug-001 | 编码问题 | 混合编码导致编译失败 | 已修复 |
 | Bug-002 | 下棋逻辑 | 双方各下一子后无法继续下棋 | 已修复 |
+| Bug-003 | 端口固定 | 端口号固定为8900，无法选择房间 | 已修复 |
+| Bug-004 | 状态重置 | 观众离开房间后仍然不能本地下棋 | 已修复 |
 
 ---
 
@@ -106,275 +108,6 @@ public void netOtherPutChess(int row, int col) {
 }
 ```
 
-#### 3.2.3 服务器广播机制问题
-
-**关键问题**：服务器会将消息广播给**所有客户端，包括发送者自己**。
-
-让我详细分析问题流程：
-
-**场景：黑棋下第一步**
-
-**黑棋视角**：
-1. 黑棋点击棋盘 → 调用 `netModePutChess()`
-2. `putChess(row, col, Black)` → 成功，`list.size() = 1`
-3. 发送消息：`PutChess:row,col` 到服务器
-4. 设置 `allowPutChess = false`（等待白棋）
-5. 服务器广播消息给所有人（包括黑棋自己）
-
-**黑棋收到自己的消息**：
-1. 调用 `netOtherPutChess(row, col)`
-2. `list.size() = 1`（已经下过了）
-3. `color = (1 % 2 == 0) ? Black : white` → **color = white**
-4. `putChess(row, col, white)` → 同一位置已是 Black，**失败**
-5. `success = false`，什么都不做
-
-**白棋收到黑棋的消息**：
-1. 调用 `netOtherPutChess(row, col)`
-2. `list.size() = 0`（还没下）
-3. `color = (0 % 2 == 0) ? Black : white` → **color = Black**
-4. `putChess(row, col, Black)` → 成功，`list.size() = 1`
-5. `color == otherColor`（Black == Black）→ true
-6. `allowPutChess = true`（白棋现在可以下了）
-
-**场景：白棋下第二步**
-
-**白棋视角**：
-1. 白棋点击棋盘 → 调用 `netModePutChess()`
-2. `putChess(row, col, white)` → 成功，`list.size() = 2`
-3. 发送消息：`PutChess:row,col` 到服务器
-4. 设置 `allowPutChess = false`（等待黑棋）
-5. 服务器广播消息给所有人（包括白棋自己）
-
-**白棋收到自己的消息**：
-1. 调用 `netOtherPutChess(row, col)`
-2. `list.size() = 2`（已经下过了）
-3. `color = (2 % 2 == 0) ? Black : white` → **color = Black**
-4. `putChess(row, col, Black)` → 同一位置已是 white，**失败**
-5. `success = false`，什么都不做
-
-**黑棋收到白棋的消息**：
-1. 调用 `netOtherPutChess(row, col)`
-2. **关键问题**：黑棋的 `list.size()` 是多少？
-   - 黑棋只下了第一步：`list.size() = 1`
-   - 黑棋收到自己的消息时尝试放 white 失败，所以 `list.size()` 保持为 1
-3. `color = (1 % 2 == 0) ? Black : white` → **color = white**
-4. `putChess(row, col, white)` → 新位置，成功，`list.size() = 2`
-5. `color == otherColor`（white == white）→ true
-6. `allowPutChess = true`（黑棋现在可以下了）
-
-**等等，这看起来应该是对的？让我再想想...**
-
-实际上，问题还有更深层的原因：
-
-**真正的问题在于：**
-
-1. 消息不包含颜色信息，本地根据 `list.size()` 猜测颜色
-2. 服务器广播消息给发送者自己，导致发送者收到两条消息：
-   - 自己执行 `netModePutChess` 时放的棋子
-   - 服务器广播回来的消息
-3. 虽然第二次尝试放棋子会失败，但 `list.size()` 的判断逻辑存在隐患
-
-**更严重的问题场景**：
-
-如果黑棋和白棋的消息到达顺序不同，或者存在网络延迟：
-- 黑棋下完第一步，`list.size() = 1`
-- 黑棋收到自己的消息，`list.size() = 1`，猜测 color = white，失败
-- 白棋收到黑棋的消息，`list.size() = 0`，猜测 color = Black，成功
-- 白棋下完第二步，`list.size() = 2`
-- 白棋收到自己的消息，`list.size() = 2`，猜测 color = Black，失败
-- 黑棋收到白棋的消息，`list.size() = 1`，猜测 color = white，成功
-
-**但问题是：当黑棋收到白棋的消息时，他怎么知道这是白棋下的？**
-
-实际上，代码逻辑是：
-```java
-if (color == otherColor) {
-    allowPutChess = true;
-} else {
-    allowPutChess = false;
-}
-```
-
-这个逻辑假设：
-- 如果收到的棋子颜色是 `otherColor`（对方的颜色），则轮到我下
-- 如果收到的棋子颜色不是 `otherColor`（自己的颜色），则等待对方
-
-**但问题是：消息不包含颜色信息，本地猜测的颜色可能是错的！**
-
-让我用具体的数值来说明：
-
-```java
-public static final int white = 1;
-public static final int Black = -1;
-```
-
-黑棋玩家：
-- `localColor = Black (-1)`
-- `otherColor = white (1)`
-
-白棋玩家：
-- `localColor = white (1)`
-- `otherColor = Black (-1)`
-
-**场景：黑棋下第一步，白棋下第二步**
-
-黑棋收到白棋的消息时：
-- `list.size() = 1`（只下了自己的第一步）
-- `color = (1 % 2 == 0) ? Black : white` → `white (1)`
-- `otherColor = white (1)`
-- `color == otherColor` → **true**
-- `allowPutChess = true` ✓
-
-这应该是对的...
-
-**但让我再考虑另一个场景：如果黑棋收到自己的消息时会发生什么？**
-
-黑棋收到自己的消息：
-- `list.size() = 1`（已经下过了）
-- `color = (1 % 2 == 0) ? Black : white` → `white (1)`
-- `putChess(row, col, white)` → 同一位置已是 Black，**失败**
-- 什么都不做
-
-这也没问题...
-
-**等等，我发现了真正的问题！**
-
-让我再仔细看一下 `netModePutChess` 方法：
-
-```java
-private void netModePutChess(int row, int col) {
-    if (!allowPutChess) return;  // 关键！
-    
-    boolean success = Model.getInstance().putChess(row, col, localColor);
-    if (success) {
-        ChessPanel.getInstance().repaint();
-        NetHelper.getInstance().sentChess(row, col);
-        allowPutChess = false;  // 下完后设置为false
-        
-        // 检查胜负...
-    }
-}
-```
-
-**问题流程分析：**
-
-**第一步：黑棋下**
-1. 黑棋 `allowPutChess = true`（初始状态）
-2. 黑棋执行 `netModePutChess`
-3. 成功，设置 `allowPutChess = false`
-4. 发送消息到服务器
-
-**第二步：白棋收到黑棋的消息**
-1. 白棋 `list.size() = 0`
-2. `color = (0 % 2 == 0) ? Black : white` → Black
-3. `putChess` 成功
-4. `color == otherColor`（Black == Black）→ true
-5. `allowPutChess = true`
-
-**第三步：白棋下**
-1. 白棋 `allowPutChess = true`
-2. 白棋执行 `netModePutChess`
-3. 成功，设置 `allowPutChess = false`
-4. 发送消息到服务器
-
-**第四步：黑棋收到白棋的消息**
-1. 黑棋 `list.size() = 1`（只下了自己的第一步）
-2. `color = (1 % 2 == 0) ? Black : white` → white
-3. `putChess` 成功
-4. `color == otherColor`（white == white）→ true
-5. `allowPutChess = true`
-
-**这看起来应该是对的...让我再想想...**
-
-**等等！我发现了问题！**
-
-让我重新考虑 `list.size()` 的值：
-
-**黑棋视角**：
-1. 黑棋自己下了第一步 → `list.size() = 1`
-2. 黑棋收到自己的消息 → 尝试放 white 到同一位置，失败
-3. 黑棋的 `list.size()` 保持为 **1**
-4. 白棋下了第二步
-5. 黑棋收到白棋的消息 → `list.size() = 1`
-6. `color = (1 % 2 == 0) ? Black : white` → white
-7. `putChess(白棋的位置, white)` → 成功，`list.size() = 2`
-8. `allowPutChess = true`
-
-**白棋视角**：
-1. 白棋收到黑棋的第一步消息 → `list.size() = 0`
-2. `color = (0 % 2 == 0) ? Black : white` → Black
-3. `putChess` 成功，`list.size() = 1`
-4. `allowPutChess = true`
-5. 白棋自己下了第二步 → `list.size() = 2`
-6. 设置 `allowPutChess = false`
-7. 白棋收到自己的消息 → `list.size() = 2`
-8. `color = (2 % 2 == 0) ? Black : white` → Black
-9. `putChess(同一位置, Black)` → 失败
-
-**等等，那第三步应该可以继续...让我再仔细看一下原代码...**
-
-**我发现了！问题在于 `netOtherPutChess` 中的 `color` 计算和 `allowPutChess` 的设置逻辑！**
-
-让我再看一下原代码：
-
-```java
-public void netOtherPutChess(int row, int col) {
-    // 根据本地 list.size() 猜测颜色
-    int color = (Model.list.size() % 2 == 0) ? Model.Black : Model.white;
-    boolean success = Model.getInstance().putChess(row, col, color);
-    
-    if (success) {
-        if (NetHelper.getInstance().isPlayer()) {
-            // 关键逻辑：如果颜色是对方的颜色，则轮到我
-            if (color == otherColor) {
-                allowPutChess = true;
-            } else {
-                allowPutChess = false;
-            }
-        }
-    }
-}
-```
-
-**问题场景：黑棋收到白棋的消息**
-
-黑棋的状态：
-- `list.size() = 1`（只下了自己的第一步）
-- `otherColor = white (1)`
-
-收到白棋的消息时：
-- `color = (1 % 2 == 0) ? Black : white` → `white (1)`
-- `putChess` 成功
-- `color == otherColor`（white == white）→ **true**
-- `allowPutChess = true` ✓
-
-这应该是对的...
-
-**等等！让我考虑另一个问题：服务器广播消息给所有客户端，包括发送者自己。**
-
-当黑棋下了第一步后：
-1. 黑棋执行 `netModePutChess` → 成功，`allowPutChess = false`
-2. 服务器广播消息
-3. 黑棋收到自己的消息 → `netOtherPutChess`
-4. `list.size() = 1`，`color = white`，`putChess` 失败
-5. 什么都不做，`allowPutChess` 保持 `false`
-
-这也没问题...
-
-**让我换个思路，直接看一下问题的根本原因：**
-
-**消息格式 `PutChess:row,col` 不包含颜色信息，这是设计缺陷！**
-
-如果消息包含颜色信息，就不需要猜测了：
-
-**新消息格式**：`PutChess:row,col,color`
-
-例如：
-- 黑棋下：`PutChess:5,6,-1`
-- 白棋下：`PutChess:5,7,1`
-
-这样接收方就可以直接使用消息中的颜色，而不是猜测！
-
 ### 3.3 修复方案
 
 #### 3.3.1 修改消息格式
@@ -394,377 +127,820 @@ public void netOtherPutChess(int row, int col) {
 | `NetHelper.java` | 1. sentChess() - 发送时包含颜色信息<br>2. parseChess() - 解析时从消息中获取颜色<br>3. parseSync() - 同步历史时也从消息中获取颜色 |
 | `Control.java` | netOtherPutChess() - 添加颜色参数，不再猜测 |
 
-#### 3.3.3 具体代码修改
+---
 
-**修改1：NetHelper.java - sentChess()**
+## 四、Bug-003：端口号固定问题修复
 
-**修改前**：
+### 4.1 问题现象
+
+端口号固定为8900，导致：
+1. 同一个IP只能创建一个房间
+2. 观众加入时无法选择要加入的房间
+3. 无法同时运行多个房间
+
+**具体场景**：
+- 用户A创建房间（端口8900）
+- 用户B想要创建另一个房间 → 无法创建（端口冲突）
+- 用户C想要加入房间 → 只能加入8900端口的房间，无法选择
+
+### 4.2 问题根因分析
+
+#### 4.2.1 RoomServer端口固定
+
+**原代码（RoomServer.java）**：
 ```java
-public void sentChess(final int row, final int col) {
-    if (out != null && isConnected) {
+public class RoomServer {
+    public static final int PORT = 8900;  // 端口号硬编码！
+    
+    public void start() {
+        // 总是使用固定端口8900
+        serverSocket = new ServerSocket(PORT);
+    }
+}
+```
+
+#### 4.2.2 NetHelper连接时使用固定端口
+
+**原代码（NetHelper.java）**：
+```java
+public static final int PORT = 8900;  // 端口号硬编码！
+
+private void connectToServer(String ip, String userName) {
+    s = new Socket(ip, PORT);  // 总是连接到8900端口
+}
+```
+
+#### 4.2.3 NetPanel没有端口输入框
+
+**原UI布局**：
+```
+[用户名:] [输入框] [服务器IP:] [输入框] [创建房间] [加入房间]
+```
+
+没有端口号输入框，用户无法指定端口。
+
+### 4.3 修复方案
+
+#### 4.3.1 修改RoomServer支持动态端口
+
+**修改前（RoomServer.java）**：
+```java
+public class RoomServer {
+    public static final int PORT = 8900;
+    private ServerSocket serverSocket;
+    
+    public void start() {
         new Thread() {
             public void run() {
-                out.println("PutChess:" + row + "," + col);
+                serverSocket = new ServerSocket(PORT);  // 固定端口
+                // ...
             }
         }.start();
     }
 }
 ```
 
-**修改后**：
+**修改后（RoomServer.java）**：
 ```java
-public void sentChess(final int row, final int col) {
-    if (out != null && isConnected) {
+public class RoomServer {
+    private int port = 8900;  // 改为实例变量
+    private boolean isRunning = false;  // 添加运行状态
+    
+    public void start(int port) {  // 添加端口参数
+        if (isRunning) {
+            System.out.println("服务器已在运行中");
+            return;
+        }
+        
+        this.port = port;
+        this.isRunning = true;
+        
+        // 清空之前的状态
+        this.clients.clear();
+        this.blackPlayer = null;
+        this.whitePlayer = null;
+        this.spectators.clear();
+        this.chessHistory = "";
+        
         new Thread() {
             public void run() {
-                out.println("PutChess:" + row + "," + col + "," + Control.getInstance().getLocalColor());
+                try {
+                    serverSocket = new ServerSocket(port);  // 使用动态端口
+                    System.out.println("房间服务器启动，端口: " + port);
+                    while (isRunning) {  // 使用状态变量控制循环
+                        // ...
+                    }
+                } catch (Exception e) {
+                    if (isRunning) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }.start();
     }
-}
-```
-
-**修改2：NetHelper.java - parseChess()**
-
-**修改前**：
-```java
-protected void parseChess(String line) {
-    line = line.substring(9);
-    String[] array = line.split(",");
-    int row = Integer.parseInt(array[0]);
-    int col = Integer.parseInt(array[1]);
-    Control.getInstance().netOtherPutChess(row, col);
-}
-```
-
-**修改后**：
-```java
-protected void parseChess(String line) {
-    line = line.substring(9);
-    String[] array = line.split(",");
-    int row = Integer.parseInt(array[0]);
-    int col = Integer.parseInt(array[1]);
-    int color;
-    if (array.length >= 3) {
-        color = Integer.parseInt(array[2]);  // 从消息中获取颜色
-    } else {
-        color = (Model.list.size() % 2 == 0) ? Model.Black : Model.white;  // 兼容旧格式
-    }
-    Control.getInstance().netOtherPutChess(row, col, color);
-}
-```
-
-**修改3：NetHelper.java - parseSync()**
-
-**修改前**：
-```java
-private void parseSync(String line) {
-    String history = line.substring(5);
-    if (history.isEmpty()) return;
     
-    String[] moves = history.split("\\|");
-    Model.getInstance().clearchess();
-    
-    for (String move : moves) {
-        if (move.startsWith("PutChess:")) {
-            String data = move.substring(9);
-            String[] array = data.split(",");
-            int row = Integer.parseInt(array[0]);
-            int col = Integer.parseInt(array[1]);
-            int color = (Model.list.size() % 2 == 0) ? Model.Black : Model.white;
-            Model.getInstance().putChess(row, col, color);
-        }
-    }
-    ChessPanel.getInstance().repaint();
-}
-```
-
-**修改后**：
-```java
-private void parseSync(String line) {
-    String history = line.substring(5);
-    if (history.isEmpty()) return;
-    
-    String[] moves = history.split("\\|");
-    Model.getInstance().clearchess();
-    
-    for (String move : moves) {
-        if (move.startsWith("PutChess:")) {
-            String data = move.substring(9);
-            String[] array = data.split(",");
-            int row = Integer.parseInt(array[0]);
-            int col = Integer.parseInt(array[1]);
-            int color;
-            if (array.length >= 3) {
-                color = Integer.parseInt(array[2]);  // 从消息中获取颜色
-            } else {
-                color = (Model.list.size() % 2 == 0) ? Model.Black : Model.white;  // 兼容旧格式
+    public void stop() {
+        isRunning = false;  // 设置状态为停止
+        try {
+            if (serverSocket != null) {
+                serverSocket.close();
             }
-            Model.getInstance().putChess(row, col, color);
-        }
-    }
-    ChessPanel.getInstance().repaint();
-    Chatpanl.getInstance().readboard.append("=== 已同步历史棋局，共" + moves.length + "步 ===\n");
-}
-```
-
-**修改4：Control.java - netOtherPutChess()**
-
-**修改前**：
-```java
-public void netOtherPutChess(int row, int col) {
-    int color = (Model.list.size() % 2 == 0) ? Model.Black : Model.white;
-    boolean success = Model.getInstance().putChess(row, col, color);
-    
-    if (success) {
-        ChessPanel.getInstance().repaint();
-        
-        if (NetHelper.getInstance().isPlayer()) {
-            if (color == otherColor) {
-                allowPutChess = true;
-            } else {
-                allowPutChess = false;
+            // 关闭所有客户端连接
+            for (ClientHandler handler : clients) {
+                handler.socket.close();
             }
-        }
-        
-        int winner = Model.getInstance().judge();
-        if (winner == -1) {
-            JOptionPane.showMessageDialog(null, "黑棋获胜");
-        } else if (winner == 1) {
-            JOptionPane.showMessageDialog(null, "白棋获胜");
+            // 清空状态
+            clients.clear();
+            blackPlayer = null;
+            whitePlayer = null;
+            spectators.clear();
+            chessHistory = "";
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
 ```
 
-**修改后**：
+#### 4.3.2 修改NetHelper支持动态端口
+
+**修改前（NetHelper.java）**：
 ```java
-public void netOtherPutChess(int row, int col, int color) {
-    boolean success = Model.getInstance().putChess(row, col, color);
+public class NetHelper {
+    public static final int PORT = 8900;  // 静态常量
     
-    if (success) {
-        ChessPanel.getInstance().repaint();
+    public void createRoom(String userName) {
+        this.userName = userName;
+        this.isRoomOwner = true;
+        RoomServer.getInstance().start();  // 无参数
         
-        if (NetHelper.getInstance().isPlayer()) {
-            if (color == otherColor) {
-                allowPutChess = true;
-            } else {
-                allowPutChess = false;
-            }
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         
-        int winner = Model.getInstance().judge();
-        if (winner == -1) {
-            JOptionPane.showMessageDialog(null, "黑棋获胜");
-        } else if (winner == 1) {
-            JOptionPane.showMessageDialog(null, "白棋获胜");
+        connectToServer("localhost", userName);
+    }
+    
+    public void joinRoom(String ip, String userName) {
+        this.userName = userName;
+        this.isRoomOwner = false;
+        connectToServer(ip, userName);
+    }
+    
+    private void connectToServer(String ip, String userName) {
+        try {
+            s = new Socket(ip, PORT);  // 使用固定端口
+            // ...
+        } catch (Exception e) {
+            // ...
         }
     }
 }
 ```
 
-#### 3.3.4 修复后的逻辑流程
+**修改后（NetHelper.java）**：
+```java
+public class NetHelper {
+    private int currentPort = 8900;  // 改为实例变量
+    
+    public void createRoom(String userName, int port) {  // 添加端口参数
+        this.userName = userName;
+        this.currentPort = port;
+        this.isRoomOwner = true;
+        RoomServer.getInstance().start(port);  // 传递端口
+        
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        
+        connectToServer("localhost", port, userName);
+    }
+    
+    public void joinRoom(String ip, int port, String userName) {  // 添加端口参数
+        this.userName = userName;
+        this.currentPort = port;
+        this.isRoomOwner = false;
+        connectToServer(ip, port, userName);
+    }
+    
+    private void connectToServer(String ip, int port, String userName) {  // 添加端口参数
+        try {
+            s = new Socket(ip, port);  // 使用动态端口
+            reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
+            out = new PrintWriter(s.getOutputStream(), true);
+            isConnected = true;
+            startReadThread();
+            
+            out.println("LOGIN:" + userName);
+            
+            Chatpanl.getInstance().readboard.append("=== 已连接到房间(" + ip + ":" + port + ") ===\n");
+            
+        } catch (UnknownHostException e) {
+            JOptionPane.showMessageDialog(null, "无法连接到服务器：" + e.getMessage());
+            e.printStackTrace();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "连接错误：" + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+}
+```
 
-**场景：黑棋下第一步，白棋下第二步，黑棋下第三步**
+#### 4.3.3 修改NetPanel添加端口输入框
 
-**黑棋下第一步**：
-1. 黑棋 `allowPutChess = true`
-2. 执行 `netModePutChess`
-3. `putChess(row, col, Black)` → 成功
-4. 发送消息：`PutChess:row,col,-1`（包含颜色-1）
-5. 设置 `allowPutChess = false`
+**修改前（NetPanel.java）**：
+```java
+public class NetPanel extends JPanel {
+    private JTextField ipTF = new JTextField(15);
+    private JTextField nameTF = new JTextField(10);
+    // 没有端口输入框
+    
+    private NetPanel() {
+        setLayout(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        
+        add(new JLabel("用户名:"));
+        add(nameTF);
+        nameTF.setText("玩家" + (int)(Math.random() * 1000));
+        
+        add(new JLabel("服务器IP:"));
+        add(ipTF);
+        ipTF.setText("localhost");
+        
+        add(createRoomButton);
+        add(joinRoomButton);
+        add(disconnectButton);
+        // ...
+    }
+}
+```
 
-**白棋收到黑棋的消息**：
-1. 解析消息：`PutChess:row,col,-1`
-2. 从消息中获取颜色：`color = -1`（Black）
-3. `putChess(row, col, -1)` → 成功
-4. 判断：`color == otherColor` → `-1 == -1` → true（白棋的otherColor是Black）
-5. 设置 `allowPutChess = true`
+**修改后（NetPanel.java）**：
+```java
+public class NetPanel extends JPanel {
+    private JTextField ipTF = new JTextField(12);
+    private JTextField portTF = new JTextField(6);  // 新增端口输入框
+    private JTextField nameTF = new JTextField(10);
+    
+    private NetPanel() {
+        setLayout(new FlowLayout(FlowLayout.LEFT, 8, 5));
+        
+        add(new JLabel("用户名:"));
+        add(nameTF);
+        nameTF.setText("玩家" + (int)(Math.random() * 1000));
+        
+        add(new JLabel("服务器IP:"));
+        add(ipTF);
+        ipTF.setText("localhost");
+        
+        add(new JLabel("端口:"));  // 新增端口标签
+        add(portTF);
+        portTF.setText("8900");  // 默认端口8900
+        
+        add(createRoomButton);
+        add(joinRoomButton);
+        add(disconnectButton);
+        
+        add(roleLabel);
+        add(statusLabel);
+        
+        disconnectButton.setEnabled(false);
+        
+        // 创建房间按钮事件
+        createRoomButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                String userName = nameTF.getText().trim();
+                String portStr = portTF.getText().trim();  // 获取端口输入
+                
+                if (userName.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "请输入用户名！");
+                    return;
+                }
+                
+                // 验证端口号
+                int port;
+                try {
+                    port = Integer.parseInt(portStr);
+                    if (port < 1024 || port > 65535) {
+                        JOptionPane.showMessageDialog(null, "端口号必须在1024-65535之间！");
+                        return;
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "请输入有效的端口号！");
+                    return;
+                }
+                
+                createRoomButton.setEnabled(false);
+                joinRoomButton.setEnabled(false);
+                disconnectButton.setEnabled(true);
+                nameTF.setEnabled(false);
+                ipTF.setEnabled(false);
+                portTF.setEnabled(false);  // 禁用端口输入框
+                
+                NetHelper.getInstance().createRoom(userName, port);  // 传递端口
+                statusLabel.setText("状态: 已创建房间(端口:" + port + ")");
+            }
+        });
+        
+        // 加入房间按钮事件
+        joinRoomButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                String userName = nameTF.getText().trim();
+                String ip = ipTF.getText().trim();
+                String portStr = portTF.getText().trim();  // 获取端口输入
+                
+                if (userName.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "请输入用户名！");
+                    return;
+                }
+                if (ip.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "请输入服务器IP！");
+                    return;
+                }
+                
+                // 验证端口号
+                int port;
+                try {
+                    port = Integer.parseInt(portStr);
+                    if (port < 1024 || port > 65535) {
+                        JOptionPane.showMessageDialog(null, "端口号必须在1024-65535之间！");
+                        return;
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "请输入有效的端口号！");
+                    return;
+                }
+                
+                createRoomButton.setEnabled(false);
+                joinRoomButton.setEnabled(false);
+                disconnectButton.setEnabled(true);
+                nameTF.setEnabled(false);
+                ipTF.setEnabled(false);
+                portTF.setEnabled(false);  // 禁用端口输入框
+                
+                NetHelper.getInstance().joinRoom(ip, port, userName);  // 传递端口
+                statusLabel.setText("状态: 已连接到 " + ip + ":" + port);
+            }
+        });
+        
+        // 断开连接按钮事件
+        disconnectButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                NetHelper.getInstance().disconnect();
+                Control.getInstance().resetNetMode();
+                
+                createRoomButton.setEnabled(true);
+                joinRoomButton.setEnabled(true);
+                disconnectButton.setEnabled(false);
+                nameTF.setEnabled(true);
+                ipTF.setEnabled(true);
+                portTF.setEnabled(true);  // 启用端口输入框
+                
+                roleLabel.setText("角色: 未连接");
+                statusLabel.setText("状态: 未连接");
+                
+                Chatpanl.getInstance().readboard.append("=== 已断开连接，已切换到本地模式 ===\n");
+            }
+        });
+    }
+}
+```
 
-**白棋下第二步**：
-1. 白棋 `allowPutChess = true`
-2. 执行 `netModePutChess`
-3. `putChess(row, col, white)` → 成功
-4. 发送消息：`PutChess:row,col,1`（包含颜色1）
-5. 设置 `allowPutChess = false`
+### 4.4 修复后的功能
 
-**黑棋收到白棋的消息**：
-1. 解析消息：`PutChess:row,col,1`
-2. 从消息中获取颜色：`color = 1`（white）
-3. `putChess(row, col, 1)` → 成功
-4. 判断：`color == otherColor` → `1 == 1` → true（黑棋的otherColor是white）
-5. 设置 `allowPutChess = true`
+**多房间支持**：
+- 用户A可以在端口8900创建房间
+- 用户B可以在端口8901创建另一个房间
+- 用户C可以选择加入8900或8901端口的房间
 
-**黑棋下第三步**：
-1. 黑棋 `allowPutChess = true` ✓
-2. 可以继续下棋了！
+**UI布局**：
+```
+[用户名:] [输入框] [服务器IP:] [输入框] [端口:] [输入框] [创建房间] [加入房间] [断开连接]
+```
+
+**端口号验证**：
+- 端口号必须在1024-65535之间
+- 必须是有效的数字
 
 ---
 
-## 四、编译验证
+## 五、Bug-004：观众离开后不能下棋问题修复
 
-### 4.1 编译命令
+### 5.1 问题现象
+
+观众离开房间后仍然不能本地下棋：
+
+**具体流程**：
+1. 用户以观众身份加入房间 ✓
+2. 观众点击棋盘 → 显示"您是观众，无法下棋！" ✓
+3. 观众点击"断开连接"按钮 ✓
+4. 观众再次点击棋盘 → 仍然显示"您是观众，无法下棋！" ✗
+
+**问题**：断开连接后，用户应该可以恢复本地下棋功能。
+
+### 5.2 问题根因分析
+
+#### 5.2.1 isAllowPutChess()逻辑缺陷
+
+**原代码（Control.java）**：
+```java
+public boolean isAllowPutChess() {
+    if (NetHelper.getInstance().isSpectator()) {
+        return false;  // 观众不能下棋
+    }
+    return allowPutChess;
+}
+```
+
+**问题**：
+- `isSpectator()` 检查的是 `myRole` 变量
+- 断开连接后 `myRole` 没有被重置
+- 即使断开连接，仍然返回 `false`
+
+#### 5.2.2 状态变量没有重置
+
+**原代码（NetHelper.java）**：
+```java
+public class NetHelper {
+    private int myRole = ClientInfo.ROLE_SPECTATOR;
+    private boolean isConnected = false;
+    
+    public void disconnect() {
+        isConnected = false;  // 只重置了isConnected
+        // myRole 没有重置！
+        try {
+            if (s != null) {
+                s.close();
+            }
+            if (isRoomOwner) {
+                RoomServer.getInstance().stop();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public boolean isSpectator() {
+        return myRole == ClientInfo.ROLE_SPECTATOR;  // 只检查myRole
+    }
+}
+```
+
+**问题**：
+- `disconnect()` 只设置了 `isConnected = false`
+- `myRole` 保持为 `ROLE_SPECTATOR`（3）
+- `isSpectator()` 只检查 `myRole`，不检查 `isConnected`
+
+#### 5.2.3 本地下棋逻辑缺陷
+
+**原代码（Control.java）**：
+```java
+public void localPutChess(int row, int col) {
+    if (NetHelper.getInstance().isSpectator()) {  // 只检查是否是观众
+        JOptionPane.showMessageDialog(null, "您是观众，无法下棋！");
+        return;
+    }
+    
+    if (!netMode) {
+        localModePutChess(row, col);  // 本地模式
+    } else {
+        netModePutChess(row, col);  // 网络模式
+    }
+}
+```
+
+**问题**：
+- 即使断开连接，`isSpectator()` 仍然返回 `true`
+- 直接返回，无法进入本地下棋逻辑
+
+### 5.3 修复方案
+
+#### 5.3.1 修改NetHelper断开连接时重置角色
+
+**修改前（NetHelper.java）**：
+```java
+public void disconnect() {
+    isConnected = false;
+    try {
+        if (s != null) {
+            s.close();
+        }
+        if (isRoomOwner) {
+            RoomServer.getInstance().stop();
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+```
+
+**修改后（NetHelper.java）**：
+```java
+public void disconnect() {
+    isConnected = false;
+    myRole = ClientInfo.ROLE_SPECTATOR;  // 重置角色为默认值
+    try {
+        if (s != null) {
+            s.close();
+        }
+        if (isRoomOwner) {
+            RoomServer.getInstance().stop();
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+```
+
+#### 5.3.2 修改Control的isAllowPutChess逻辑
+
+**修改前（Control.java）**：
+```java
+public boolean isAllowPutChess() {
+    if (NetHelper.getInstance().isSpectator()) {
+        return false;
+    }
+    return allowPutChess;
+}
+```
+
+**修改后（Control.java）**：
+```java
+public boolean isAllowPutChess() {
+    // 只有在连接状态下，观众才不能下棋
+    if (NetHelper.getInstance().isConnected() && NetHelper.getInstance().isSpectator()) {
+        return false;
+    }
+    // 连接状态下返回allowPutChess，未连接状态下始终返回true（本地模式）
+    if (NetHelper.getInstance().isConnected()) {
+        return allowPutChess;
+    }
+    return true;  // 未连接时，总是可以本地下棋
+}
+```
+
+#### 5.3.3 修改localPutChess逻辑
+
+**修改前（Control.java）**：
+```java
+public void localPutChess(int row, int col) {
+    if (NetHelper.getInstance().isSpectator()) {
+        JOptionPane.showMessageDialog(null, "您是观众，无法下棋！");
+        return;
+    }
+    
+    if (!netMode) {
+        localModePutChess(row, col);
+    } else {
+        netModePutChess(row, col);
+    }
+}
+```
+
+**修改后（Control.java）**：
+```java
+public void localPutChess(int row, int col) {
+    // 只有在连接状态下，观众才不能下棋
+    if (NetHelper.getInstance().isConnected() && NetHelper.getInstance().isSpectator()) {
+        JOptionPane.showMessageDialog(null, "您是观众，无法下棋！");
+        return;
+    }
+    
+    // 未连接时，使用本地模式；连接时使用网络模式
+    if (!netMode && !NetHelper.getInstance().isConnected()) {
+        localModePutChess(row, col);
+    } else {
+        netModePutChess(row, col);
+    }
+}
+```
+
+#### 5.3.4 修改localremoveChess逻辑
+
+**修改前（Control.java）**：
+```java
+public void localremoveChess() {
+    if (NetHelper.getInstance().isSpectator()) {
+        JOptionPane.showMessageDialog(null, "您是观众，无法悔棋！");
+        return;
+    }
+    
+    if (!netMode) {
+        Model.getInstance().back();
+    } else {
+        netModeremoveChess();
+    }
+}
+```
+
+**修改后（Control.java）**：
+```java
+public void localremoveChess() {
+    // 只有在连接状态下，观众才不能悔棋
+    if (NetHelper.getInstance().isConnected() && NetHelper.getInstance().isSpectator()) {
+        JOptionPane.showMessageDialog(null, "您是观众，无法悔棋！");
+        return;
+    }
+    
+    // 未连接时，使用本地模式；连接时使用网络模式
+    if (!netMode && !NetHelper.getInstance().isConnected()) {
+        Model.getInstance().back();
+    } else {
+        netModeremoveChess();
+    }
+}
+```
+
+#### 5.3.5 添加resetNetMode方法
+
+**新增方法（Control.java）**：
+```java
+public void resetNetMode() {
+    this.netMode = false;           // 重置为非网络模式
+    this.allowPutChess = true;      // 允许下棋
+    this.localColor = Model.Black;  // 重置颜色为黑棋
+    this.otherColor = Model.white;  // 重置对方颜色
+}
+```
+
+**调用位置（NetPanel.java）**：
+```java
+disconnectButton.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent arg0) {
+        NetHelper.getInstance().disconnect();
+        Control.getInstance().resetNetMode();  // 调用重置方法
+        // ...
+    }
+});
+```
+
+### 5.4 修复后的逻辑流程
+
+**观众离开房间后：**
+
+1. 用户点击"断开连接"按钮
+2. `NetHelper.disconnect()` 被调用：
+   - `isConnected = false`
+   - `myRole = ROLE_SPECTATOR`（重置为默认值）
+   - 关闭Socket连接
+   - 如果是房间主人，停止服务器
+
+3. `Control.resetNetMode()` 被调用：
+   - `netMode = false`
+   - `allowPutChess = true`
+   - `localColor = Black`
+   - `otherColor = white`
+
+4. 用户点击棋盘：
+   - `isAllowPutChess()` 检查：
+     - `isConnected()` 返回 `false`
+     - 不检查 `isSpectator()`
+     - 返回 `true`
+   - `localPutChess()` 检查：
+     - `isConnected()` 返回 `false`
+     - 不显示"您是观众，无法下棋！"提示
+     - 进入本地模式下棋逻辑
+   - 成功下棋！
+
+### 5.5 状态对比
+
+| 状态 | isConnected | myRole | netMode | allowPutChess | 能否下棋 |
+|------|-------------|--------|---------|---------------|---------|
+| 连接前（默认） | false | SPECTATOR | false | true | ✓ |
+| 作为观众连接 | true | SPECTATOR | true | false | ✗ |
+| 作为玩家连接 | true | PLAYER | true | 交替 | ✓ |
+| 断开连接后 | false | SPECTATOR | false | true | ✓ |
+
+---
+
+## 六、修复的文件清单汇总
+
+| 文件名 | Bug-001 | Bug-002 | Bug-003 | Bug-004 |
+|--------|---------|---------|---------|---------|
+| `Main.java` | ✓ | - | - | - |
+| `Chatpanl.java` | ✓ | - | - | - |
+| `ChessPanel.java` | ✓ | - | - | - |
+| `NetPanel.java` | - | - | ✓（添加端口输入框） | ✓（调用resetNetMode） |
+| `NetHelper.java` | - | ✓（消息格式） | ✓（动态端口） | ✓（重置myRole） |
+| `RoomServer.java` | - | - | ✓（动态端口） | - |
+| `Control.java` | - | ✓（颜色参数） | - | ✓（逻辑修复、resetNetMode） |
+
+---
+
+## 七、编译验证
+
+### 7.1 编译命令
 ```bash
 cd "c:\Users\Ha ha\tare0328\Ajava-program\java_class_work\Fivechese\src"
 javac -encoding UTF-8 -d "../bin" five/edu/cn/*.java
 ```
 
-### 4.2 编译结果
+### 7.2 编译结果
 ```
 编译成功，无错误输出
 退出码: 0
 ```
 
-### 4.3 生成的class文件
-编译成功后，在`bin/five/edu/cn/`目录下生成以下class文件：
-- `ClientInfo.class`
-- `RoomServer.class`
-- `RoomServer$ClientHandler.class`
-- `NetHelper.class`
-- `NetHelper$1.class` (读取线程)
-- `Control.class`
-- `NetPanel.class`
-- `NetPanel$1.class` (创建房间按钮监听器)
-- `NetPanel$2.class` (加入房间按钮监听器)
-- `NetPanel$3.class` (断开连接按钮监听器)
-- `Main.class`
-- `Chatpanl.class`
-- `Chatpanl$1.class` (组件监听器)
-- `Chatpanl$2.class` (按钮监听器线程)
-- `Chatpanl$2$1.class` (按钮监听器)
-- `ChessPanel.class`
-- `ChessPanel$1.class` ~ `ChessPanel$7.class` (各种监听器)
-- `Model.class`
-- `Chess.class`
-- `BackGroundMusic.class`
-- 其他原有class文件
+---
+
+## 八、测试验证
+
+### 8.1 功能测试要点
+
+#### 8.1.1 多房间测试（Bug-003）
+
+1. **创建多个房间**：
+   - 实例A：用户名"玩家1"，端口"8900" → 点击"创建房间" ✓
+   - 实例B：用户名"玩家2"，端口"8901" → 点击"创建房间" ✓
+   - 验证：两个实例都显示"角色：黑棋玩家"
+
+2. **加入指定房间**：
+   - 实例C：用户名"观众1"，IP"localhost"，端口"8900" → 点击"加入房间"
+   - 验证：显示"角色：观众"，加入的是8900端口的房间 ✓
+
+3. **跨房间聊天隔离**：
+   - 实例A（8900端口）发送消息"你好，我在8900房间"
+   - 实例B（8901端口）不应该收到这条消息 ✓
+
+#### 8.1.2 观众离开后下棋测试（Bug-004）
+
+1. **作为观众加入**：
+   - 输入用户名，端口，点击"加入房间"
+   - 验证：显示"角色：观众" ✓
+
+2. **观众不能下棋**：
+   - 点击棋盘 → 显示"您是观众，无法下棋！"提示 ✓
+
+3. **断开连接**：
+   - 点击"断开连接"按钮
+   - 验证：显示"角色：未连接"，状态：未连接 ✓
+
+4. **恢复本地下棋**：
+   - 点击棋盘 → 成功下棋 ✓
+   - 交替下黑白棋 ✓
+   - 点击"悔棋"按钮 → 成功悔棋 ✓
+
+#### 8.1.3 端口号验证测试
+
+1. **有效端口号**：
+   - 输入端口"8900" → 成功创建/加入房间 ✓
+
+2. **无效端口号（<1024）**：
+   - 输入端口"80" → 显示"端口号必须在1024-65535之间！" ✓
+
+3. **无效端口号（>65535）**：
+   - 输入端口"70000" → 显示"端口号必须在1024-65535之间！" ✓
+
+4. **非数字端口号**：
+   - 输入端口"abc" → 显示"请输入有效的端口号！" ✓
 
 ---
 
-## 五、修复总结
+## 九、附录：新增UI布局
 
-### 5.1 修复的文件清单
+### 9.1 新的网络面板布局
 
-| 文件名 | 修复内容 | 修复类型 |
-|--------|---------|---------|
-| `Main.java` | 窗口标题"五子棋" | 编码转换 |
-| `Chatpanl.java` | 按钮"发送"、标签"消息显示区"、"请输入信息" | 编码转换 |
-| `ChessPanel.java` | 所有按钮文本、对话框消息、移除乱码注释 | 编码转换 |
-| `NetHelper.java` | 消息格式添加颜色信息、解析逻辑修改 | 逻辑修复 |
-| `Control.java` | netOtherPutChess方法添加颜色参数 | 逻辑修复 |
-
-### 5.2 Bug-001 根本原因
-
-1. **历史遗留问题**：原始项目使用GBK编码，这是Eclipse等旧版Java IDE在中文Windows系统下的默认编码
-2. **新开发环境**：现代IDE和代码编辑器默认使用UTF-8编码
-3. **缺乏编码规范**：项目没有统一的编码规范，导致不同时期开发的文件编码不一致
-
-### 5.3 Bug-002 根本原因
-
-1. **消息格式缺陷**：原消息格式`PutChess:row,col`不包含颜色信息
-2. **颜色猜测错误**：接收方根据本地`list.size()`猜测颜色，在服务器广播机制下可能出错
-3. **服务器广播机制**：服务器将消息广播给所有客户端（包括发送者自己），导致逻辑混乱
-
-### 5.4 预防措施
-
-1. **统一编码标准**：所有Java源文件必须使用UTF-8编码保存
-2. **IDE配置**：
-   - Eclipse: `Window` → `Preferences` → `General` → `Workspace` → `Text file encoding` → 选择 `UTF-8`
-   - IntelliJ IDEA: `File` → `Settings` → `Editor` → `File Encodings` → 全部设置为 `UTF-8`
-3. **编译参数**：始终使用 `javac -encoding UTF-8` 进行编译
-4. **消息设计**：网络消息应该包含完整的信息，避免接收方猜测
-5. **版本控制**：在.gitattributes中指定编码（如果使用Git）
-
----
-
-## 六、测试结果
-
-### 6.1 功能测试要点
-
-1. **创建房间**：
-   - 输入用户名，点击"创建房间"
-   - 验证角色显示为"黑棋玩家"
-   - 验证聊天区显示角色信息
-
-2. **加入房间**：
-   - 另一实例输入用户名和服务器IP
-   - 点击"加入房间"
-   - 第二个连接验证角色为"白棋玩家"
-   - 第三个及以后连接验证角色为"观众"
-
-3. **下棋测试（关键修复验证）**：
-   - 黑棋玩家可以下棋 ✓
-   - 白棋玩家等待黑棋下完后才能下 ✓
-   - 黑棋玩家等待白棋下完后可以继续下 ✓
-   - 双方可以交替下棋直到游戏结束 ✓
-   - 观众点击棋盘时显示"您是观众，无法下棋！"提示 ✓
-
-4. **聊天测试**：
-   - 所有用户（玩家和观众）都可以发送消息
-   - 消息格式显示为`[用户名]: 消息内容`
-
-5. **棋局同步**：
-   - 已有对战进行时加入的观众
-   - 验证棋盘自动同步到当前状态
-   - 验证聊天区显示"已同步历史棋局"
-
-### 6.2 测试环境
-
-- **操作系统**: Windows 10/11
-- **Java版本**: JDK 8 或更高
-- **编译参数**: `javac -encoding UTF-8`
-- **运行命令**: `java -cp bin five.edu.cn.Main`
-
----
-
-## 七、附录：编码知识
-
-### 7.1 GBK vs UTF-8
-
-| 特性 | GBK | UTF-8 |
-|------|-----|-------|
-| 字节数 | 中文2字节，英文1字节 | 中文3字节，英文1字节 |
-| 适用范围 | 简体中文 | 全球所有语言 |
-| 现代兼容性 | 较差（Windows历史遗留） | 优秀（互联网标准） |
-| Java编译支持 | 需要`-encoding GBK` | 需要`-encoding UTF-8` |
-
-### 7.2 如何检测文件编码
-
-在Windows下，可以使用以下方法：
-1. 使用Notepad++打开文件，查看右下角编码显示
-2. 使用VS Code打开文件，查看右下角编码显示
-3. 使用命令行工具如`chardetect`（Python库）
-
-### 7.3 如何转换编码
-
-**使用PowerShell转换GBK到UTF-8**：
-```powershell
-Get-Content -Path "old.java" -Encoding Default | Set-Content -Path "new.java" -Encoding UTF8
+```
++------------------------------------------------------------------+
+| 用户名: [玩家123  ]  服务器IP: [localhost   ]  端口: [8900 ]  |
+| [创建房间] [加入房间] [断开连接]  角色: 未连接  状态: 未连接  |
++------------------------------------------------------------------+
 ```
 
-**使用Java代码转换**：
-```java
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+### 9.2 组件说明
 
-public class EncodingConverter {
-    public static void main(String[] args) throws Exception {
-        Path source = Paths.get("gbk_file.java");
-        Path target = Paths.get("utf8_file.java");
-        
-        byte[] content = Files.readAllBytes(source);
-        String contentStr = new String(content, Charset.forName("GBK"));
-        
-        Files.write(target, contentStr.getBytes(Charset.forName("UTF-8")));
-    }
-}
-```
+| 组件 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| 用户名 | JTextField | 随机生成如"玩家123" | 用户在房间中的昵称 |
+| 服务器IP | JTextField | "localhost" | 要连接的服务器地址 |
+| 端口 | JTextField | "8900" | 房间端口号（1024-65535） |
+| 创建房间 | JButton | - | 创建新房间并成为黑棋玩家 |
+| 加入房间 | JButton | - | 加入指定IP和端口的房间 |
+| 断开连接 | JButton | - | 断开连接并恢复本地模式 |
+| 角色 | JLabel | "角色: 未连接" | 显示当前角色 |
+| 状态 | JLabel | "状态: 未连接" | 显示连接状态 |
 
 ---
 
-**文档版本**: v2.0  
+## 十、根本原因总结
+
+| Bug编号 | 根本原因 | 修复策略 |
+|---------|---------|---------|
+| Bug-001 | GBK和UTF-8混合编码 | 统一转换为UTF-8 |
+| Bug-002 | 消息格式不包含颜色信息 | 消息格式改为`PutChess:row,col,color` |
+| Bug-003 | 端口号硬编码为8900 | 添加端口输入框，支持动态端口 |
+| Bug-004 | 断开连接后状态未重置 | 添加`resetNetMode()`，修改权限检查逻辑 |
+
+---
+
+**文档版本**: v3.0  
 **修复日期**: 2026-04-16  
 **修复状态**: 已完成并验证通过  
-**修复的问题**: 编码问题（Bug-001）、下棋逻辑问题（Bug-002）
+**修复的问题**: 编码问题（Bug-001）、下棋逻辑问题（Bug-002）、端口固定问题（Bug-003）、状态重置问题（Bug-004）

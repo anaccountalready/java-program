@@ -77,10 +77,13 @@ public class Control {
     }
     
     public boolean isAllowPutChess() {
-        if (NetHelper.getInstance().isSpectator()) {
+        if (NetHelper.getInstance().isConnected() && NetHelper.getInstance().isSpectator()) {
             return false;
         }
-        return allowPutChess;
+        if (NetHelper.getInstance().isConnected()) {
+            return allowPutChess;
+        }
+        return true;
     }
     
     public void setAllowPutChess(boolean allowPutChess) {
@@ -95,13 +98,20 @@ public class Control {
         this.netMode = netMode;
     }
     
+    public void resetNetMode() {
+        this.netMode = false;
+        this.allowPutChess = true;
+        this.localColor = Model.Black;
+        this.otherColor = Model.white;
+    }
+    
     public void localPutChess(int row, int col) {
-        if (NetHelper.getInstance().isSpectator()) {
+        if (NetHelper.getInstance().isConnected() && NetHelper.getInstance().isSpectator()) {
             JOptionPane.showMessageDialog(null, "您是观众，无法下棋！");
             return;
         }
         
-        if (!netMode) {
+        if (!netMode && !NetHelper.getInstance().isConnected()) {
             localModePutChess(row, col);
         } else {
             netModePutChess(row, col);
@@ -109,12 +119,12 @@ public class Control {
     }
     
     public void localremoveChess() {
-        if (NetHelper.getInstance().isSpectator()) {
+        if (NetHelper.getInstance().isConnected() && NetHelper.getInstance().isSpectator()) {
             JOptionPane.showMessageDialog(null, "您是观众，无法悔棋！");
             return;
         }
         
-        if (!netMode) {
+        if (!netMode && !NetHelper.getInstance().isConnected()) {
             Model.getInstance().back();
         } else {
             netModeremoveChess();
