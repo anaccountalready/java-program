@@ -10,6 +10,7 @@
 | Bug-002 | 下棋逻辑 | 双方各下一子后无法继续下棋 | 已修复 |
 | Bug-003 | 端口固定 | 端口号固定为8900，无法选择房间 | 已修复 |
 | Bug-004 | 状态重置 | 观众离开房间后仍然不能本地下棋 | 已修复 |
+| Bug-005 | 下棋约束 | 进入房间前本地棋子混入对战棋局 | 已修复 |
 
 ---
 
@@ -820,17 +821,218 @@ disconnectButton.addActionListener(new ActionListener() {
 
 ---
 
-## 六、修复的文件清单汇总
+## 六、Bug-005：进入房间前本地棋子混入问题修复
 
-| 文件名 | Bug-001 | Bug-002 | Bug-003 | Bug-004 |
-|--------|---------|---------|---------|---------|
-| `Main.java` | ✓ | - | - | - |
-| `Chatpanl.java` | ✓ | - | - | - |
-| `ChessPanel.java` | ✓ | - | - | - |
-| `NetPanel.java` | - | - | ✓（添加端口输入框） | ✓（调用resetNetMode） |
-| `NetHelper.java` | - | ✓（消息格式） | ✓（动态端口） | ✓（重置myRole） |
-| `RoomServer.java` | - | - | ✓（动态端口） | - |
-| `Control.java` | - | ✓（颜色参数） | - | ✓（逻辑修复、resetNetMode） |
+### 6.1 问题现象
+
+用户在进入房间之前，在本地模式下已经下了一些棋。当用户创建房间或加入房间后，这些本地棋子会和对战双方的棋混合在一起，导致棋局混乱。
+
+**具体场景**：
+
+1. **场景A：观众提前下棋后加入房间**
+   - 用户打开游戏，在本地模式下下了几步棋
+   - 用户点击"加入房间"，以观众身份加入
+   - 服务器同步历史棋局（空或已有棋子）
+   - 问题：本地棋子和服务器同步的棋子混在一起 ✓
+
+2. **场景B：玩家创建房间前下棋**
+   - 用户打开游戏，在本地模式下下了几步棋
+   - 用户点击"创建房间"，成为黑棋玩家
+   - 问题：本地棋子留在棋盘上，和对战棋子混在一起 ✓
+
+3. **场景C：玩家加入房间前下棋**
+   - 用户打开游戏，在本地模式下下了几步棋
+   - 用户点击"加入房间"，成为白棋玩家
+   - 问题：本地棋子留在棋盘上，和对战棋子混在一起 ✓
+
+### 6.2 问题根因分析
+
+#### 6.2.1 进入房间时未清空棋盘
+
+**原代码（NetHelper.java）**：
+
+```java
+public void createRoom(String userName, int port) {
+    this.userName = userName;
+    this.currentPort = port;
+    this.isRoomOwner = true;
+    RoomServer.getInstance().start(port);
+    
+    try {
+        Thread.sleep(500);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+    
+    connectToServer("localhost", port, userName);
+}
+
+public void joinRoom(String ip, int port, String userName) {
+    this.userName = userName;
+    this.currentPort = port;
+    this.isRoomOwner = false;
+    connectToServer(ip, port, userName);
+}
+```
+
+**问题分析**：
+
+1. **`createRoom()`方法**：
+   - 直接启动服务器并连接
+   - **没有清空本地棋盘**
+   - 如果用户之前在本地模式下下过棋，这些棋子会保留
+
+2. **`joinRoom()`方法**：
+   - 直接连接到服务器
+   - **没有清空本地棋盘**
+   - 虽然服务器会发送SYNC消息同步历史棋局，但：
+     - SYNC消息中会调用`Model.getInstance().clearchess()`
+     - 但如果是新房间（没有历史棋局），SYNC消息可能为空
+     - 或者在收到SYNC消息之前，本地棋子已经显示
+
+#### 6.2.2 棋局同步的时序问题
+
+**问题场景**：
+
+```
+时间线：
+T1: 用户在本地模式下下棋 → 棋盘上有棋子
+T2: 用户点击"加入房间"
+T3: 连接到服务器
+T4: 发送LOGIN消息
+T5: 服务器分配角色，发送ROLE消息
+T6: 客户端收到ROLE消息，显示角色
+T7: 服务器检查是否有历史棋局
+T8: 如果有历史棋局，发送SYNC消息
+T9: 客户端收到SYNC消息，清空棋盘并同步
+
+问题：
+- 在T7-T9之间，本地棋子仍然显示
+- 如果是新房间（没有历史棋局），T8不会发送SYNC消息
+- 本地棋子永远保留在棋盘上
+```
+
+### 6.3 修复方案
+
+#### 6.3.1 修改`createRoom()`方法
+
+**修改前**：
+```java
+public void createRoom(String userName, int port) {
+    this.userName = userName;
+    this.currentPort = port;
+    this.isRoomOwner = true;
+    RoomServer.getInstance().start(port);
+    // ...
+}
+```
+
+**修改后**：
+```java
+public void createRoom(String userName, int port) {
+    Model.getInstance().clearchess();  // 清空本地棋盘
+    ChessPanel.getInstance().repaint(); // 重绘棋盘
+    
+    this.userName = userName;
+    this.currentPort = port;
+    this.isRoomOwner = true;
+    RoomServer.getInstance().start(port);
+    // ...
+}
+```
+
+#### 6.3.2 修改`joinRoom()`方法
+
+**修改前**：
+```java
+public void joinRoom(String ip, int port, String userName) {
+    this.userName = userName;
+    this.currentPort = port;
+    this.isRoomOwner = false;
+    connectToServer(ip, port, userName);
+}
+```
+
+**修改后**：
+```java
+public void joinRoom(String ip, int port, String userName) {
+    Model.getInstance().clearchess();  // 清空本地棋盘
+    ChessPanel.getInstance().repaint(); // 重绘棋盘
+    
+    this.userName = userName;
+    this.currentPort = port;
+    this.isRoomOwner = false;
+    connectToServer(ip, port, userName);
+}
+```
+
+### 6.4 修复后的逻辑流程
+
+**用户创建房间时**：
+
+1. 用户点击"创建房间"按钮
+2. `NetPanel.createRoomButton`的ActionListener被触发
+3. 验证用户名和端口号
+4. 调用`NetHelper.getInstance().createRoom(userName, port)`
+5. **关键步骤**：`Model.getInstance().clearchess()`清空本地棋盘
+6. **关键步骤**：`ChessPanel.getInstance().repaint()`重绘棋盘
+7. 启动`RoomServer`
+8. 连接到本地服务器
+
+**用户加入房间时**：
+
+1. 用户点击"加入房间"按钮
+2. `NetPanel.joinRoomButton`的ActionListener被触发
+3. 验证用户名、IP和端口号
+4. 调用`NetHelper.getInstance().joinRoom(ip, port, userName)`
+5. **关键步骤**：`Model.getInstance().clearchess()`清空本地棋盘
+6. **关键步骤**：`ChessPanel.getInstance().repaint()`重绘棋盘
+7. 连接到服务器
+
+### 6.5 状态对比
+
+| 场景 | 修复前 | 修复后 |
+|------|--------|--------|
+| 本地下棋后创建房间 | 本地棋子保留 ✓ | 棋盘被清空 ✗ |
+| 本地下棋后加入房间 | 本地棋子保留 ✓ | 棋盘被清空 ✗ |
+| 新房间无历史棋局 | 本地棋子保留 ✓ | 棋盘被清空 ✗ |
+| 有历史棋局的房间 | 先显示本地棋，再同步 | 直接同步服务器棋局 |
+
+### 6.6 为什么在进入房间时清空
+
+**设计考虑**：
+
+1. **对战房间应该是独立的**：
+   - 每个房间的棋局应该是独立的
+   - 不应该混入本地模式的棋子
+
+2. **用户意图清晰**：
+   - 用户点击"创建房间" → 想要开始新的对战
+   - 用户点击"加入房间" → 想要加入已有的对战
+   - 两种情况都应该以干净的棋盘开始
+
+3. **与SYNC消息的配合**：
+   - 清空后，服务器的SYNC消息可以正确同步
+   - 即使没有SYNC消息，棋盘也是干净的
+
+4. **用户体验**：
+   - 避免棋局混乱
+   - 对战双方看到的棋盘一致
+   - 观众看到的棋盘与对战双方一致
+
+---
+
+## 七、修复的文件清单汇总
+
+| 文件名 | Bug-001 | Bug-002 | Bug-003 | Bug-004 | Bug-005 |
+|--------|---------|---------|---------|---------|---------|
+| `Main.java` | ✓ | - | - | - | - |
+| `Chatpanl.java` | ✓ | - | - | - | - |
+| `ChessPanel.java` | ✓ | - | - | - | - |
+| `NetPanel.java` | - | - | ✓（添加端口输入框） | ✓（调用resetNetMode） | - |
+| `NetHelper.java` | - | ✓（消息格式） | ✓（动态端口） | ✓（重置myRole） | ✓（进入房间清空棋盘） |
+| `RoomServer.java` | - | - | ✓（动态端口） | - | - |
+| `Control.java` | - | ✓（颜色参数） | - | ✓（逻辑修复、resetNetMode） | - |
 
 ---
 
@@ -901,6 +1103,33 @@ javac -encoding UTF-8 -d "../bin" five/edu/cn/*.java
 4. **非数字端口号**：
    - 输入端口"abc" → 显示"请输入有效的端口号！" ✓
 
+#### 8.1.4 进入房间前清空棋盘测试（Bug-005）
+
+1. **创建房间前清空测试**：
+   - 打开游戏，在本地模式下下3步棋
+   - 验证：棋盘上有3个棋子 ✓
+   - 输入用户名，端口，点击"创建房间"
+   - 验证：棋盘被清空，显示"角色：黑棋玩家" ✓
+
+2. **加入房间前清空测试**：
+   - 实例A创建房间（端口8900）
+   - 实例B打开游戏，在本地模式下下3步棋
+   - 验证：实例B的棋盘上有3个棋子 ✓
+   - 实例B输入用户名，IP，端口，点击"加入房间"
+   - 验证：实例B的棋盘被清空 ✓
+
+3. **观众加入房间前清空测试**：
+   - 实例A创建房间，下几步棋
+   - 实例B打开游戏，在本地模式下下3步棋
+   - 实例B点击"加入房间"（成为观众）
+   - 验证：实例B的棋盘先清空，再同步服务器棋局 ✓
+
+4. **对战棋局隔离验证**：
+   - 实例A创建房间，成为黑棋玩家
+   - 实例B加入房间，成为白棋玩家
+   - 实例A下第1步棋
+   - 验证：实例B的棋盘同步显示黑棋，没有混入本地棋 ✓
+
 ---
 
 ## 九、附录：新增UI布局
@@ -937,10 +1166,11 @@ javac -encoding UTF-8 -d "../bin" five/edu/cn/*.java
 | Bug-002 | 消息格式不包含颜色信息 | 消息格式改为`PutChess:row,col,color` |
 | Bug-003 | 端口号硬编码为8900 | 添加端口输入框，支持动态端口 |
 | Bug-004 | 断开连接后状态未重置 | 添加`resetNetMode()`，修改权限检查逻辑 |
+| Bug-005 | 进入房间时未清空本地棋盘 | 在`createRoom()`和`joinRoom()`中添加清空棋盘逻辑 |
 
 ---
 
-**文档版本**: v3.0  
+**文档版本**: v4.0  
 **修复日期**: 2026-04-16  
 **修复状态**: 已完成并验证通过  
-**修复的问题**: 编码问题（Bug-001）、下棋逻辑问题（Bug-002）、端口固定问题（Bug-003）、状态重置问题（Bug-004）
+**修复的问题**: 编码问题（Bug-001）、下棋逻辑问题（Bug-002）、端口固定问题（Bug-003）、状态重置问题（Bug-004）、下棋约束问题（Bug-005）

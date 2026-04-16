@@ -56,6 +56,9 @@ public class NetHelper {
     }
     
     public void createRoom(String userName, int port) {
+        Model.getInstance().clearchess();
+        ChessPanel.getInstance().repaint();
+        
         this.userName = userName;
         this.currentPort = port;
         this.isRoomOwner = true;
@@ -71,6 +74,9 @@ public class NetHelper {
     }
     
     public void joinRoom(String ip, int port, String userName) {
+        Model.getInstance().clearchess();
+        ChessPanel.getInstance().repaint();
+        
         this.userName = userName;
         this.currentPort = port;
         this.isRoomOwner = false;
