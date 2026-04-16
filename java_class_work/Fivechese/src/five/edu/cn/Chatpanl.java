@@ -24,7 +24,7 @@ import javax.swing.JTextField;
 public class Chatpanl extends JPanel {
 private static Chatpanl instance=new Chatpanl();
 private JScrollPane scrollpane=new JScrollPane();
-private JButton snebt=new JButton("����");
+private JButton snebt=new JButton("发送");
 private JTextField writeboard=new JTextField();
 public JTextArea readboard=new JTextArea();
 private JPanel pane1=new JPanel();
@@ -59,10 +59,10 @@ private Chatpanl() {
 		}
 	}.start();
 	setLayout(new BorderLayout());
-	pane1.add(new JLabel("��Ϣ��ʾ��"));
+	pane1.add(new JLabel("消息显示区"));
     scrollpane.setViewportView(readboard);
     pane1.add(scrollpane);
-	pane2.add(new JLabel("���������"));
+	pane2.add(new JLabel("请输入信息"));
 	pane2.add(writeboard,BorderLayout.WEST);
 	pane2.add(snebt,BorderLayout.EAST);
 	add(pane2,BorderLayout.SOUTH);
@@ -74,7 +74,7 @@ public static Chatpanl getInstance(){
 }
 protected void paintComponent(Graphics g) {
 	  super.paintComponent(g);
-	
+
 	g.drawImage(imageIcon, 0, 0, this.getWidth(), this.getHeight(), this);
 	 
 	}

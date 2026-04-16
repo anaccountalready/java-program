@@ -24,15 +24,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class ChessPanel extends JPanel{
-	private int gap=50;//jiange
+	private int gap=50;
 	private int unit=10;
-	private int lx=10;//�������Ͻǵ�����
+	private int lx=10;
 	private int ly=10;
 	Image imageIcon=new ImageIcon("painting/view.jpg").getImage();
 private static ChessPanel instance=new ChessPanel();
 private ChessPanel(){
 	
-	JButton backbt=new JButton("����");
+	JButton backbt=new JButton("悔棋");
 	add(backbt);
 	backbt.addActionListener(new ActionListener() {
 		
@@ -43,14 +43,14 @@ private ChessPanel(){
 			repaint();
 		}
 	});
-	JButton startbt=new JButton("���¿�ʼ��Ϸ");
+	JButton startbt=new JButton("重新开始游戏");
 	add(startbt);
     startbt.addActionListener(new ActionListener() {
 		
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			// TODO Auto-generated method stub
-			int choice = JOptionPane.showConfirmDialog(null,"�Ƿ����¿�ʼ��Ϸ","���¿�ʼ��Ϸ",JOptionPane.OK_CANCEL_OPTION);
+			int choice = JOptionPane.showConfirmDialog(null,"是否重新开始游戏","重新开始游戏",JOptionPane.OK_CANCEL_OPTION);
 			if(choice == JOptionPane.OK_OPTION) {
 				Model.getInstance().clearchess();
 				repaint();
@@ -59,7 +59,7 @@ private ChessPanel(){
 			}
 		}
 	});
-    JButton startbt1=new JButton("��ʼ��Ϸ");
+    JButton startbt1=new JButton("开始游戏");
     add(startbt1);
     startbt1.addActionListener(new ActionListener() {
 		
@@ -73,21 +73,21 @@ private ChessPanel(){
 			
 		}
 	});
-	JButton endbt=new JButton("�˳���Ϸ");
+	JButton endbt=new JButton("退出游戏");
 	add(endbt);
 	endbt.addActionListener(new ActionListener() {
 		
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			// TODO Auto-generated method stub
-			int choice = JOptionPane.showConfirmDialog(null,"�Ƿ��˳���Ϸ","�˳���Ϸ",JOptionPane.OK_CANCEL_OPTION);
+			int choice = JOptionPane.showConfirmDialog(null,"是否退出游戏","退出游戏",JOptionPane.OK_CANCEL_OPTION);
 			if(choice == JOptionPane.OK_OPTION) {
 				System.exit(0);
 			}
 					
 		}
 	});
-	JButton fuPan=new JButton("����");
+	JButton fuPan=new JButton("复盘");
 	add(fuPan);
 	fuPan.addActionListener(new ActionListener() {
 		
@@ -127,11 +127,11 @@ private ChessPanel(){
 			unit=(min-2*gap)/(Model.width-1);
 			lx=(width-18*unit)/2;
 			ly=(height-18*unit)/2;
-		    repaint();//�Զ�����paintcomponent����
+		    repaint();
 		}
 	});
 
-	
+
 addMouseListener(new MouseAdapter() {
 	@Override
 	public void mousePressed(MouseEvent e) {

@@ -12,7 +12,7 @@ import javax.swing.JFrame;
 public class Main {
 	
 public static void main(String a[]){
-	JFrame f=new JFrame("ŒÂ◊”∆Â");
+	JFrame f=new JFrame("‰∫îÂ≠êÊ£ã");
 	f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	f.getContentPane().setLayout(new BorderLayout());
 	f.getContentPane().add(ChessPanel.getInstance(),BorderLayout.CENTER);
@@ -24,8 +24,8 @@ new Thread(){public void run(){
 	new BackGroundMusic();
 	BackGroundMusic.main(null);
 }}.start();	
-	
-	
+
+
 }
 
 }
