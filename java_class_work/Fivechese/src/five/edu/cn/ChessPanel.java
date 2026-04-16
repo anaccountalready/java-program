@@ -26,13 +26,13 @@ import javax.swing.JPanel;
 public class ChessPanel extends JPanel{
 	private int gap=50;//jiange
 	private int unit=10;
-	private int lx=10;//ÆåÅÌ×óÉÏ½ÇµÄ×ø±ê
+	private int lx=10;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï½Çµï¿½ï¿½ï¿½ï¿½ï¿½
 	private int ly=10;
 	Image imageIcon=new ImageIcon("painting/view.jpg").getImage();
 private static ChessPanel instance=new ChessPanel();
 private ChessPanel(){
 	
-	JButton backbt=new JButton("»ÚÆå");
+	JButton backbt=new JButton("ï¿½ï¿½ï¿½ï¿½");
 	add(backbt);
 	backbt.addActionListener(new ActionListener() {
 		
@@ -43,14 +43,14 @@ private ChessPanel(){
 			repaint();
 		}
 	});
-	JButton startbt=new JButton("ÖØÐÂ¿ªÊ¼ÓÎÏ·");
+	JButton startbt=new JButton("ï¿½ï¿½ï¿½Â¿ï¿½Ê¼ï¿½ï¿½Ï·");
 	add(startbt);
     startbt.addActionListener(new ActionListener() {
 		
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			// TODO Auto-generated method stub
-			int choice = JOptionPane.showConfirmDialog(null,"ÊÇ·ñÖØÐÂ¿ªÊ¼ÓÎÏ·","ÖØÐÂ¿ªÊ¼ÓÎÏ·",JOptionPane.OK_CANCEL_OPTION);
+			int choice = JOptionPane.showConfirmDialog(null,"ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Â¿ï¿½Ê¼ï¿½ï¿½Ï·","ï¿½ï¿½ï¿½Â¿ï¿½Ê¼ï¿½ï¿½Ï·",JOptionPane.OK_CANCEL_OPTION);
 			if(choice == JOptionPane.OK_OPTION) {
 				Model.getInstance().clearchess();
 				repaint();
@@ -59,7 +59,7 @@ private ChessPanel(){
 			}
 		}
 	});
-    JButton startbt1=new JButton("¿ªÊ¼ÓÎÏ·");
+    JButton startbt1=new JButton("ï¿½ï¿½Ê¼ï¿½ï¿½Ï·");
     add(startbt1);
     startbt1.addActionListener(new ActionListener() {
 		
@@ -73,21 +73,21 @@ private ChessPanel(){
 			
 		}
 	});
-	JButton endbt=new JButton("ÍË³öÓÎÏ·");
+	JButton endbt=new JButton("ï¿½Ë³ï¿½ï¿½ï¿½Ï·");
 	add(endbt);
 	endbt.addActionListener(new ActionListener() {
 		
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			// TODO Auto-generated method stub
-			int choice = JOptionPane.showConfirmDialog(null,"ÊÇ·ñÍË³öÓÎÏ·","ÍË³öÓÎÏ·",JOptionPane.OK_CANCEL_OPTION);
+			int choice = JOptionPane.showConfirmDialog(null,"ï¿½Ç·ï¿½ï¿½Ë³ï¿½ï¿½ï¿½Ï·","ï¿½Ë³ï¿½ï¿½ï¿½Ï·",JOptionPane.OK_CANCEL_OPTION);
 			if(choice == JOptionPane.OK_OPTION) {
 				System.exit(0);
 			}
 					
 		}
 	});
-	JButton fuPan=new JButton("¸´ÅÌ");
+	JButton fuPan=new JButton("ï¿½ï¿½ï¿½ï¿½");
 	add(fuPan);
 	fuPan.addActionListener(new ActionListener() {
 		
@@ -127,7 +127,7 @@ private ChessPanel(){
 			unit=(min-2*gap)/(Model.width-1);
 			lx=(width-18*unit)/2;
 			ly=(height-18*unit)/2;
-		    repaint();//×Ô¶¯µ÷ÓÃpaintcomponent£¨£©
+		    repaint();//ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½paintcomponentï¿½ï¿½ï¿½ï¿½
 		}
 	});
 

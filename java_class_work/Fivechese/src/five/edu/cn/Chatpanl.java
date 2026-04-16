@@ -24,7 +24,7 @@ import javax.swing.JTextField;
 public class Chatpanl extends JPanel {
 private static Chatpanl instance=new Chatpanl();
 private JScrollPane scrollpane=new JScrollPane();
-private JButton snebt=new JButton("·¢ËÍ");
+private JButton snebt=new JButton("ï¿½ï¿½ï¿½ï¿½");
 private JTextField writeboard=new JTextField();
 public JTextArea readboard=new JTextArea();
 private JPanel pane1=new JPanel();
@@ -59,10 +59,10 @@ private Chatpanl() {
 		}
 	}.start();
 	setLayout(new BorderLayout());
-	pane1.add(new JLabel("ÏûÏ¢ÏÔÊ¾¿ò"));
+	pane1.add(new JLabel("ï¿½ï¿½Ï¢ï¿½ï¿½Ê¾ï¿½ï¿½"));
     scrollpane.setViewportView(readboard);
     pane1.add(scrollpane);
-	pane2.add(new JLabel("ÁÄÌìÊäÈë¿ò"));
+	pane2.add(new JLabel("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"));
 	pane2.add(writeboard,BorderLayout.WEST);
 	pane2.add(snebt,BorderLayout.EAST);
 	add(pane2,BorderLayout.SOUTH);

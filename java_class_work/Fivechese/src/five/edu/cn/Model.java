@@ -40,7 +40,7 @@ if(row>=0&&row<width&&col>=0&&col<width)return data[row][col];
 public int judge(){
 	int m=data[lastrow][lastcol];
 	int num=1;
-	//Í¬Ò»ÐÐ
+	//Í¬Ò»ï¿½ï¿½
 	for(int i=lastcol+1;i<width;i++){
 		if(data[lastrow][i]==m){num++;
 	if(num==5)return m;
@@ -64,7 +64,7 @@ public int judge(){
 		if(num==5)return m;}
 		else break;
 	}
-	//leftÐ±Ïß
+	//leftÐ±ï¿½ï¿½
 	num=1;
 	for(int i=lastrow-1, j=lastcol-1;i>=0&&j>=0;i--,j--){
 		if(data[i][j]==m){num++;
@@ -76,7 +76,7 @@ public int judge(){
 		if(num==5)return m;}
 		else break;
 	}
-	//ÓÒÐ±Ïß
+	//ï¿½ï¿½Ð±ï¿½ï¿½
 	num=1;
 	for(int i=lastrow-1, j=lastcol+1;i>=0&&j<width;i--,j++){
 		if(data[i][j]==m){num++;
@@ -88,7 +88,7 @@ public int judge(){
 		if(num==5)return m;}
 		else break;
 	}
-	return Space;//Ã»ÈËÓ®
+	return Space;//Ã»ï¿½ï¿½Ó®
 }
 public void clearchess(){
 	list=new LinkedList<>();
@@ -96,13 +96,14 @@ public void clearchess(){
 	ChessPanel.getInstance().repaint();
 }
 public void back(){
-	int row1=list.getLast().row;
-	int col1=list.getLast().col;
-	data[row1][col1]=Space;
-	list.removeLast();
-	int row=list.getLast().row;
-	int col=list.getLast().col;
-	data[row][col]=Space;
-	list.removeLast();
+    if(list.size() < 2) return;
+    int row1=list.getLast().row;
+    int col1=list.getLast().col;
+    data[row1][col1]=Space;
+    list.removeLast();
+    int row=list.getLast().row;
+    int col=list.getLast().col;
+    data[row][col]=Space;
+    list.removeLast();
 }
 }
