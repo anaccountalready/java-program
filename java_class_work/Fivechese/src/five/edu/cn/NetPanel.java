@@ -38,6 +38,7 @@ public class NetPanel extends JPanel {
     private static NetPanel instance = new NetPanel();
 
     private NetPanel() {
+        setOpaque(true);
         setBackground(PANEL_BG);
         setLayout(new FlowLayout(FlowLayout.LEFT, 10, 8));
         setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));

@@ -20,22 +20,21 @@ public class Main {
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         BackgroundPanel backgroundPanel = new BackgroundPanel();
-        backgroundPanel.setLayout(new BorderLayout());
+        backgroundPanel.setLayout(new BorderLayout(5, 5));
         
         ChessPanel chessPanel = ChessPanel.getInstance();
         NetPanel netPanel = NetPanel.getInstance();
         Chatpanl chatPanel = Chatpanl.getInstance();
         
         chessPanel.setOpaque(false);
-        netPanel.setOpaque(false);
         chatPanel.setOpaque(false);
         
-        backgroundPanel.add(chessPanel, BorderLayout.CENTER);
         backgroundPanel.add(netPanel, BorderLayout.NORTH);
+        backgroundPanel.add(chessPanel, BorderLayout.CENTER);
         backgroundPanel.add(chatPanel, BorderLayout.EAST);
         
         f.setContentPane(backgroundPanel);
-        f.setSize(1000, 700);
+        f.setSize(1100, 750);
         f.setLocationRelativeTo(null);
         f.setVisible(true);
         
