@@ -10,46 +10,58 @@ import java.awt.RenderingHints;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.border.LineBorder;
 
 public class Main {
 
     public static void main(String a[]) {
         JFrame f = new JFrame("🎮 五子棋对战");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.setLayout(new BorderLayout(0, 0));
         
-        BackgroundPanel backgroundPanel = new BackgroundPanel();
-        backgroundPanel.setLayout(new BorderLayout(5, 5));
+        JPanel mainPanel = new JPanel(new BorderLayout(0, 0));
+        mainPanel.setBackground(new Color(210, 180, 140));
+        
+        NetPanel netPanel = NetPanel.getInstance();
+        netPanel.setBorder(new LineBorder(new Color(101, 67, 33), 2, true));
+        netPanel.setOpaque(true);
+        netPanel.setBackground(new Color(139, 90, 43));
+        netPanel.setPreferredSize(new Dimension(1000, 60));
+        netPanel.setMinimumSize(new Dimension(800, 60));
         
         ChessPanel chessPanel = ChessPanel.getInstance();
-        NetPanel netPanel = NetPanel.getInstance();
-        Chatpanl chatPanel = Chatpanl.getInstance();
-        
         chessPanel.setOpaque(false);
-        chatPanel.setOpaque(false);
-        
-        chessPanel.setPreferredSize(new Dimension(700, 600));
+        chessPanel.setPreferredSize(new Dimension(750, 650));
         
         JScrollPane chessScrollPane = new JScrollPane(chessPanel);
         chessScrollPane.setOpaque(false);
         chessScrollPane.getViewport().setOpaque(false);
-        chessScrollPane.setBorder(null);
+        chessScrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         chessScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         chessScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         chessScrollPane.getVerticalScrollBar().setUnitIncrement(16);
         chessScrollPane.getHorizontalScrollBar().setUnitIncrement(16);
+        chessScrollPane.setBackground(new Color(210, 180, 140));
         
-        backgroundPanel.add(netPanel, BorderLayout.NORTH);
-        backgroundPanel.add(chessScrollPane, BorderLayout.CENTER);
-        backgroundPanel.add(chatPanel, BorderLayout.EAST);
+        Chatpanl chatPanel = Chatpanl.getInstance();
+        chatPanel.setOpaque(true);
+        chatPanel.setBackground(new Color(245, 222, 179));
+        chatPanel.setBorder(new LineBorder(new Color(139, 90, 43), 2, true));
+        chatPanel.setPreferredSize(new Dimension(280, 600));
         
-        f.setContentPane(backgroundPanel);
-        f.setSize(1150, 800);
-        f.setMinimumSize(new Dimension(900, 600));
+        mainPanel.add(netPanel, BorderLayout.NORTH);
+        mainPanel.add(chessScrollPane, BorderLayout.CENTER);
+        mainPanel.add(chatPanel, BorderLayout.EAST);
+        
+        f.add(mainPanel, BorderLayout.CENTER);
+        f.setSize(1200, 850);
+        f.setMinimumSize(new Dimension(1000, 700));
         f.setLocationRelativeTo(null);
         f.setVisible(true);
         
@@ -59,59 +71,6 @@ public class Main {
                 BackGroundMusic.main(null);
             }
         }.start();
-    }
-}
-
-class BackgroundPanel extends JPanel {
-    private static final long serialVersionUID = 1L;
-    private Image backgroundImage;
-    private Image scaledImage;
-
-    public BackgroundPanel() {
-        setOpaque(true);
-        try {
-            backgroundImage = new ImageIcon("painting/view.jpg").getImage();
-            if (backgroundImage != null && backgroundImage.getWidth(null) > 0) {
-                scaledImage = backgroundImage;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                if (backgroundImage != null) {
-                    int width = getWidth();
-                    int height = getHeight();
-                    if (width > 0 && height > 0) {
-                        scaledImage = backgroundImage.getScaledInstance(
-                            width, height, Image.SCALE_SMOOTH);
-                    }
-                }
-                repaint();
-            }
-        });
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        
-        if (scaledImage != null) {
-            g2d.drawImage(scaledImage, 0, 0, getWidth(), getHeight(), this);
-        } else {
-            java.awt.GradientPaint gradient = new java.awt.GradientPaint(
-                0, 0, new Color(139, 119, 101),
-                getWidth(), getHeight(), new Color(160, 120, 90));
-            g2d.setPaint(gradient);
-            g2d.fillRect(0, 0, getWidth(), getHeight());
-        }
     }
 }
 
