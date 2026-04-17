@@ -2,6 +2,7 @@ package five.edu.cn;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -12,6 +13,8 @@ import java.awt.event.ComponentEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 public class Main {
 
@@ -29,12 +32,24 @@ public class Main {
         chessPanel.setOpaque(false);
         chatPanel.setOpaque(false);
         
+        chessPanel.setPreferredSize(new Dimension(700, 600));
+        
+        JScrollPane chessScrollPane = new JScrollPane(chessPanel);
+        chessScrollPane.setOpaque(false);
+        chessScrollPane.getViewport().setOpaque(false);
+        chessScrollPane.setBorder(null);
+        chessScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        chessScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        chessScrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        chessScrollPane.getHorizontalScrollBar().setUnitIncrement(16);
+        
         backgroundPanel.add(netPanel, BorderLayout.NORTH);
-        backgroundPanel.add(chessPanel, BorderLayout.CENTER);
+        backgroundPanel.add(chessScrollPane, BorderLayout.CENTER);
         backgroundPanel.add(chatPanel, BorderLayout.EAST);
         
         f.setContentPane(backgroundPanel);
-        f.setSize(1100, 750);
+        f.setSize(1150, 800);
+        f.setMinimumSize(new Dimension(900, 600));
         f.setLocationRelativeTo(null);
         f.setVisible(true);
         

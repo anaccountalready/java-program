@@ -4,7 +4,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Insets;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -18,7 +21,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 public class NetPanel extends JPanel {
-    private static final Color PANEL_BG = new Color(139, 69, 19, 230);
+    private static final Color PANEL_BG = new Color(139, 69, 19);
     private static final Color BUTTON_BG = new Color(205, 133, 63);
     private static final Color BUTTON_FG = new Color(255, 248, 220);
     private static final Color BUTTON_HOVER_BG = new Color(222, 184, 135);
@@ -41,7 +44,9 @@ public class NetPanel extends JPanel {
         setOpaque(true);
         setBackground(PANEL_BG);
         setLayout(new FlowLayout(FlowLayout.LEFT, 10, 8));
-        setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+        setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
+        setPreferredSize(new Dimension(800, 55));
+        setMinimumSize(new Dimension(600, 55));
 
         setupStyledLabel("用户名:", 12);
         setupStyledTextField(nameTF, "玩家" + (int) (Math.random() * 1000));
