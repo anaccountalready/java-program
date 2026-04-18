@@ -1,0 +1,13 @@
+cn\nankai\edu\cn\Servelt.class
+cn\nankai\edu\cn\Stuscore.class
+cn\nankai\edu\cn\DelscoreServlet.class
+cn\nankai\edu\cn\show_stuServlet.class
+cn\nankai\edu\cn\Show_scoreServlet.class
+cn\nankai\edu\cn\AddstudentServlet.class
+cn\nankai\edu\cn\Classinfo.class
+cn\nankai\edu\cn\Avg_score.class
+cn\nankai\edu\cn\delstuServelet.class
+cn\nankai\edu\cn\Student.class
+cn\nankai\edu\cn\LoginAdminServlet.class
+cn\nankai\edu\cn\JDBCemo.class
+cn\nankai\edu\cn\Show_claServlet.class

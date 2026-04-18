@@ -1,0 +1,15 @@
+cn\nankai\edu\cn\BaseTest.class
+cn\nankai\edu\cn\IntegrationTest.class
+cn\nankai\edu\cn\JDBCOperationTest.class
+cn\nankai\edu\cn\LoginAdminServletTest.class
+cn\nankai\edu\cn\ServletIntegrationTest.class
+cn\nankai\edu\cn\Show_scoreServletTest.class
+cn\nankai\edu\cn\StudentTest.class
+cn\nankai\edu\cn\AddstudentServletTest.class
+cn\nankai\edu\cn\Show_claServletTest.class
+cn\nankai\edu\cn\StuscoreTest.class
+cn\nankai\edu\cn\Avg_scoreTest.class
+cn\nankai\edu\cn\show_stuServletTest.class
+cn\nankai\edu\cn\delstuServeletTest.class
+cn\nankai\edu\cn\ClassinfoTest.class
+cn\nankai\edu\cn\DelscoreServletTest.class
