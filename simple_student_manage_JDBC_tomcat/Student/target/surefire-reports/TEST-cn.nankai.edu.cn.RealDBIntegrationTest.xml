@@ -1,0 +1,838 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="cn.nankai.edu.cn.RealDBIntegrationTest" time="1.29" tests="5" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="17"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="C:\Users\Ha ha\tare0328\Ajava-program\simple_student_manage_JDBC_tomcat\Student\target\test-classes;C:\Users\Ha ha\tare0328\Ajava-program\simple_student_manage_JDBC_tomcat\Student\target\classes;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\javax\servlet\javax.servlet-api\4.0.1\javax.servlet-api-4.0.1.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\javax\servlet\jsp\javax.servlet.jsp-api\2.3.3\javax.servlet.jsp-api-2.3.3.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\com\mysql\mysql-connector-j\8.0.32\mysql-connector-j-8.0.32.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\com\google\protobuf\protobuf-java\3.21.9\protobuf-java-3.21.9.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\javax\servlet\jstl\1.2\jstl-1.2.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\org\junit\jupiter\junit-jupiter-api\5.9.2\junit-jupiter-api-5.9.2.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\org\junit\platform\junit-platform-commons\1.9.2\junit-platform-commons-1.9.2.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\org\junit\jupiter\junit-jupiter-engine\5.9.2\junit-jupiter-engine-5.9.2.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\org\junit\platform\junit-platform-engine\1.9.2\junit-platform-engine-1.9.2.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\org\junit\jupiter\junit-jupiter-params\5.9.2\junit-jupiter-params-5.9.2.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\org\mockito\mockito-core\4.11.0\mockito-core-4.11.0.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\net\bytebuddy\byte-buddy\1.12.19\byte-buddy-1.12.19.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\net\bytebuddy\byte-buddy-agent\1.12.19\byte-buddy-agent-1.12.19.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\org\mockito\mockito-junit-jupiter\4.11.0\mockito-junit-jupiter-4.11.0.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\com\h2database\h2\2.1.214\h2-2.1.214.jar;"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="https://java.oracle.com/"/>
+    <property name="user.timezone" value="Asia/Shanghai"/>
+    <property name="os.name" value="Windows 11"/>
+    <property name="java.vm.specification.version" value="17"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="CN"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-17.0.7\bin"/>
+    <property name="sun.java.command" value="C:\Users\Ha ha\AppData\Local\Temp\surefire9955874434660905936\surefirebooter-20260418164419632_3.jar C:\Users\Ha ha\AppData\Local\Temp\surefire9955874434660905936 2026-04-18T16-44-19_066-jvmRun1 surefire-20260418164419632_1tmp surefire_0-20260418164419632_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="test" value="RealDB*"/>
+    <property name="surefire.test.class.path" value="C:\Users\Ha ha\tare0328\Ajava-program\simple_student_manage_JDBC_tomcat\Student\target\test-classes;C:\Users\Ha ha\tare0328\Ajava-program\simple_student_manage_JDBC_tomcat\Student\target\classes;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\javax\servlet\javax.servlet-api\4.0.1\javax.servlet-api-4.0.1.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\javax\servlet\jsp\javax.servlet.jsp-api\2.3.3\javax.servlet.jsp-api-2.3.3.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\com\mysql\mysql-connector-j\8.0.32\mysql-connector-j-8.0.32.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\com\google\protobuf\protobuf-java\3.21.9\protobuf-java-3.21.9.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\javax\servlet\jstl\1.2\jstl-1.2.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\org\junit\jupiter\junit-jupiter-api\5.9.2\junit-jupiter-api-5.9.2.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\org\junit\platform\junit-platform-commons\1.9.2\junit-platform-commons-1.9.2.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\org\junit\jupiter\junit-jupiter-engine\5.9.2\junit-jupiter-engine-5.9.2.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\org\junit\platform\junit-platform-engine\1.9.2\junit-platform-engine-1.9.2.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\org\junit\jupiter\junit-jupiter-params\5.9.2\junit-jupiter-params-5.9.2.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\org\mockito\mockito-core\4.11.0\mockito-core-4.11.0.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\net\bytebuddy\byte-buddy\1.12.19\byte-buddy-1.12.19.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\net\bytebuddy\byte-buddy-agent\1.12.19\byte-buddy-agent-1.12.19.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\org\mockito\mockito-junit-jupiter\4.11.0\mockito-junit-jupiter-4.11.0.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\com\h2database\h2\2.1.214\h2-2.1.214.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\Ha ha"/>
+    <property name="user.language" value="zh"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2023-04-18"/>
+    <property name="java.home" value="C:\Program Files\Java\jdk-17.0.7"/>
+    <property name="file.separator" value="\"/>
+    <property name="basedir" value="C:\Users\Ha ha\tare0328\Ajava-program\simple_student_manage_JDBC_tomcat\Student"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="C:\Users\Ha ha\AppData\Local\Temp\surefire9955874434660905936\surefirebooter-20260418164419632_3.jar"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="17.0.7+8-LTS-224"/>
+    <property name="user.name" value="Ha ha"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="localRepository" value="C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory"/>
+    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+    <property name="java.io.tmpdir" value="C:\Users\Ha ha\AppData\Local\Temp\"/>
+    <property name="java.version" value="17.0.7"/>
+    <property name="user.dir" value="C:\Users\Ha ha\tare0328\Ajava-program\simple_student_manage_JDBC_tomcat\Student"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk-17.0.7\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\\Program Files\\Java\\jdk-17.0.7\\bin;C:\\Users\\Ha ha\\.trae-cn\\tools\\maven\\latest\\bin;C:\\Users\\Ha ha\\.trae-cn\\tools\\gradle\\latest\\bin;c:\\Users\\Ha ha\\.trae-cn\\tools\\trae-gopls\\current;c:\\Users\\Ha ha\\.trae-cn\\sdks\\workspaces\\b79e65ae\\versions\\node\\current;c:\\Users\\Ha ha\\.trae-cn\\sdks\\versions\\node\\current;C:\Program Files\Java\jdk-17.0.7\bin;C:\Users\Ha ha\.trae-cn\tools\maven\latest\bin;C:\Users\Ha ha\.trae-cn\tools\gradle\latest\bin;c:\Users\Ha ha\.trae-cn\tools\trae-gopls\current;c:\Users\Ha ha\.trae-cn\sdks\workspaces\b79e65ae\versions\node\current;c:\Users\Ha ha\.trae-cn\sdks\versions\node\current;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\Java\jdk-17.0.7\bin;C:\Program Files (x86)\NetSarang\Xshell 7\;C:\Program Files\MySQL\MySQL Server 8.0\bin\;C:\ProgramData\ComposerSetup\bin;C:\Users\Ha ha\Documents\apache-maven-3.9.6\apache-maven-3.9.6\bin;C:\Users\Ha ha\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files (x86)\NetSarang\Xftp 7\;C:\Program Files\Git\cmd;C:\Users\Ha ha\AppData\Local\Programs\Ollama;C:\Program Files\Tailscale\;C:\Program Files (x86)\NetSarang\Xftp 8\;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\Ha ha\AppData\Local\Microsoft\WindowsApps;C:\TDM-GCC-64\bin;C:\Program Files\MySQL\MySQL Server 8.0\bin\;C:\Users\Ha ha\AppData\Roaming\Composer\vendor\bin;C:\Users\Ha ha\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\Ha ha\AppData\Roaming\Programs\Zero Install;C:\texlive\2025\bin\windows;C:\Users\Ha ha\AppData\Local\Programs\Ollama;C:\Users\Ha ha\AppData\Local\Python\bin;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps;;."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.version" value="17.0.7+8-LTS-224"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="61.0"/>
+  </properties>
+  <testcase name="testJDBCemoServletFlow" classname="cn.nankai.edu.cn.RealDBIntegrationTest" time="0.555">
+    <system-out><![CDATA[[TEST-LOG][2026-04-18 16:44:21.026] ========================================
+[TEST-LOG][2026-04-18 16:44:21.039] 开始初始化真实数据库连接...
+[TEST-LOG][2026-04-18 16:44:21.040] 数据库URL: jdbc:mysql://localhost:3306/myc_test?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+[TEST-LOG][2026-04-18 16:44:21.040] 数据库用户: root
+[TEST-LOG][2026-04-18 16:44:21.041] 数据库密码: 123
+[TEST-LOG][2026-04-18 16:44:21.041] ========================================
+[TEST-LOG][2026-04-18 16:44:21.041] 正在加载MySQL驱动...
+[TEST-LOG][2026-04-18 16:44:21.068] MySQL驱动加载成功！
+[TEST-LOG][2026-04-18 16:44:21.069] 正在建立数据库连接...
+[TEST-LOG][2026-04-18 16:44:21.398] 数据库连接建立成功！
+[TEST-LOG][2026-04-18 16:44:21.398] 正在查询现有数据以确保外键约束...
+[TEST-LOG][2026-04-18 16:44:21.398] 查询class表中的现有数据...
+[TEST-LOG][2026-04-18 16:44:21.424] 找到现有班级: 计算机科学与技术一班
+[TEST-LOG][2026-04-18 16:44:21.424] 查询teacher表中的现有数据...
+[TEST-LOG][2026-04-18 16:44:21.429] 找到现有教师ID: 1
+[TEST-LOG][2026-04-18 16:44:21.429] 查询major表中的现有数据...
+[TEST-LOG][2026-04-18 16:44:21.432] 找到现有专业ID: 1
+[TEST-LOG][2026-04-18 16:44:21.432] 查询course表中的现有数据...
+[TEST-LOG][2026-04-18 16:44:21.434] 找到现有课程ID: 1
+[TEST-LOG][2026-04-18 16:44:21.434] 正在初始化JDBCemo静态变量...
+[TEST-LOG][2026-04-18 16:44:21.435] JDBCemo静态变量初始化完成！
+[TEST-LOG][2026-04-18 16:44:21.436] ========================================
+[TEST-LOG][2026-04-18 16:44:21.436] 真实数据库连接初始化完成！
+[TEST-LOG][2026-04-18 16:44:21.436] 现有班级: 计算机科学与技术一班
+[TEST-LOG][2026-04-18 16:44:21.437] 现有教师ID: 1
+[TEST-LOG][2026-04-18 16:44:21.437] 现有专业ID: 1
+[TEST-LOG][2026-04-18 16:44:21.438] 现有课程ID: 1
+[TEST-LOG][2026-04-18 16:44:21.438] ========================================
+[TEST-LOG][2026-04-18 16:44:21.472] ----------------------------------------
+[TEST-LOG][2026-04-18 16:44:21.473] 开始执行测试方法...
+[TEST-LOG][2026-04-18 16:44:21.473] ----------------------------------------
+[TEST-LOG][2026-04-18 16:44:21.474] ========================================
+[TEST-LOG][2026-04-18 16:44:21.474] 准备集成测试环境...
+[TEST-LOG][2026-04-18 16:44:21.474] ========================================
+[TEST-LOG][2026-04-18 16:44:21.474] 清理可能存在的旧测试数据...
+[TEST-LOG][2026-04-18 16:44:21.474] ========================================
+[TEST-LOG][2026-04-18 16:44:21.474] 执行数据库操作: 清理成绩数据
+[TEST-LOG][2026-04-18 16:44:21.474] SQL语句: DELETE FROM stucourse WHERE stuid IN (88001, 88002, 88003)
+[TEST-LOG][2026-04-18 16:44:21.474] ========================================
+[TEST-LOG][2026-04-18 16:44:21.477] ========================================
+[TEST-LOG][2026-04-18 16:44:21.477] 数据库操作结果: 清理成绩数据
+[TEST-LOG][2026-04-18 16:44:21.477] 影响行数: 0
+[TEST-LOG][2026-04-18 16:44:21.477] ========================================
+[TEST-LOG][2026-04-18 16:44:21.477] ========================================
+[TEST-LOG][2026-04-18 16:44:21.477] 执行数据库操作: 清理学生数据
+[TEST-LOG][2026-04-18 16:44:21.477] SQL语句: DELETE FROM student WHERE id IN (88001, 88002, 88003)
+[TEST-LOG][2026-04-18 16:44:21.477] ========================================
+[TEST-LOG][2026-04-18 16:44:21.484] ========================================
+[TEST-LOG][2026-04-18 16:44:21.484] 数据库操作结果: 清理学生数据
+[TEST-LOG][2026-04-18 16:44:21.484] 影响行数: 0
+[TEST-LOG][2026-04-18 16:44:21.485] ========================================
+[TEST-LOG][2026-04-18 16:44:21.485] ✓ 测试数据清理完成
+[TEST-LOG][2026-04-18 16:44:21.489] ========================================
+[TEST-LOG][2026-04-18 16:44:21.489] 集成测试5: 使用JDBCemo模拟Servlet操作流程
+[TEST-LOG][2026-04-18 16:44:21.490] ========================================
+[TEST-LOG][2026-04-18 16:44:21.490] ========================================
+[TEST-LOG][2026-04-18 16:44:21.490] 模拟AddstudentServlet添加学生
+[TEST-LOG][2026-04-18 16:44:21.491] ========================================
+[TEST-LOG][2026-04-18 16:44:21.491] 模拟构建INSERT SQL...
+[TEST-LOG][2026-04-18 16:44:21.513] ========================================
+[TEST-LOG][2026-04-18 16:44:21.523] 执行数据库操作: 模拟AddstudentServlet插入
+[TEST-LOG][2026-04-18 16:44:21.523] SQL语句: INSERT INTO student (id, name, sex, indate, claname, majorid, teaid) VALUES (77001, 'JDBCemo模拟添加_张三', '男', '2023-09-01', '计算机科学与技术一班', 1, 1)
+[TEST-LOG][2026-04-18 16:44:21.524] ========================================
+[TEST-LOG][2026-04-18 16:44:21.535] ✓ 模拟添加学生成功
+[TEST-LOG][2026-04-18 16:44:21.535] ========================================
+[TEST-LOG][2026-04-18 16:44:21.535] 模拟show_stuServlet查询学生
+[TEST-LOG][2026-04-18 16:44:21.535] ========================================
+[TEST-LOG][2026-04-18 16:44:21.535] 调用JDBCemo.select查询学生...
+SELECT * FROM student WHERE id = 77001;
+连接数据库失败
+[TEST-LOG][2026-04-18 16:44:21.966] JDBCemo.select返回: 1
+[TEST-LOG][2026-04-18 16:44:21.966] ✓ JDBCemo.select执行成功
+[TEST-LOG][2026-04-18 16:44:21.966] ========================================
+[TEST-LOG][2026-04-18 16:44:21.966] 验证查询结果集...
+[TEST-LOG][2026-04-18 16:44:21.966] ========================================
+[TEST-LOG][2026-04-18 16:44:21.968] 查询结果:
+[TEST-LOG][2026-04-18 16:44:21.969]   学号: 77001
+[TEST-LOG][2026-04-18 16:44:21.969]   姓名: JDBCemo模拟添加_张三
+[TEST-LOG][2026-04-18 16:44:21.970] ✓ JDBCemo查询结果验证通过
+[TEST-LOG][2026-04-18 16:44:21.970] ========================================
+[TEST-LOG][2026-04-18 16:44:21.970] 模拟delstuServelet删除学生
+[TEST-LOG][2026-04-18 16:44:21.970] ========================================
+[TEST-LOG][2026-04-18 16:44:21.971] 模拟构建DELETE SQL...
+[TEST-LOG][2026-04-18 16:44:21.971] ========================================
+[TEST-LOG][2026-04-18 16:44:21.972] 执行数据库操作: 模拟delstuServelet删除
+[TEST-LOG][2026-04-18 16:44:21.972] SQL语句: DELETE FROM student WHERE id = 77001
+[TEST-LOG][2026-04-18 16:44:21.972] ========================================
+[TEST-LOG][2026-04-18 16:44:21.983] ✓ 模拟删除学生成功
+[TEST-LOG][2026-04-18 16:44:21.984] 验证删除结果...
+SELECT * FROM student WHERE id = 77001;
+[TEST-LOG][2026-04-18 16:44:21.986] ✓ 删除验证通过
+[TEST-LOG][2026-04-18 16:44:21.986] ========================================
+[TEST-LOG][2026-04-18 16:44:21.986] 集成测试5完成: JDBCemo模拟Servlet操作流程测试通过
+[TEST-LOG][2026-04-18 16:44:21.986] ========================================
+[TEST-LOG][2026-04-18 16:44:21.990] ========================================
+[TEST-LOG][2026-04-18 16:44:21.990] 清理所有集成测试数据...
+[TEST-LOG][2026-04-18 16:44:21.990] ========================================
+[TEST-LOG][2026-04-18 16:44:21.990] ========================================
+[TEST-LOG][2026-04-18 16:44:21.991] 执行数据库操作: 清理成绩数据
+[TEST-LOG][2026-04-18 16:44:21.991] SQL语句: DELETE FROM stucourse WHERE stuid IN (88001, 88002, 88003, 77001)
+[TEST-LOG][2026-04-18 16:44:21.991] ========================================
+[TEST-LOG][2026-04-18 16:44:21.991] ========================================
+[TEST-LOG][2026-04-18 16:44:21.991] 数据库操作结果: 清理成绩数据
+[TEST-LOG][2026-04-18 16:44:21.991] 影响行数: 0
+[TEST-LOG][2026-04-18 16:44:21.991] ========================================
+[TEST-LOG][2026-04-18 16:44:21.991] ========================================
+[TEST-LOG][2026-04-18 16:44:21.991] 执行数据库操作: 清理学生数据
+[TEST-LOG][2026-04-18 16:44:21.991] SQL语句: DELETE FROM student WHERE id IN (88001, 88002, 88003, 77001)
+[TEST-LOG][2026-04-18 16:44:21.991] ========================================
+[TEST-LOG][2026-04-18 16:44:21.993] ========================================
+[TEST-LOG][2026-04-18 16:44:21.993] 数据库操作结果: 清理学生数据
+[TEST-LOG][2026-04-18 16:44:21.993] 影响行数: 0
+[TEST-LOG][2026-04-18 16:44:21.993] ========================================
+[TEST-LOG][2026-04-18 16:44:21.993] ✓ 所有测试数据清理完成
+]]></system-out>
+    <system-err><![CDATA[Loading class `com.mysql.jdbc.Driver'. This is deprecated. The new driver class is `com.mysql.cj.jdbc.Driver'. The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.
+java.sql.SQLException: Access denied for user 'root'@'localhost' (using password: YES)
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:129)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:824)
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:444)
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:237)
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:198)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:681)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:229)
+	at cn.nankai.edu.cn.JDBCemo.<init>(JDBCemo.java:38)
+	at cn.nankai.edu.cn.JDBCemo.getInstence(JDBCemo.java:19)
+	at cn.nankai.edu.cn.JDBCemo.select(JDBCemo.java:126)
+	at cn.nankai.edu.cn.RealDBIntegrationTest.testJDBCemoServletFlow(RealDBIntegrationTest.java:436)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:727)
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:147)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:92)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:86)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:217)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:213)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:138)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:68)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:151)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:147)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:127)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:90)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:55)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:102)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:54)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:86)
+	at org.junit.platform.launcher.core.DefaultLauncherSession$DelegatingLauncher.execute(DefaultLauncherSession.java:86)
+	at org.apache.maven.surefire.junitplatform.LazyLauncher.execute(LazyLauncher.java:56)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:184)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:148)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:122)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+]]></system-err>
+  </testcase>
+  <testcase name="testMultiStudentScoreRelationship" classname="cn.nankai.edu.cn.RealDBIntegrationTest" time="0.09">
+    <system-out><![CDATA[[TEST-LOG][2026-04-18 16:44:22.011] ----------------------------------------
+[TEST-LOG][2026-04-18 16:44:22.011] 开始执行测试方法...
+[TEST-LOG][2026-04-18 16:44:22.011] ----------------------------------------
+[TEST-LOG][2026-04-18 16:44:22.012] ========================================
+[TEST-LOG][2026-04-18 16:44:22.012] 准备集成测试环境...
+[TEST-LOG][2026-04-18 16:44:22.012] ========================================
+[TEST-LOG][2026-04-18 16:44:22.012] 清理可能存在的旧测试数据...
+[TEST-LOG][2026-04-18 16:44:22.012] ========================================
+[TEST-LOG][2026-04-18 16:44:22.012] 执行数据库操作: 清理成绩数据
+[TEST-LOG][2026-04-18 16:44:22.012] SQL语句: DELETE FROM stucourse WHERE stuid IN (88001, 88002, 88003)
+[TEST-LOG][2026-04-18 16:44:22.012] ========================================
+[TEST-LOG][2026-04-18 16:44:22.014] ========================================
+[TEST-LOG][2026-04-18 16:44:22.014] 数据库操作结果: 清理成绩数据
+[TEST-LOG][2026-04-18 16:44:22.014] 影响行数: 0
+[TEST-LOG][2026-04-18 16:44:22.014] ========================================
+[TEST-LOG][2026-04-18 16:44:22.014] ========================================
+[TEST-LOG][2026-04-18 16:44:22.014] 执行数据库操作: 清理学生数据
+[TEST-LOG][2026-04-18 16:44:22.014] SQL语句: DELETE FROM student WHERE id IN (88001, 88002, 88003)
+[TEST-LOG][2026-04-18 16:44:22.014] ========================================
+[TEST-LOG][2026-04-18 16:44:22.016] ========================================
+[TEST-LOG][2026-04-18 16:44:22.016] 数据库操作结果: 清理学生数据
+[TEST-LOG][2026-04-18 16:44:22.017] 影响行数: 0
+[TEST-LOG][2026-04-18 16:44:22.017] ========================================
+[TEST-LOG][2026-04-18 16:44:22.017] ✓ 测试数据清理完成
+[TEST-LOG][2026-04-18 16:44:22.018] ========================================
+[TEST-LOG][2026-04-18 16:44:22.018] 集成测试3: 多学生多成绩关联测试 - 模拟真实业务场景
+[TEST-LOG][2026-04-18 16:44:22.018] ========================================
+[TEST-LOG][2026-04-18 16:44:22.018] ========================================
+[TEST-LOG][2026-04-18 16:44:22.018] 步骤1: 创建多个学生
+[TEST-LOG][2026-04-18 16:44:22.018] ========================================
+[TEST-LOG][2026-04-18 16:44:22.025] ========================================
+[TEST-LOG][2026-04-18 16:44:22.025] 执行数据库操作: 创建学生1
+[TEST-LOG][2026-04-18 16:44:22.025] SQL语句: INSERT INTO student (id, name, sex, indate, claname, majorid, teaid) VALUES (88001, '关联测试学生A', '男', '2023-09-01', '计算机科学与技术一班', 1, 1)
+[TEST-LOG][2026-04-18 16:44:22.025] ========================================
+[TEST-LOG][2026-04-18 16:44:22.032] ========================================
+[TEST-LOG][2026-04-18 16:44:22.032] 数据库操作结果: 创建学生1
+[TEST-LOG][2026-04-18 16:44:22.032] 影响行数: 1
+[TEST-LOG][2026-04-18 16:44:22.032] ========================================
+[TEST-LOG][2026-04-18 16:44:22.032] ========================================
+[TEST-LOG][2026-04-18 16:44:22.032] 执行数据库操作: 创建学生2
+[TEST-LOG][2026-04-18 16:44:22.032] SQL语句: INSERT INTO student (id, name, sex, indate, claname, majorid, teaid) VALUES (88002, '关联测试学生B', '男', '2023-09-01', '计算机科学与技术一班', 1, 1)
+[TEST-LOG][2026-04-18 16:44:22.032] ========================================
+[TEST-LOG][2026-04-18 16:44:22.035] ========================================
+[TEST-LOG][2026-04-18 16:44:22.036] 数据库操作结果: 创建学生2
+[TEST-LOG][2026-04-18 16:44:22.036] 影响行数: 1
+[TEST-LOG][2026-04-18 16:44:22.036] ========================================
+[TEST-LOG][2026-04-18 16:44:22.037] ========================================
+[TEST-LOG][2026-04-18 16:44:22.037] 执行数据库操作: 创建学生3
+[TEST-LOG][2026-04-18 16:44:22.037] SQL语句: INSERT INTO student (id, name, sex, indate, claname, majorid, teaid) VALUES (88003, '关联测试学生C', '男', '2023-09-01', '计算机科学与技术一班', 1, 1)
+[TEST-LOG][2026-04-18 16:44:22.037] ========================================
+[TEST-LOG][2026-04-18 16:44:22.041] ========================================
+[TEST-LOG][2026-04-18 16:44:22.041] 数据库操作结果: 创建学生3
+[TEST-LOG][2026-04-18 16:44:22.041] 影响行数: 1
+[TEST-LOG][2026-04-18 16:44:22.041] ========================================
+[TEST-LOG][2026-04-18 16:44:22.041] ✓ 3个学生创建完成
+[TEST-LOG][2026-04-18 16:44:22.041] ========================================
+[TEST-LOG][2026-04-18 16:44:22.041] 步骤2: 为每个学生添加课程成绩
+[TEST-LOG][2026-04-18 16:44:22.041] ========================================
+[TEST-LOG][2026-04-18 16:44:22.052] ========================================
+[TEST-LOG][2026-04-18 16:44:22.052] 执行数据库操作: 添加学生1的课程成绩
+[TEST-LOG][2026-04-18 16:44:22.052] SQL语句: INSERT INTO stucourse (stuid, couid, score) VALUES (88001, 1, 85.5)
+[TEST-LOG][2026-04-18 16:44:22.052] ========================================
+[TEST-LOG][2026-04-18 16:44:22.056] ========================================
+[TEST-LOG][2026-04-18 16:44:22.056] 数据库操作结果: 添加学生1的课程成绩
+[TEST-LOG][2026-04-18 16:44:22.056] 影响行数: 1
+[TEST-LOG][2026-04-18 16:44:22.056] ========================================
+[TEST-LOG][2026-04-18 16:44:22.056] ========================================
+[TEST-LOG][2026-04-18 16:44:22.056] 执行数据库操作: 添加学生2的课程成绩
+[TEST-LOG][2026-04-18 16:44:22.056] SQL语句: INSERT INTO stucourse (stuid, couid, score) VALUES (88002, 1, 90.0)
+[TEST-LOG][2026-04-18 16:44:22.056] ========================================
+[TEST-LOG][2026-04-18 16:44:22.060] ========================================
+[TEST-LOG][2026-04-18 16:44:22.061] 数据库操作结果: 添加学生2的课程成绩
+[TEST-LOG][2026-04-18 16:44:22.061] 影响行数: 1
+[TEST-LOG][2026-04-18 16:44:22.061] ========================================
+[TEST-LOG][2026-04-18 16:44:22.061] ========================================
+[TEST-LOG][2026-04-18 16:44:22.061] 执行数据库操作: 添加学生3的课程成绩
+[TEST-LOG][2026-04-18 16:44:22.061] SQL语句: INSERT INTO stucourse (stuid, couid, score) VALUES (88003, 1, 88.0)
+[TEST-LOG][2026-04-18 16:44:22.061] ========================================
+[TEST-LOG][2026-04-18 16:44:22.065] ========================================
+[TEST-LOG][2026-04-18 16:44:22.066] 数据库操作结果: 添加学生3的课程成绩
+[TEST-LOG][2026-04-18 16:44:22.066] 影响行数: 1
+[TEST-LOG][2026-04-18 16:44:22.066] ========================================
+[TEST-LOG][2026-04-18 16:44:22.066] ✓ 3条成绩记录添加完成
+[TEST-LOG][2026-04-18 16:44:22.066] ========================================
+[TEST-LOG][2026-04-18 16:44:22.066] 步骤3: 验证学生-成绩关联查询
+[TEST-LOG][2026-04-18 16:44:22.066] ========================================
+[TEST-LOG][2026-04-18 16:44:22.066] ========================================
+[TEST-LOG][2026-04-18 16:44:22.066] 执行数据库操作: 关联查询学生成绩
+[TEST-LOG][2026-04-18 16:44:22.066] SQL语句: SELECT s.id as student_id, s.name as student_name, sc.score FROM student s JOIN stucourse sc ON s.id = sc.stuid WHERE s.id IN (88001, 88002, 88003) ORDER BY s.id
+[TEST-LOG][2026-04-18 16:44:22.066] ========================================
+[TEST-LOG][2026-04-18 16:44:22.067] 关联查询结果:
+[TEST-LOG][2026-04-18 16:44:22.073]   记录1: 学生=关联测试学生A, 成绩=85.5
+[TEST-LOG][2026-04-18 16:44:22.074]   记录2: 学生=关联测试学生B, 成绩=90.0
+[TEST-LOG][2026-04-18 16:44:22.074]   记录3: 学生=关联测试学生C, 成绩=88.0
+[TEST-LOG][2026-04-18 16:44:22.074] ✓ 关联查询验证通过
+[TEST-LOG][2026-04-18 16:44:22.074] ========================================
+[TEST-LOG][2026-04-18 16:44:22.074] 步骤4: 统计分析 - 平均成绩
+[TEST-LOG][2026-04-18 16:44:22.074] ========================================
+[TEST-LOG][2026-04-18 16:44:22.074] ========================================
+[TEST-LOG][2026-04-18 16:44:22.074] 执行数据库操作: 统计平均成绩
+[TEST-LOG][2026-04-18 16:44:22.075] SQL语句: SELECT AVG(sc.score) as avg_score, COUNT(sc.score) as course_count FROM student s JOIN stucourse sc ON s.id = sc.stuid WHERE s.id IN (88001, 88002, 88003)
+[TEST-LOG][2026-04-18 16:44:22.075] ========================================
+[TEST-LOG][2026-04-18 16:44:22.077] 统计结果:
+[TEST-LOG][2026-04-18 16:44:22.079]   平均成绩: 87.83
+[TEST-LOG][2026-04-18 16:44:22.080]   课程数: 3
+[TEST-LOG][2026-04-18 16:44:22.080] ✓ 统计分析验证通过
+[TEST-LOG][2026-04-18 16:44:22.080] ========================================
+[TEST-LOG][2026-04-18 16:44:22.080] 步骤5: 清理测试数据
+[TEST-LOG][2026-04-18 16:44:22.080] ========================================
+[TEST-LOG][2026-04-18 16:44:22.080] ========================================
+[TEST-LOG][2026-04-18 16:44:22.080] 执行数据库操作: 删除成绩数据
+[TEST-LOG][2026-04-18 16:44:22.080] SQL语句: DELETE FROM stucourse WHERE stuid IN (88001, 88002, 88003)
+[TEST-LOG][2026-04-18 16:44:22.080] ========================================
+[TEST-LOG][2026-04-18 16:44:22.089] ========================================
+[TEST-LOG][2026-04-18 16:44:22.089] 数据库操作结果: 删除成绩数据
+[TEST-LOG][2026-04-18 16:44:22.089] 影响行数: 3
+[TEST-LOG][2026-04-18 16:44:22.089] ========================================
+[TEST-LOG][2026-04-18 16:44:22.089] ========================================
+[TEST-LOG][2026-04-18 16:44:22.089] 执行数据库操作: 删除学生数据
+[TEST-LOG][2026-04-18 16:44:22.089] SQL语句: DELETE FROM student WHERE id IN (88001, 88002, 88003)
+[TEST-LOG][2026-04-18 16:44:22.089] ========================================
+[TEST-LOG][2026-04-18 16:44:22.094] ========================================
+[TEST-LOG][2026-04-18 16:44:22.094] 数据库操作结果: 删除学生数据
+[TEST-LOG][2026-04-18 16:44:22.094] 影响行数: 3
+[TEST-LOG][2026-04-18 16:44:22.094] ========================================
+[TEST-LOG][2026-04-18 16:44:22.094] ✓ 测试数据清理完成
+[TEST-LOG][2026-04-18 16:44:22.094] ========================================
+[TEST-LOG][2026-04-18 16:44:22.094] 集成测试3完成: 多学生多成绩关联测试通过
+[TEST-LOG][2026-04-18 16:44:22.094] ========================================
+[TEST-LOG][2026-04-18 16:44:22.096] ========================================
+[TEST-LOG][2026-04-18 16:44:22.096] 清理所有集成测试数据...
+[TEST-LOG][2026-04-18 16:44:22.096] ========================================
+[TEST-LOG][2026-04-18 16:44:22.096] ========================================
+[TEST-LOG][2026-04-18 16:44:22.096] 执行数据库操作: 清理成绩数据
+[TEST-LOG][2026-04-18 16:44:22.096] SQL语句: DELETE FROM stucourse WHERE stuid IN (88001, 88002, 88003, 77001)
+[TEST-LOG][2026-04-18 16:44:22.096] ========================================
+[TEST-LOG][2026-04-18 16:44:22.098] ========================================
+[TEST-LOG][2026-04-18 16:44:22.098] 数据库操作结果: 清理成绩数据
+[TEST-LOG][2026-04-18 16:44:22.098] 影响行数: 0
+[TEST-LOG][2026-04-18 16:44:22.098] ========================================
+[TEST-LOG][2026-04-18 16:44:22.098] ========================================
+[TEST-LOG][2026-04-18 16:44:22.098] 执行数据库操作: 清理学生数据
+[TEST-LOG][2026-04-18 16:44:22.098] SQL语句: DELETE FROM student WHERE id IN (88001, 88002, 88003, 77001)
+[TEST-LOG][2026-04-18 16:44:22.098] ========================================
+[TEST-LOG][2026-04-18 16:44:22.099] ========================================
+[TEST-LOG][2026-04-18 16:44:22.099] 数据库操作结果: 清理学生数据
+[TEST-LOG][2026-04-18 16:44:22.099] 影响行数: 0
+[TEST-LOG][2026-04-18 16:44:22.099] ========================================
+[TEST-LOG][2026-04-18 16:44:22.099] ✓ 所有测试数据清理完成
+]]></system-out>
+  </testcase>
+  <testcase name="testComplexQueryScenarios" classname="cn.nankai.edu.cn.RealDBIntegrationTest" time="0.051">
+    <system-out><![CDATA[[TEST-LOG][2026-04-18 16:44:22.104] ----------------------------------------
+[TEST-LOG][2026-04-18 16:44:22.105] 开始执行测试方法...
+[TEST-LOG][2026-04-18 16:44:22.105] ----------------------------------------
+[TEST-LOG][2026-04-18 16:44:22.105] ========================================
+[TEST-LOG][2026-04-18 16:44:22.105] 准备集成测试环境...
+[TEST-LOG][2026-04-18 16:44:22.105] ========================================
+[TEST-LOG][2026-04-18 16:44:22.105] 清理可能存在的旧测试数据...
+[TEST-LOG][2026-04-18 16:44:22.105] ========================================
+[TEST-LOG][2026-04-18 16:44:22.105] 执行数据库操作: 清理成绩数据
+[TEST-LOG][2026-04-18 16:44:22.106] SQL语句: DELETE FROM stucourse WHERE stuid IN (88001, 88002, 88003)
+[TEST-LOG][2026-04-18 16:44:22.106] ========================================
+[TEST-LOG][2026-04-18 16:44:22.107] ========================================
+[TEST-LOG][2026-04-18 16:44:22.107] 数据库操作结果: 清理成绩数据
+[TEST-LOG][2026-04-18 16:44:22.107] 影响行数: 0
+[TEST-LOG][2026-04-18 16:44:22.107] ========================================
+[TEST-LOG][2026-04-18 16:44:22.107] ========================================
+[TEST-LOG][2026-04-18 16:44:22.107] 执行数据库操作: 清理学生数据
+[TEST-LOG][2026-04-18 16:44:22.107] SQL语句: DELETE FROM student WHERE id IN (88001, 88002, 88003)
+[TEST-LOG][2026-04-18 16:44:22.107] ========================================
+[TEST-LOG][2026-04-18 16:44:22.108] ========================================
+[TEST-LOG][2026-04-18 16:44:22.108] 数据库操作结果: 清理学生数据
+[TEST-LOG][2026-04-18 16:44:22.108] 影响行数: 0
+[TEST-LOG][2026-04-18 16:44:22.108] ========================================
+[TEST-LOG][2026-04-18 16:44:22.108] ✓ 测试数据清理完成
+[TEST-LOG][2026-04-18 16:44:22.109] ========================================
+[TEST-LOG][2026-04-18 16:44:22.109] 集成测试4: 复杂查询场景 - 模拟前端多条件查询
+[TEST-LOG][2026-04-18 16:44:22.109] ========================================
+[TEST-LOG][2026-04-18 16:44:22.109] ========================================
+[TEST-LOG][2026-04-18 16:44:22.109] 准备测试数据
+[TEST-LOG][2026-04-18 16:44:22.109] ========================================
+[TEST-LOG][2026-04-18 16:44:22.116] ========================================
+[TEST-LOG][2026-04-18 16:44:22.116] 执行数据库操作: 创建测试学生1
+[TEST-LOG][2026-04-18 16:44:22.116] SQL语句: INSERT INTO student (id, name, sex, indate, claname, majorid, teaid) VALUES (88001, '复杂查询张小明', '男', '2023-09-01', '计算机科学与技术一班', 1, 1)
+[TEST-LOG][2026-04-18 16:44:22.116] ========================================
+[TEST-LOG][2026-04-18 16:44:22.121] ========================================
+[TEST-LOG][2026-04-18 16:44:22.121] 数据库操作结果: 创建测试学生1
+[TEST-LOG][2026-04-18 16:44:22.121] 影响行数: 1
+[TEST-LOG][2026-04-18 16:44:22.121] ========================================
+[TEST-LOG][2026-04-18 16:44:22.121] ========================================
+[TEST-LOG][2026-04-18 16:44:22.121] 执行数据库操作: 创建测试学生2
+[TEST-LOG][2026-04-18 16:44:22.121] SQL语句: INSERT INTO student (id, name, sex, indate, claname, majorid, teaid) VALUES (88002, '复杂查询李小红', '女', '2023-09-01', '计算机科学与技术一班', 1, 1)
+[TEST-LOG][2026-04-18 16:44:22.121] ========================================
+[TEST-LOG][2026-04-18 16:44:22.129] ========================================
+[TEST-LOG][2026-04-18 16:44:22.129] 数据库操作结果: 创建测试学生2
+[TEST-LOG][2026-04-18 16:44:22.129] 影响行数: 1
+[TEST-LOG][2026-04-18 16:44:22.129] ========================================
+[TEST-LOG][2026-04-18 16:44:22.129] ========================================
+[TEST-LOG][2026-04-18 16:44:22.129] 场景1: 按性别过滤查询
+[TEST-LOG][2026-04-18 16:44:22.129] ========================================
+[TEST-LOG][2026-04-18 16:44:22.129] ========================================
+[TEST-LOG][2026-04-18 16:44:22.129] 执行数据库操作: 按性别查询男生
+[TEST-LOG][2026-04-18 16:44:22.129] SQL语句: SELECT * FROM student WHERE sex = '男' AND id >= 88001
+[TEST-LOG][2026-04-18 16:44:22.129] ========================================
+[TEST-LOG][2026-04-18 16:44:22.133]   查询到男生: 复杂查询张小明
+[TEST-LOG][2026-04-18 16:44:22.133]   查询到男生: 张蓝
+[TEST-LOG][2026-04-18 16:44:22.134]   查询到男生: 张三
+[TEST-LOG][2026-04-18 16:44:22.134]   查询到男生: 李白
+[TEST-LOG][2026-04-18 16:44:22.134]   查询到男生: 黄奕
+[TEST-LOG][2026-04-18 16:44:22.134]   查询到男生: 李尔
+[TEST-LOG][2026-04-18 16:44:22.134]   查询到男生: 李森
+[TEST-LOG][2026-04-18 16:44:22.134]   查询到男生: 杜甫
+[TEST-LOG][2026-04-18 16:44:22.134]   查询到男生: 李清
+[TEST-LOG][2026-04-18 16:44:22.134]   查询到男生: 李昭
+[TEST-LOG][2026-04-18 16:44:22.134]   查询到男生: 李一
+[TEST-LOG][2026-04-18 16:44:22.134]   查询到男生: 李五
+[TEST-LOG][2026-04-18 16:44:22.134]   查询到男生: 李六
+[TEST-LOG][2026-04-18 16:44:22.134]   查询到男生: 李齐
+[TEST-LOG][2026-04-18 16:44:22.134]   查询到男生: 李八
+[TEST-LOG][2026-04-18 16:44:22.134]   查询到男生: 李九
+[TEST-LOG][2026-04-18 16:44:22.134]   查询到男生: 鲁智深
+[TEST-LOG][2026-04-18 16:44:22.134]   查询到男生: 刘崇
+[TEST-LOG][2026-04-18 16:44:22.134]   查询到男生: 卢俊义
+[TEST-LOG][2026-04-18 16:44:22.134]   查询到男生: 吴用
+[TEST-LOG][2026-04-18 16:44:22.134]   查询到男生: 公孙胜
+[TEST-LOG][2026-04-18 16:44:22.134]   查询到男生: 关胜
+[TEST-LOG][2026-04-18 16:44:22.134]   查询到男生: 秦明
+[TEST-LOG][2026-04-18 16:44:22.134]   查询到男生: 华容
+[TEST-LOG][2026-04-18 16:44:22.134]   查询到男生: 武松
+[TEST-LOG][2026-04-18 16:44:22.136] ✓ 场景1通过
+[TEST-LOG][2026-04-18 16:44:22.136] ========================================
+[TEST-LOG][2026-04-18 16:44:22.136] 场景2: 模糊查询（姓名包含'小'）
+[TEST-LOG][2026-04-18 16:44:22.136] ========================================
+[TEST-LOG][2026-04-18 16:44:22.136] ========================================
+[TEST-LOG][2026-04-18 16:44:22.136] 执行数据库操作: 模糊查询
+[TEST-LOG][2026-04-18 16:44:22.136] SQL语句: SELECT * FROM student WHERE name LIKE '%小%' AND id >= 88001
+[TEST-LOG][2026-04-18 16:44:22.136] ========================================
+[TEST-LOG][2026-04-18 16:44:22.137]   模糊查询结果: 复杂查询张小明
+[TEST-LOG][2026-04-18 16:44:22.137]   模糊查询结果: 复杂查询李小红
+[TEST-LOG][2026-04-18 16:44:22.137] ✓ 场景2通过
+[TEST-LOG][2026-04-18 16:44:22.137] ========================================
+[TEST-LOG][2026-04-18 16:44:22.137] 场景3: IN查询
+[TEST-LOG][2026-04-18 16:44:22.137] ========================================
+[TEST-LOG][2026-04-18 16:44:22.137] ========================================
+[TEST-LOG][2026-04-18 16:44:22.137] 执行数据库操作: IN查询
+[TEST-LOG][2026-04-18 16:44:22.137] SQL语句: SELECT * FROM student WHERE id IN (88001, 88002)
+[TEST-LOG][2026-04-18 16:44:22.138] ========================================
+[TEST-LOG][2026-04-18 16:44:22.139]   IN查询结果: 复杂查询张小明
+[TEST-LOG][2026-04-18 16:44:22.139]   IN查询结果: 复杂查询李小红
+[TEST-LOG][2026-04-18 16:44:22.139] ✓ 场景3通过
+[TEST-LOG][2026-04-18 16:44:22.139] ========================================
+[TEST-LOG][2026-04-18 16:44:22.139] 场景4: 排序查询
+[TEST-LOG][2026-04-18 16:44:22.139] ========================================
+[TEST-LOG][2026-04-18 16:44:22.139] ========================================
+[TEST-LOG][2026-04-18 16:44:22.139] 执行数据库操作: 按姓名排序
+[TEST-LOG][2026-04-18 16:44:22.139] SQL语句: SELECT * FROM student WHERE id >= 88001 ORDER BY name ASC
+[TEST-LOG][2026-04-18 16:44:22.139] ========================================
+[TEST-LOG][2026-04-18 16:44:22.142] 查询结果（按姓名排序）:
+[TEST-LOG][2026-04-18 16:44:22.142]   公孙胜
+[TEST-LOG][2026-04-18 16:44:22.142]   关羽
+[TEST-LOG][2026-04-18 16:44:22.142]   关胜
+[TEST-LOG][2026-04-18 16:44:22.142]   刘备
+[TEST-LOG][2026-04-18 16:44:22.142]   刘崇
+[TEST-LOG][2026-04-18 16:44:22.142]   华容
+[TEST-LOG][2026-04-18 16:44:22.142]   卢俊义
+[TEST-LOG][2026-04-18 16:44:22.143]   吴用
+[TEST-LOG][2026-04-18 16:44:22.143]   复杂查询张小明
+[TEST-LOG][2026-04-18 16:44:22.143]   复杂查询李小红
+[TEST-LOG][2026-04-18 16:44:22.143]   宋江
+[TEST-LOG][2026-04-18 16:44:22.143]   张一
+[TEST-LOG][2026-04-18 16:44:22.143]   张三
+[TEST-LOG][2026-04-18 16:44:22.143]   张李
+[TEST-LOG][2026-04-18 16:44:22.143]   张白
+[TEST-LOG][2026-04-18 16:44:22.143]   张红
+[TEST-LOG][2026-04-18 16:44:22.143]   张蓝
+[TEST-LOG][2026-04-18 16:44:22.143]   张飞
+[TEST-LOG][2026-04-18 16:44:22.143]   张默
+[TEST-LOG][2026-04-18 16:44:22.143]   徐宁
+[TEST-LOG][2026-04-18 16:44:22.143]   戴宗
+[TEST-LOG][2026-04-18 16:44:22.143]   李一
+[TEST-LOG][2026-04-18 16:44:22.143]   李九
+[TEST-LOG][2026-04-18 16:44:22.143]   李五
+[TEST-LOG][2026-04-18 16:44:22.143]   李八
+[TEST-LOG][2026-04-18 16:44:22.143]   李六
+[TEST-LOG][2026-04-18 16:44:22.143]   李奎
+[TEST-LOG][2026-04-18 16:44:22.143]   李尔
+[TEST-LOG][2026-04-18 16:44:22.143]   李思
+[TEST-LOG][2026-04-18 16:44:22.143]   李昭
+[TEST-LOG][2026-04-18 16:44:22.143]   李森
+[TEST-LOG][2026-04-18 16:44:22.143]   李清
+[TEST-LOG][2026-04-18 16:44:22.143]   李清照
+[TEST-LOG][2026-04-18 16:44:22.143]   李白
+[TEST-LOG][2026-04-18 16:44:22.143]   李莹
+[TEST-LOG][2026-04-18 16:44:22.143]   李默
+[TEST-LOG][2026-04-18 16:44:22.143]   李齐
+[TEST-LOG][2026-04-18 16:44:22.144]   杜拜
+[TEST-LOG][2026-04-18 16:44:22.144]   杜甫
+[TEST-LOG][2026-04-18 16:44:22.144]   杜默
+[TEST-LOG][2026-04-18 16:44:22.144]   武松
+[TEST-LOG][2026-04-18 16:44:22.144]   王琦
+[TEST-LOG][2026-04-18 16:44:22.144]   王默
+[TEST-LOG][2026-04-18 16:44:22.144]   白一
+[TEST-LOG][2026-04-18 16:44:22.144]   秦明
+[TEST-LOG][2026-04-18 16:44:22.144]   鲁智深
+[TEST-LOG][2026-04-18 16:44:22.144]   黄奕
+[TEST-LOG][2026-04-18 16:44:22.144] ✓ 场景4通过
+[TEST-LOG][2026-04-18 16:44:22.144] ========================================
+[TEST-LOG][2026-04-18 16:44:22.144] 清理测试数据
+[TEST-LOG][2026-04-18 16:44:22.144] ========================================
+[TEST-LOG][2026-04-18 16:44:22.144] ========================================
+[TEST-LOG][2026-04-18 16:44:22.144] 执行数据库操作: 删除测试学生
+[TEST-LOG][2026-04-18 16:44:22.144] SQL语句: DELETE FROM student WHERE id IN (88001, 88002)
+[TEST-LOG][2026-04-18 16:44:22.144] ========================================
+[TEST-LOG][2026-04-18 16:44:22.150] ========================================
+[TEST-LOG][2026-04-18 16:44:22.150] 数据库操作结果: 删除测试学生
+[TEST-LOG][2026-04-18 16:44:22.151] 影响行数: 2
+[TEST-LOG][2026-04-18 16:44:22.151] ========================================
+[TEST-LOG][2026-04-18 16:44:22.151] ✓ 测试数据清理完成
+[TEST-LOG][2026-04-18 16:44:22.151] ========================================
+[TEST-LOG][2026-04-18 16:44:22.151] 集成测试4完成: 复杂查询场景测试通过
+[TEST-LOG][2026-04-18 16:44:22.151] ========================================
+[TEST-LOG][2026-04-18 16:44:22.151] ========================================
+[TEST-LOG][2026-04-18 16:44:22.151] 清理所有集成测试数据...
+[TEST-LOG][2026-04-18 16:44:22.151] ========================================
+[TEST-LOG][2026-04-18 16:44:22.151] ========================================
+[TEST-LOG][2026-04-18 16:44:22.151] 执行数据库操作: 清理成绩数据
+[TEST-LOG][2026-04-18 16:44:22.151] SQL语句: DELETE FROM stucourse WHERE stuid IN (88001, 88002, 88003, 77001)
+[TEST-LOG][2026-04-18 16:44:22.151] ========================================
+[TEST-LOG][2026-04-18 16:44:22.152] ========================================
+[TEST-LOG][2026-04-18 16:44:22.153] 数据库操作结果: 清理成绩数据
+[TEST-LOG][2026-04-18 16:44:22.153] 影响行数: 0
+[TEST-LOG][2026-04-18 16:44:22.153] ========================================
+[TEST-LOG][2026-04-18 16:44:22.153] ========================================
+[TEST-LOG][2026-04-18 16:44:22.153] 执行数据库操作: 清理学生数据
+[TEST-LOG][2026-04-18 16:44:22.153] SQL语句: DELETE FROM student WHERE id IN (88001, 88002, 88003, 77001)
+[TEST-LOG][2026-04-18 16:44:22.153] ========================================
+[TEST-LOG][2026-04-18 16:44:22.154] ========================================
+[TEST-LOG][2026-04-18 16:44:22.154] 数据库操作结果: 清理学生数据
+[TEST-LOG][2026-04-18 16:44:22.154] 影响行数: 0
+[TEST-LOG][2026-04-18 16:44:22.154] ========================================
+[TEST-LOG][2026-04-18 16:44:22.154] ✓ 所有测试数据清理完成
+]]></system-out>
+  </testcase>
+  <testcase name="testCompleteScoreLifecycle" classname="cn.nankai.edu.cn.RealDBIntegrationTest" time="0.057">
+    <system-out><![CDATA[[TEST-LOG][2026-04-18 16:44:22.156] ----------------------------------------
+[TEST-LOG][2026-04-18 16:44:22.157] 开始执行测试方法...
+[TEST-LOG][2026-04-18 16:44:22.157] ----------------------------------------
+[TEST-LOG][2026-04-18 16:44:22.157] ========================================
+[TEST-LOG][2026-04-18 16:44:22.157] 准备集成测试环境...
+[TEST-LOG][2026-04-18 16:44:22.157] ========================================
+[TEST-LOG][2026-04-18 16:44:22.157] 清理可能存在的旧测试数据...
+[TEST-LOG][2026-04-18 16:44:22.157] ========================================
+[TEST-LOG][2026-04-18 16:44:22.157] 执行数据库操作: 清理成绩数据
+[TEST-LOG][2026-04-18 16:44:22.157] SQL语句: DELETE FROM stucourse WHERE stuid IN (88001, 88002, 88003)
+[TEST-LOG][2026-04-18 16:44:22.157] ========================================
+[TEST-LOG][2026-04-18 16:44:22.158] ========================================
+[TEST-LOG][2026-04-18 16:44:22.158] 数据库操作结果: 清理成绩数据
+[TEST-LOG][2026-04-18 16:44:22.158] 影响行数: 0
+[TEST-LOG][2026-04-18 16:44:22.158] ========================================
+[TEST-LOG][2026-04-18 16:44:22.158] ========================================
+[TEST-LOG][2026-04-18 16:44:22.158] 执行数据库操作: 清理学生数据
+[TEST-LOG][2026-04-18 16:44:22.158] SQL语句: DELETE FROM student WHERE id IN (88001, 88002, 88003)
+[TEST-LOG][2026-04-18 16:44:22.158] ========================================
+[TEST-LOG][2026-04-18 16:44:22.158] ========================================
+[TEST-LOG][2026-04-18 16:44:22.160] 数据库操作结果: 清理学生数据
+[TEST-LOG][2026-04-18 16:44:22.160] 影响行数: 0
+[TEST-LOG][2026-04-18 16:44:22.160] ========================================
+[TEST-LOG][2026-04-18 16:44:22.160] ✓ 测试数据清理完成
+[TEST-LOG][2026-04-18 16:44:22.160] ========================================
+[TEST-LOG][2026-04-18 16:44:22.160] 集成测试2: 完整成绩生命周期 - 增删改查全流程
+[TEST-LOG][2026-04-18 16:44:22.160] ========================================
+[TEST-LOG][2026-04-18 16:44:22.160] ========================================
+[TEST-LOG][2026-04-18 16:44:22.160] 前置条件: 创建学生记录（成绩表依赖学生表）
+[TEST-LOG][2026-04-18 16:44:22.160] ========================================
+[TEST-LOG][2026-04-18 16:44:22.160] ========================================
+[TEST-LOG][2026-04-18 16:44:22.160] 执行数据库操作: 创建测试学生
+[TEST-LOG][2026-04-18 16:44:22.160] SQL语句: INSERT INTO student (id, name, sex, indate, claname, majorid, teaid) VALUES (88001, '成绩生命周期测试', '男', '2023-09-01', '计算机科学与技术一班', 1, 1)
+[TEST-LOG][2026-04-18 16:44:22.160] ========================================
+[TEST-LOG][2026-04-18 16:44:22.170] ========================================
+[TEST-LOG][2026-04-18 16:44:22.170] 数据库操作结果: 创建测试学生
+[TEST-LOG][2026-04-18 16:44:22.170] 影响行数: 1
+[TEST-LOG][2026-04-18 16:44:22.170] ========================================
+[TEST-LOG][2026-04-18 16:44:22.170] ========================================
+[TEST-LOG][2026-04-18 16:44:22.170] 阶段1: 创建成绩记录 (Create)
+[TEST-LOG][2026-04-18 16:44:22.170] ========================================
+[TEST-LOG][2026-04-18 16:44:22.173] ========================================
+[TEST-LOG][2026-04-18 16:44:22.173] 执行数据库操作: 插入成绩
+[TEST-LOG][2026-04-18 16:44:22.174] SQL语句: INSERT INTO stucourse (stuid, couid, score) VALUES (88001, 1, 78.5)
+[TEST-LOG][2026-04-18 16:44:22.174] ========================================
+[TEST-LOG][2026-04-18 16:44:22.186] ========================================
+[TEST-LOG][2026-04-18 16:44:22.186] 数据库操作结果: 插入成绩
+[TEST-LOG][2026-04-18 16:44:22.186] 影响行数: 1
+[TEST-LOG][2026-04-18 16:44:22.186] ========================================
+[TEST-LOG][2026-04-18 16:44:22.186] ✓ 成绩创建成功
+[TEST-LOG][2026-04-18 16:44:22.186] ========================================
+[TEST-LOG][2026-04-18 16:44:22.186] 阶段2: 读取成绩记录 (Read)
+[TEST-LOG][2026-04-18 16:44:22.187] ========================================
+[TEST-LOG][2026-04-18 16:44:22.187] ========================================
+[TEST-LOG][2026-04-18 16:44:22.187] 执行数据库操作: 查询成绩
+[TEST-LOG][2026-04-18 16:44:22.187] SQL语句: SELECT * FROM stucourse WHERE stuid = 88001 AND couid = 1
+[TEST-LOG][2026-04-18 16:44:22.187] ========================================
+[TEST-LOG][2026-04-18 16:44:22.189] 读取到的成绩信息:
+[TEST-LOG][2026-04-18 16:44:22.189]   学生ID: 88001
+[TEST-LOG][2026-04-18 16:44:22.189]   课程ID: 1
+[TEST-LOG][2026-04-18 16:44:22.191]   分数: 78.5
+[TEST-LOG][2026-04-18 16:44:22.192] ✓ 成绩读取验证通过
+[TEST-LOG][2026-04-18 16:44:22.192] ========================================
+[TEST-LOG][2026-04-18 16:44:22.192] 阶段3: 更新成绩记录 (Update)
+[TEST-LOG][2026-04-18 16:44:22.192] ========================================
+[TEST-LOG][2026-04-18 16:44:22.195] ========================================
+[TEST-LOG][2026-04-18 16:44:22.195] 执行数据库操作: 更新成绩
+[TEST-LOG][2026-04-18 16:44:22.195] SQL语句: UPDATE stucourse SET score = 92.5 WHERE stuid = 88001 AND couid = 1
+[TEST-LOG][2026-04-18 16:44:22.195] ========================================
+[TEST-LOG][2026-04-18 16:44:22.199] ========================================
+[TEST-LOG][2026-04-18 16:44:22.199] 数据库操作结果: 更新成绩
+[TEST-LOG][2026-04-18 16:44:22.199] 影响行数: 1
+[TEST-LOG][2026-04-18 16:44:22.199] ========================================
+[TEST-LOG][2026-04-18 16:44:22.201] ✓ 成绩更新验证通过
+[TEST-LOG][2026-04-18 16:44:22.201] ========================================
+[TEST-LOG][2026-04-18 16:44:22.201] 阶段4: 删除成绩记录 (Delete)
+[TEST-LOG][2026-04-18 16:44:22.201] ========================================
+[TEST-LOG][2026-04-18 16:44:22.202] ========================================
+[TEST-LOG][2026-04-18 16:44:22.202] 执行数据库操作: 删除成绩
+[TEST-LOG][2026-04-18 16:44:22.202] SQL语句: DELETE FROM stucourse WHERE stuid = 88001 AND couid = 1
+[TEST-LOG][2026-04-18 16:44:22.202] ========================================
+[TEST-LOG][2026-04-18 16:44:22.206] ========================================
+[TEST-LOG][2026-04-18 16:44:22.206] 数据库操作结果: 删除成绩
+[TEST-LOG][2026-04-18 16:44:22.206] 影响行数: 1
+[TEST-LOG][2026-04-18 16:44:22.206] ========================================
+[TEST-LOG][2026-04-18 16:44:22.207] ✓ 成绩删除验证通过
+[TEST-LOG][2026-04-18 16:44:22.207] ========================================
+[TEST-LOG][2026-04-18 16:44:22.207] 清理: 删除测试学生
+[TEST-LOG][2026-04-18 16:44:22.207] ========================================
+[TEST-LOG][2026-04-18 16:44:22.207] ========================================
+[TEST-LOG][2026-04-18 16:44:22.207] 执行数据库操作: 删除测试学生
+[TEST-LOG][2026-04-18 16:44:22.207] SQL语句: DELETE FROM student WHERE id = 88001
+[TEST-LOG][2026-04-18 16:44:22.207] ========================================
+[TEST-LOG][2026-04-18 16:44:22.211] ========================================
+[TEST-LOG][2026-04-18 16:44:22.211] 数据库操作结果: 删除测试学生
+[TEST-LOG][2026-04-18 16:44:22.211] 影响行数: 1
+[TEST-LOG][2026-04-18 16:44:22.211] ========================================
+[TEST-LOG][2026-04-18 16:44:22.211] ========================================
+[TEST-LOG][2026-04-18 16:44:22.211] 集成测试2完成: 完整成绩生命周期测试通过
+[TEST-LOG][2026-04-18 16:44:22.211] ========================================
+[TEST-LOG][2026-04-18 16:44:22.211] ========================================
+[TEST-LOG][2026-04-18 16:44:22.211] 清理所有集成测试数据...
+[TEST-LOG][2026-04-18 16:44:22.211] ========================================
+[TEST-LOG][2026-04-18 16:44:22.211] ========================================
+[TEST-LOG][2026-04-18 16:44:22.211] 执行数据库操作: 清理成绩数据
+[TEST-LOG][2026-04-18 16:44:22.211] SQL语句: DELETE FROM stucourse WHERE stuid IN (88001, 88002, 88003, 77001)
+[TEST-LOG][2026-04-18 16:44:22.211] ========================================
+[TEST-LOG][2026-04-18 16:44:22.212] ========================================
+[TEST-LOG][2026-04-18 16:44:22.212] 数据库操作结果: 清理成绩数据
+[TEST-LOG][2026-04-18 16:44:22.212] 影响行数: 0
+[TEST-LOG][2026-04-18 16:44:22.212] ========================================
+[TEST-LOG][2026-04-18 16:44:22.212] ========================================
+[TEST-LOG][2026-04-18 16:44:22.212] 执行数据库操作: 清理学生数据
+[TEST-LOG][2026-04-18 16:44:22.212] SQL语句: DELETE FROM student WHERE id IN (88001, 88002, 88003, 77001)
+[TEST-LOG][2026-04-18 16:44:22.212] ========================================
+[TEST-LOG][2026-04-18 16:44:22.213] ========================================
+[TEST-LOG][2026-04-18 16:44:22.213] 数据库操作结果: 清理学生数据
+[TEST-LOG][2026-04-18 16:44:22.213] 影响行数: 0
+[TEST-LOG][2026-04-18 16:44:22.213] ========================================
+[TEST-LOG][2026-04-18 16:44:22.213] ✓ 所有测试数据清理完成
+]]></system-out>
+  </testcase>
+  <testcase name="testCompleteStudentLifecycle" classname="cn.nankai.edu.cn.RealDBIntegrationTest" time="0.044">
+    <system-out><![CDATA[[TEST-LOG][2026-04-18 16:44:22.217] ----------------------------------------
+[TEST-LOG][2026-04-18 16:44:22.217] 开始执行测试方法...
+[TEST-LOG][2026-04-18 16:44:22.217] ----------------------------------------
+[TEST-LOG][2026-04-18 16:44:22.217] ========================================
+[TEST-LOG][2026-04-18 16:44:22.217] 准备集成测试环境...
+[TEST-LOG][2026-04-18 16:44:22.217] ========================================
+[TEST-LOG][2026-04-18 16:44:22.217] 清理可能存在的旧测试数据...
+[TEST-LOG][2026-04-18 16:44:22.217] ========================================
+[TEST-LOG][2026-04-18 16:44:22.217] 执行数据库操作: 清理成绩数据
+[TEST-LOG][2026-04-18 16:44:22.217] SQL语句: DELETE FROM stucourse WHERE stuid IN (88001, 88002, 88003)
+[TEST-LOG][2026-04-18 16:44:22.217] ========================================
+[TEST-LOG][2026-04-18 16:44:22.218] ========================================
+[TEST-LOG][2026-04-18 16:44:22.218] 数据库操作结果: 清理成绩数据
+[TEST-LOG][2026-04-18 16:44:22.218] 影响行数: 0
+[TEST-LOG][2026-04-18 16:44:22.218] ========================================
+[TEST-LOG][2026-04-18 16:44:22.218] ========================================
+[TEST-LOG][2026-04-18 16:44:22.218] 执行数据库操作: 清理学生数据
+[TEST-LOG][2026-04-18 16:44:22.218] SQL语句: DELETE FROM student WHERE id IN (88001, 88002, 88003)
+[TEST-LOG][2026-04-18 16:44:22.218] ========================================
+[TEST-LOG][2026-04-18 16:44:22.220] ========================================
+[TEST-LOG][2026-04-18 16:44:22.220] 数据库操作结果: 清理学生数据
+[TEST-LOG][2026-04-18 16:44:22.220] 影响行数: 0
+[TEST-LOG][2026-04-18 16:44:22.220] ========================================
+[TEST-LOG][2026-04-18 16:44:22.220] ✓ 测试数据清理完成
+[TEST-LOG][2026-04-18 16:44:22.220] ========================================
+[TEST-LOG][2026-04-18 16:44:22.220] 集成测试1: 完整学生生命周期 - 增删改查全流程
+[TEST-LOG][2026-04-18 16:44:22.220] ========================================
+[TEST-LOG][2026-04-18 16:44:22.220] ========================================
+[TEST-LOG][2026-04-18 16:44:22.221] 阶段1: 创建学生记录 (Create)
+[TEST-LOG][2026-04-18 16:44:22.221] ========================================
+[TEST-LOG][2026-04-18 16:44:22.229] ========================================
+[TEST-LOG][2026-04-18 16:44:22.229] 执行数据库操作: 插入学生
+[TEST-LOG][2026-04-18 16:44:22.229] SQL语句: INSERT INTO student (id, name, sex, indate, claname, majorid, teaid) VALUES (88001, '集成测试学生_完整生命周期', '男', '2023-09-01', '计算机科学与技术一班', 1, 1)
+[TEST-LOG][2026-04-18 16:44:22.229] ========================================
+[TEST-LOG][2026-04-18 16:44:22.239] ========================================
+[TEST-LOG][2026-04-18 16:44:22.239] 数据库操作结果: 插入学生
+[TEST-LOG][2026-04-18 16:44:22.239] 影响行数: 1
+[TEST-LOG][2026-04-18 16:44:22.239] ========================================
+[TEST-LOG][2026-04-18 16:44:22.239] ✓ 阶段1完成: 学生创建成功
+[TEST-LOG][2026-04-18 16:44:22.239] ========================================
+[TEST-LOG][2026-04-18 16:44:22.239] 阶段2: 读取学生记录 (Read)
+[TEST-LOG][2026-04-18 16:44:22.239] ========================================
+[TEST-LOG][2026-04-18 16:44:22.239] ========================================
+[TEST-LOG][2026-04-18 16:44:22.239] 执行数据库操作: 查询学生
+[TEST-LOG][2026-04-18 16:44:22.239] SQL语句: SELECT * FROM student WHERE id = 88001
+[TEST-LOG][2026-04-18 16:44:22.239] ========================================
+[TEST-LOG][2026-04-18 16:44:22.240] 读取到的学生信息:
+[TEST-LOG][2026-04-18 16:44:22.241]   ID: 88001
+[TEST-LOG][2026-04-18 16:44:22.241]   姓名: 集成测试学生_完整生命周期
+[TEST-LOG][2026-04-18 16:44:22.241]   性别: 男
+[TEST-LOG][2026-04-18 16:44:22.241]   班级: 计算机科学与技术一班
+[TEST-LOG][2026-04-18 16:44:22.241] ✓ 阶段2完成: 学生读取验证通过
+[TEST-LOG][2026-04-18 16:44:22.241] ========================================
+[TEST-LOG][2026-04-18 16:44:22.241] 阶段3: 更新学生记录 (Update)
+[TEST-LOG][2026-04-18 16:44:22.241] ========================================
+[TEST-LOG][2026-04-18 16:44:22.241] ========================================
+[TEST-LOG][2026-04-18 16:44:22.241] 执行数据库操作: 更新学生
+[TEST-LOG][2026-04-18 16:44:22.241] SQL语句: UPDATE student SET name = '集成测试学生_已更新', sex = '女' WHERE id = 88001
+[TEST-LOG][2026-04-18 16:44:22.241] ========================================
+[TEST-LOG][2026-04-18 16:44:22.245] ========================================
+[TEST-LOG][2026-04-18 16:44:22.245] 数据库操作结果: 更新学生
+[TEST-LOG][2026-04-18 16:44:22.245] 影响行数: 1
+[TEST-LOG][2026-04-18 16:44:22.245] ========================================
+[TEST-LOG][2026-04-18 16:44:22.245] 验证更新结果...
+[TEST-LOG][2026-04-18 16:44:22.247] 更新后的学生信息:
+[TEST-LOG][2026-04-18 16:44:22.247]   姓名: 集成测试学生_已更新
+[TEST-LOG][2026-04-18 16:44:22.247]   性别: 女
+[TEST-LOG][2026-04-18 16:44:22.247] ✓ 阶段3完成: 学生更新验证通过
+[TEST-LOG][2026-04-18 16:44:22.247] ========================================
+[TEST-LOG][2026-04-18 16:44:22.247] 阶段4: 删除学生记录 (Delete)
+[TEST-LOG][2026-04-18 16:44:22.247] ========================================
+[TEST-LOG][2026-04-18 16:44:22.247] ========================================
+[TEST-LOG][2026-04-18 16:44:22.247] 执行数据库操作: 删除学生
+[TEST-LOG][2026-04-18 16:44:22.247] SQL语句: DELETE FROM student WHERE id = 88001
+[TEST-LOG][2026-04-18 16:44:22.247] ========================================
+[TEST-LOG][2026-04-18 16:44:22.253] ========================================
+[TEST-LOG][2026-04-18 16:44:22.254] 数据库操作结果: 删除学生
+[TEST-LOG][2026-04-18 16:44:22.254] 影响行数: 1
+[TEST-LOG][2026-04-18 16:44:22.254] ========================================
+[TEST-LOG][2026-04-18 16:44:22.254] 验证删除结果...
+[TEST-LOG][2026-04-18 16:44:22.255] ✓ 阶段4完成: 学生删除验证通过
+[TEST-LOG][2026-04-18 16:44:22.255] ========================================
+[TEST-LOG][2026-04-18 16:44:22.255] 集成测试1完成: 完整学生生命周期测试通过
+[TEST-LOG][2026-04-18 16:44:22.255] ========================================
+[TEST-LOG][2026-04-18 16:44:22.256] ========================================
+[TEST-LOG][2026-04-18 16:44:22.256] 清理所有集成测试数据...
+[TEST-LOG][2026-04-18 16:44:22.256] ========================================
+[TEST-LOG][2026-04-18 16:44:22.256] ========================================
+[TEST-LOG][2026-04-18 16:44:22.256] 执行数据库操作: 清理成绩数据
+[TEST-LOG][2026-04-18 16:44:22.256] SQL语句: DELETE FROM stucourse WHERE stuid IN (88001, 88002, 88003, 77001)
+[TEST-LOG][2026-04-18 16:44:22.256] ========================================
+[TEST-LOG][2026-04-18 16:44:22.257] ========================================
+[TEST-LOG][2026-04-18 16:44:22.257] 数据库操作结果: 清理成绩数据
+[TEST-LOG][2026-04-18 16:44:22.257] 影响行数: 0
+[TEST-LOG][2026-04-18 16:44:22.257] ========================================
+[TEST-LOG][2026-04-18 16:44:22.257] ========================================
+[TEST-LOG][2026-04-18 16:44:22.257] 执行数据库操作: 清理学生数据
+[TEST-LOG][2026-04-18 16:44:22.257] SQL语句: DELETE FROM student WHERE id IN (88001, 88002, 88003, 77001)
+[TEST-LOG][2026-04-18 16:44:22.257] ========================================
+[TEST-LOG][2026-04-18 16:44:22.257] ========================================
+[TEST-LOG][2026-04-18 16:44:22.257] 数据库操作结果: 清理学生数据
+[TEST-LOG][2026-04-18 16:44:22.257] 影响行数: 0
+[TEST-LOG][2026-04-18 16:44:22.257] ========================================
+[TEST-LOG][2026-04-18 16:44:22.257] ✓ 所有测试数据清理完成
+]]></system-out>
+  </testcase>
+</testsuite>

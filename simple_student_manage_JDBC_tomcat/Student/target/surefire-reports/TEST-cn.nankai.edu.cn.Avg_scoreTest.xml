@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="cn.nankai.edu.cn.Avg_scoreTest" time="0.238" tests="20" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="cn.nankai.edu.cn.Avg_scoreTest" time="0.228" tests="20" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="CN"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-17.0.7\bin"/>
-    <property name="sun.java.command" value="C:\Users\Ha ha\AppData\Local\Temp\surefire3015882872855493313\surefirebooter-20260418152949327_3.jar C:\Users\Ha ha\AppData\Local\Temp\surefire3015882872855493313 2026-04-18T15-29-48_763-jvmRun1 surefire-20260418152949327_1tmp surefire_0-20260418152949327_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\Ha ha\AppData\Local\Temp\surefire10420804748142062718\surefirebooter-20260418160853016_3.jar C:\Users\Ha ha\AppData\Local\Temp\surefire10420804748142062718 2026-04-18T16-08-52_577-jvmRun1 surefire-20260418160853016_1tmp surefire_0-20260418160853016_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\Ha ha\tare0328\Ajava-program\simple_student_manage_JDBC_tomcat\Student\target\test-classes;C:\Users\Ha ha\tare0328\Ajava-program\simple_student_manage_JDBC_tomcat\Student\target\classes;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\javax\servlet\javax.servlet-api\4.0.1\javax.servlet-api-4.0.1.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\javax\servlet\jsp\javax.servlet.jsp-api\2.3.3\javax.servlet.jsp-api-2.3.3.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\com\mysql\mysql-connector-j\8.0.32\mysql-connector-j-8.0.32.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\com\google\protobuf\protobuf-java\3.21.9\protobuf-java-3.21.9.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\javax\servlet\jstl\1.2\jstl-1.2.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\org\junit\jupiter\junit-jupiter-api\5.9.2\junit-jupiter-api-5.9.2.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\org\junit\platform\junit-platform-commons\1.9.2\junit-platform-commons-1.9.2.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\org\junit\jupiter\junit-jupiter-engine\5.9.2\junit-jupiter-engine-5.9.2.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\org\junit\platform\junit-platform-engine\1.9.2\junit-platform-engine-1.9.2.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\org\junit\jupiter\junit-jupiter-params\5.9.2\junit-jupiter-params-5.9.2.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\org\mockito\mockito-core\4.11.0\mockito-core-4.11.0.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\net\bytebuddy\byte-buddy\1.12.19\byte-buddy-1.12.19.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\net\bytebuddy\byte-buddy-agent\1.12.19\byte-buddy-agent-1.12.19.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\org\mockito\mockito-junit-jupiter\4.11.0\mockito-junit-jupiter-4.11.0.jar;C:\Users\Ha ha\Documents\apache-maven-3.9.6\mylocalresponsitory\responsitory\com\h2database\h2\2.1.214\h2-2.1.214.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\Ha ha\AppData\Local\Temp\surefire3015882872855493313\surefirebooter-20260418152949327_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\Ha ha\AppData\Local\Temp\surefire10420804748142062718\surefirebooter-20260418160853016_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="17.0.7+8-LTS-224"/>
@@ -49,29 +49,29 @@
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
     <property name="sun.os.patch.level" value=""/>
     <property name="native.encoding" value="UTF-8"/>
-    <property name="java.library.path" value="C:\Program Files\Java\jdk-17.0.7\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\\Program Files\\Java\\jdk-17.0.7\\bin;C:\\Users\\Ha ha\\.trae-cn\\tools\\maven\\latest\\bin;C:\\Users\\Ha ha\\.trae-cn\\tools\\gradle\\latest\\bin;c:\\Users\\Ha ha\\.trae-cn\\tools\\trae-gopls\\current;c:\\Users\\Ha ha\\.trae-cn\\sdks\\workspaces\\b79e65ae\\versions\\node\\current;c:\\Users\\Ha ha\\.trae-cn\\sdks\\versions\\node\\current;C:\Program Files\Java\jdk-17.0.7\bin;C:\Users\Ha ha\.trae-cn\tools\maven\latest\bin;C:\Users\Ha ha\.trae-cn\tools\gradle\latest\bin;c:\Users\Ha ha\.trae-cn\tools\trae-gopls\current;c:\Users\Ha ha\.trae-cn\sdks\workspaces\b79e65ae\versions\node\current;c:\Users\Ha ha\.trae-cn\sdks\versions\node\current;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\Java\jdk-17.0.7\bin;C:\Program Files (x86)\NetSarang\Xshell 7\;C:\Program Files\MySQL\MySQL Server 8.0\bin\;C:\ProgramData\ComposerSetup\bin;C:\Users\Ha ha\Documents\apache-maven-3.9.6\apache-maven-3.9.6\bin;C:\Users\Ha ha\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files (x86)\NetSarang\Xftp 7\;C:\Program Files\Git\cmd;C:\Users\Ha ha\AppData\Local\Programs\Ollama;C:\Program Files\Tailscale\;C:\Program Files (x86)\NetSarang\Xftp 8\;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\Ha ha\AppData\Local\Microsoft\WindowsApps;C:\TDM-GCC-64\bin;C:\Program Files\MySQL\MySQL Server 8.0\bin\;C:\Users\Ha ha\AppData\Roaming\Composer\vendor\bin;C:\Users\Ha ha\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\Ha ha\AppData\Roaming\Programs\Zero Install;C:\texlive\2025\bin\windows;C:\Users\Ha ha\AppData\Local\Programs\Ollama;C:\Users\Ha ha\AppData\Local\Python\bin;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps;;."/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk-17.0.7\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\\Program Files\\Java\\jdk-17.0.7\\bin;C:\\Users\\Ha ha\\.trae-cn\\tools\\maven\\latest\\bin;C:\\Users\\Ha ha\\.trae-cn\\tools\\gradle\\latest\\bin;C:\Program Files\Java\jdk-17.0.7\bin;C:\Users\Ha ha\.trae-cn\tools\maven\latest\bin;C:\Users\Ha ha\.trae-cn\tools\gradle\latest\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\Java\jdk-17.0.7\bin;C:\Program Files (x86)\NetSarang\Xshell 7\;C:\Program Files\MySQL\MySQL Server 8.0\bin\;C:\ProgramData\ComposerSetup\bin;C:\Users\Ha ha\Documents\apache-maven-3.9.6\apache-maven-3.9.6\bin;C:\Users\Ha ha\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files (x86)\NetSarang\Xftp 7\;C:\Program Files\Git\cmd;C:\Users\Ha ha\AppData\Local\Programs\Ollama;C:\Program Files\Tailscale\;C:\Program Files (x86)\NetSarang\Xftp 8\;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\Ha ha\AppData\Local\Microsoft\WindowsApps;C:\TDM-GCC-64\bin;C:\Program Files\MySQL\MySQL Server 8.0\bin\;C:\Users\Ha ha\AppData\Roaming\Composer\vendor\bin;C:\Users\Ha ha\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\Ha ha\AppData\Roaming\Programs\Zero Install;C:\texlive\2025\bin\windows;C:\Users\Ha ha\AppData\Local\Programs\Ollama;C:\Users\Ha ha\AppData\Local\Python\bin;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps;;."/>
     <property name="java.vm.info" value="mixed mode, sharing"/>
     <property name="java.vendor" value="Oracle Corporation"/>
     <property name="java.vm.version" value="17.0.7+8-LTS-224"/>
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="testBoundaryNegativeStuId" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.08"/>
-  <testcase name="testMultipleSetSameValue" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.002"/>
+  <testcase name="testBoundaryNegativeStuId" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.007"/>
+  <testcase name="testMultipleSetSameValue" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.0"/>
   <testcase name="testBoundaryZeroStuId" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.001"/>
-  <testcase name="testParameterizedConstructor(int, float)[1]" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.045"/>
-  <testcase name="testParameterizedConstructor(int, float)[2]" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.001"/>
-  <testcase name="testParameterizedConstructor(int, float)[3]" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.002"/>
-  <testcase name="testBoundaryMinStuId" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.0"/>
-  <testcase name="testAvgScorePrecision" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.002"/>
-  <testcase name="testCombinedBoundaryValues" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.0"/>
-  <testcase name="testAlternatingSetValues" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.001"/>
+  <testcase name="testParameterizedConstructor(int, float)[1]" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.057"/>
+  <testcase name="testParameterizedConstructor(int, float)[2]" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.003"/>
+  <testcase name="testParameterizedConstructor(int, float)[3]" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.001"/>
+  <testcase name="testBoundaryMinStuId" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.001"/>
+  <testcase name="testAvgScorePrecision" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.001"/>
+  <testcase name="testCombinedBoundaryValues" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.001"/>
+  <testcase name="testAlternatingSetValues" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.004"/>
   <testcase name="testBoundaryNegativeAvgScore" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.0"/>
-  <testcase name="testBoundaryOverHundredAvgScore" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.002"/>
+  <testcase name="testBoundaryOverHundredAvgScore" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.0"/>
   <testcase name="testBoundaryMaxStuId" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.001"/>
-  <testcase name="testSpecialScoreNaN" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.002"/>
-  <testcase name="testConstructorVsSetterConsistency" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.0"/>
-  <testcase name="testSetters" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.001"/>
+  <testcase name="testSpecialScoreNaN" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.004"/>
+  <testcase name="testConstructorVsSetterConsistency" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.003"/>
+  <testcase name="testSetters" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.0"/>
   <testcase name="testBoundaryHundredAvgScore" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.001"/>
   <testcase name="testBoundaryZeroAvgScore" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.001"/>
   <testcase name="testSpecialScoreInfinity" classname="cn.nankai.edu.cn.Avg_scoreTest" time="0.001"/>

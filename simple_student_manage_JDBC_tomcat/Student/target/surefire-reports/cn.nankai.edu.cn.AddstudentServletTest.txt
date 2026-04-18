@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: cn.nankai.edu.cn.AddstudentServletTest
 -------------------------------------------------------------------------------
-Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.925 s -- in cn.nankai.edu.cn.AddstudentServletTest
+Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.570 s -- in cn.nankai.edu.cn.AddstudentServletTest
