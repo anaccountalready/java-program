@@ -163,8 +163,46 @@ public class JDBCemo{
 		// TODO Auto-generated method stub
 		
 	}
+	public static int selectCount(String tables, String condition) {
+		String sql = null;
+		if (condition == null || condition.isEmpty()) {
+			sql = "SELECT COUNT(*) FROM " + tables;
+		} else {
+			sql = "SELECT COUNT(*) FROM " + tables + " WHERE " + condition;
+		}
+		System.out.println(sql);
+		try {
+			getInstence();
+			resulSet = statement.executeQuery(sql);
+			if (resulSet.next()) {
+				return resulSet.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return 0;
+		}
+		return 0;
+	}
+
+	public static int selectWithPaging(String arr, String tables, String condition, int startIndex, int pageSize) {
+		String sql = null;
+		if (condition == null || condition.isEmpty()) {
+			sql = "SELECT " + arr + " FROM " + tables + " LIMIT " + startIndex + ", " + pageSize;
+		} else {
+			sql = "SELECT " + arr + " FROM " + tables + " WHERE " + condition + " LIMIT " + startIndex + ", " + pageSize;
+		}
+		System.out.println(sql);
+		try {
+			getInstence();
+			resulSet = statement.executeQuery(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return 0;
+		}
+		return 1;
+	}
+
 	public static void main(String[] args)  {	
 	}
-	
 }
 

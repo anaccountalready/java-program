@@ -45,24 +45,108 @@ input[type="button"]:active {
     box-shadow: 0 3px #666 !important;
     transform: translateY(4px) !important;
 }
+
+.pagination {
+    margin: 20px 0;
+    padding: 10px;
+    text-align: center;
+}
+
+.pagination a {
+    display: inline-block;
+    padding: 8px 16px;
+    margin: 0 4px;
+    text-decoration: none;
+    color: #800080;
+    border: 1px solid #800080;
+    border-radius: 4px;
+}
+
+.pagination a:hover {
+    background-color: #ff80ff;
+    color: white;
+}
+
+.pagination a.disabled {
+    color: #999;
+    border-color: #999;
+    pointer-events: none;
+    cursor: default;
+}
+
+.pagination span {
+    display: inline-block;
+    padding: 8px 16px;
+    margin: 0 4px;
+    color: #800080;
+    font-weight: bold;
+}
+
+.export-btn {
+    background-color: #28a745 !important;
+}
+
+.export-btn:hover {
+    background-color: #218838 !important;
+}
+
+.export-btn:active {
+    background-color: #1e7e34 !important;
+}
 </style>
 </head>
 <body>
 <form action="${pageContext.request.contextPath}/Show_cla" method="get" autocomplete="off">
 <button type="submit">查看</button>
+<button type="button" class="export-btn" onclick="exportExcel()">导出Excel</button>
 <table><tr>
 <td>名称</td>
 <td>人数</td>
 <td>班导</td>
 </tr>
-<c:forEach begin="0" end="${countcla }" items ="${clainfo}" var="cla">
+<c:forEach begin="0" end="${countcla - 1}" items ="${clainfo}" var="cla" varStatus="status">
+<c:if test="${status.index < countcla}">
 <tr>
 <td>${cla.name}</td>
 <td> ${cla.num }</td>
 <td> ${cla.teaname }</td>
 </tr>
+</c:if>
 </c:forEach>
 </table>
+
+<c:if test="${pageBean != null && pageBean.totalPage > 0}">
+<div class="pagination">
+    <c:if test="${pageBean.hasPrevious}">
+        <a href="${pageContext.request.contextPath}/Show_cla?page=1">首页</a>
+        <a href="${pageContext.request.contextPath}/Show_cla?page=${pageBean.previousPage}">上一页</a>
+    </c:if>
+    <c:if test="${!pageBean.hasPrevious}">
+        <a href="#" class="disabled">首页</a>
+        <a href="#" class="disabled">上一页</a>
+    </c:if>
+    
+    <span>第 ${pageBean.currentPage} 页 / 共 ${pageBean.totalPage} 页</span>
+    <span>共 ${pageBean.totalCount} 条记录</span>
+    
+    <c:if test="${pageBean.hasNext}">
+        <a href="${pageContext.request.contextPath}/Show_cla?page=${pageBean.nextPage}">下一页</a>
+        <a href="${pageContext.request.contextPath}/Show_cla?page=${pageBean.totalPage}">末页</a>
+    </c:if>
+    <c:if test="${!pageBean.hasNext}">
+        <a href="#" class="disabled">下一页</a>
+        <a href="#" class="disabled">末页</a>
+    </c:if>
+</div>
+</c:if>
+
 </form>
+
+<script>
+function exportExcel() {
+    window.location.href = '${pageContext.request.contextPath}/exportClass';
+}
+</script>
+
 </body>
 </html>
