@@ -21,10 +21,10 @@ body
       
        <dd><a href="${pageContext.request.contextPath}/addStudent.jsp" target="right">添加学生</a></dd>
        <dd><a href="${pageContext.request.contextPath}/del_stu.jsp" target="right">删除学生</a></dd>
-      <dd><a href="${pageContext.request.contextPath}/show_stu.jsp" target="right">查看学生信息</a></dd>
-      <dd><a href="${pageContext.request.contextPath}/show_score.jsp" target="right">查看学生学分绩</a></dd>
-      <dd><a href="${pageContext.request.contextPath}/DelScore.jsp" target="right">管理学生成绩</a></dd>
-      <dd><a href="${pageContext.request.contextPath}/show_cla.jsp" target="right">查看班级信息</a></dd>
+      <dd><a href="${pageContext.request.contextPath}/show_stu" target="right">查看学生信息</a></dd>
+      <dd><a href="${pageContext.request.contextPath}/Show_score" target="right">查看学生学分绩</a></dd>
+      <dd><a href="${pageContext.request.contextPath}/Del" target="right">管理学生成绩</a></dd>
+      <dd><a href="${pageContext.request.contextPath}/show_cla" target="right">查看班级信息</a></dd>
       
       </dl>
   </li></ul>

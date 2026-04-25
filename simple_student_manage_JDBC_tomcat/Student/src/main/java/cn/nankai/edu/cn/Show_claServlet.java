@@ -32,6 +32,7 @@ public class Show_claServlet extends HttpServlet {
 		Classinfo []cla=new Classinfo[100];
 		int []teaid=new int[100];
 		int count=0;
+		JDBCemo.getInstence();
 		JDBCemo.select("*", "class", null);
 		int i=0;
 		try {

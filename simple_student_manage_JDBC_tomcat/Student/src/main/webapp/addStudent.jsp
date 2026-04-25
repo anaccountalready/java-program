@@ -1,5 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%%>
+<%
+    String addResult = (String)session.getAttribute("addResult");
+    if(addResult != null) {
+        session.removeAttribute("addResult");
+        session.removeAttribute("addtea");
+        session.removeAttribute("addstuteaid");
+    }
+%>
 <html>
 <head>
     <title>添加学生</title>
@@ -49,10 +56,12 @@
         %>
          <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.4.2.min.js"></script>
 <script>
-if("${addstuteaid}"==null||"${addtea}"==null||"${addtea}"==""||"${addstuteaid}"=="")
-alert("未指定教师或教师姓名错误，违反触发器，添加失败！");
-else
-	alert("添加学生成功");
+var addResult = "${addResult}";
+if(addResult == "success") {
+    alert("添加学生成功");
+} else if(addResult == "fail") {
+    alert("未指定教师或教师姓名错误，违反触发器，添加失败！");
+}
 </script>
 </body>
 </html>

@@ -30,8 +30,8 @@ background: #FFF
 }
 button {
   display: inline-block;
-  padding: 3px 10px;
-  font-size: 1px;
+  padding: 10px 20px;
+  font-size: 14px;
   cursor: pointer;
   text-align: center;   
   text-decoration: none;
@@ -39,7 +39,7 @@ button {
   color: #fff;
   background-color: #800080;
   border: none;
-  border-radius: 3px;
+  border-radius: 5px;
   box-shadow: 0 3px #999;
 }
 
@@ -53,8 +53,8 @@ button:active {
 
 input[type=submit]{
  			 display: inline-block;
-  padding: 3px 10px;
-  font-size: 1px;
+  padding: 10px 20px;
+  font-size: 14px;
   cursor: pointer;
   text-align: center;   
   text-decoration: none;
@@ -62,7 +62,7 @@ input[type=submit]{
   color: #fff;
   background-color: #800080;
   border: none;
-  border-radius: 3px;
+  border-radius: 5px;
   box-shadow: 0 3px #999;
  		}
  input[type=submit]:hover{
@@ -75,8 +75,8 @@ input[type=submit]{
  }
  input[type=button]{
  			 display: inline-block;
-  padding: 3px 10px;
-  font-size: 1px;
+  padding: 10px 20px;
+  font-size: 14px;
   cursor: pointer;
   text-align: center;   
   text-decoration: none;
@@ -84,7 +84,7 @@ input[type=submit]{
   color: #fff;
   background-color: #800080;
   border: none;
-  border-radius: 3px;
+  border-radius: 5px;
   box-shadow: 0 3px #999;
  		}
  		input[type=button]:hover{

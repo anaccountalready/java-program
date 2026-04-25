@@ -32,16 +32,28 @@ public class show_stuServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		 String condition=null;
     String showall=(String)request.getParameter("showall");
-    if(showall!=null) {
+    String claname=request.getParameter("class");
+    String sex=request.getParameter("sex");
+    String tea=request.getParameter("tea");
+    String id=request.getParameter("id");
+    String major=request.getParameter("major");
+    
+    boolean hasParams = (showall != null) 
+    		|| (claname != null && !claname.equals(""))
+    		|| (sex != null && !sex.equals(""))
+    		|| (tea != null && !tea.equals(""))
+    		|| (id != null && !id.equals(""))
+    		|| (major != null && !major.equals(""));
+    
+    if(!hasParams) {
+    	condition = null;
+    	JDBCemo.getInstence();
+    }
+    else if(showall!=null) {
     	condition=null;
-    	
+    	JDBCemo.getInstence();
     }
     else {
-		String claname=request.getParameter("class");
-		String sex=request.getParameter("sex");
-		String tea=request.getParameter("tea");
-		String id=request.getParameter("id");
-		String major=request.getParameter("major");
 		 String sql1="select id from major where name="+"'"+major+"'"+";";
 	      String sql2="select id from teacher where name="+"'"+tea+"'"+";";
 	      String majorid=null;
@@ -54,31 +66,31 @@ public class show_stuServlet extends HttpServlet {
 		try {
 	    	 JDBCemo.getInstence();
 	    	 
-	    	if(major==""){}
+	    	if(major==null || major==""){}
 	    	else {JDBCemo.resulSet = JDBCemo.statement.executeQuery(sql1);
              while(JDBCemo.resulSet.next()) {majorid = JDBCemo.resulSet.getString("id");}}
-	    	if(tea==""){}
+	    	if(tea==null || tea==""){}
 	    	else {
 			JDBCemo.resulSet = JDBCemo.statement.executeQuery(sql2);
 			while(JDBCemo.resulSet.next())teaid = JDBCemo.resulSet.getString("id");}
 	    	 
 	    	 if(claname==null)cc="";
 	    	 else cc=" claname="+"'"+claname+"'"+" and ";
-	    	 if(major==null)cm="";
+	    	 if(major==null || majorid==null)cm="";
 	    	 else cm=" majorid="+majorid+" and ";
 	    	 
 	    	 if(sex==null)cs="";
 	    	 else cs=" sex="+"'"+sex+"'";
 	    	 
-	    	 if(tea==""||tea==null)ct="";
+	    	 if(tea==""||tea==null || teaid==null)ct="";
 	    	 else {ct=" and "+" teaid="+teaid;}
 	    	 if(id==""||id==null)ci="";
 	    	 else ci=" and "+" id="+id;
-	    	// System.out.println("cc="+cc+" "+"cs="+cs+" ct="+ct+" ci="+ci);
 	    	 condition=cc+cm+cs+ct+ci;
-	    	 //System.out.println("condition:"+condition);
+	    	 if(condition != null && condition.endsWith(" and ")) {
+	    		 condition = condition.substring(0, condition.length() - 5);
+	    	 }
 	    	 } catch (SQLException e) {
-	 			// TODO Auto-generated catch block
 	 			e.printStackTrace();
 	 		}}
 	 	     

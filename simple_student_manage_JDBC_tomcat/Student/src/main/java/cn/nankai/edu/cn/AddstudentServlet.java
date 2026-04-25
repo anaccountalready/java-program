@@ -61,14 +61,20 @@ public class AddstudentServlet extends HttpServlet {
 			
 			request.getSession().setAttribute("addtea", tea);
 			request.getSession().setAttribute("addstuteaid", teaid);
-			String values=id+","+"'"+name+"'"+","
-	                +"'"+sex+"'"+","
-					+"'"+indate+"'"+","
-	                +"'"+claname+"'"+","+majorid+","+teaid;
-			JDBCemo.insert("student", columns, values);
+			
+			if(teaid == null || teaid.equals("") || tea == null || tea.equals("")) {
+				request.getSession().setAttribute("addResult", "fail");
+			} else {
+				String values=id+","+"'"+name+"'"+","
+		                +"'"+sex+"'"+","
+						+"'"+indate+"'"+","
+		                +"'"+claname+"'"+","+majorid+","+teaid;
+				JDBCemo.insert("student", columns, values);
+				request.getSession().setAttribute("addResult", "success");
+			}
 			JDBCemo.destroy();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			request.getSession().setAttribute("addResult", "fail");
 			e.printStackTrace();
 		}
 	      response.sendRedirect("addStudent.jsp");

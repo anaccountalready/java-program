@@ -5,6 +5,7 @@ cn\nankai\edu\cn\show_stuServlet.class
 cn\nankai\edu\cn\Show_scoreServlet.class
 cn\nankai\edu\cn\AddstudentServlet.class
 cn\nankai\edu\cn\Classinfo.class
+cn\nankai\edu\cn\LoginFilter.class
 cn\nankai\edu\cn\Avg_score.class
 cn\nankai\edu\cn\delstuServelet.class
 cn\nankai\edu\cn\Student.class

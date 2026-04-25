@@ -37,16 +37,27 @@ public class delstuServelet extends HttpServlet {
 		String sql="{call delstu(?,?)}";
 		CallableStatement callstate;
 		try {
+			if(id == null || id.equals("")) {
+				request.getSession().setAttribute("delResult", "fail");
+				response.sendRedirect("del_stu.jsp");
+				return;
+			}
 			callstate = JDBCemo.connection.prepareCall(sql);
 			callstate.setInt(1, Integer.valueOf(id));
-			//注册输出参数
 			callstate.registerOutParameter(2, java.sql.Types.INTEGER);
 			callstate.execute();
 			int output=callstate.getInt(2);
 			System.out.println(output);
-			request.getSession().setAttribute("t_error", output);
+			if(output == 1) {
+				request.getSession().setAttribute("delResult", "fail");
+			} else {
+				request.getSession().setAttribute("delResult", "success");
+			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			request.getSession().setAttribute("delResult", "fail");
+			e.printStackTrace();
+		} catch (NumberFormatException e) {
+			request.getSession().setAttribute("delResult", "fail");
 			e.printStackTrace();
 		}
 		JDBCemo.destroy();

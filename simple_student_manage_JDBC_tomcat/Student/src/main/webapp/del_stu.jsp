@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%
+    String delResult = (String)session.getAttribute("delResult");
+    if(delResult != null) {
+        session.removeAttribute("delResult");
+    }
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,9 +23,11 @@
 </body>
 <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.4.2.min.js"></script>
 <script>
-if("${t_error}"==1)
-alert("学号错误，请重新输入！");
-else
-	alert("删除成功");
+var delResult = "<%= delResult != null ? delResult : "" %>";
+if(delResult == "success") {
+    alert("删除成功");
+} else if(delResult == "fail") {
+    alert("学号错误，请重新输入！");
+}
 </script>
 </html>
