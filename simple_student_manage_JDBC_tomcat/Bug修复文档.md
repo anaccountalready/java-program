@@ -152,9 +152,10 @@ else
 ## Bug 5：查看信息和管理成绩页面按钮太小
 
 ### 问题描述
-查看信息和管理成绩页面的按钮太小，根本看不清里面的字。
+查看学生信息、查看学生学分绩、管理学生成绩、查看班级信息四个页面的按钮太小，根本看不清里面的字。
 
 ### 问题原因
+**第一次问题原因（已修复）**：
 `table.css` 中按钮的 `font-size` 设置为 `1px`，`padding` 也过小：
 ```css
 button {
@@ -169,14 +170,117 @@ input[type=submit], input[type=button] {
 }
 ```
 
+**第二次问题原因（补充修复）**：
+虽然第一次修复将 `font-size` 从 `1px` 改为 `14px`，但按钮样式仍然显示异常，原因包括：
+
+1. **CSS 选择器不够具体**：`button` 选择器优先级太低，可能被其他更具体的选择器覆盖
+2. **继承问题**：按钮位于 `<table>` 和 `<td>` 元素内部，可能继承了 `table td` 的 `font-size: 12px` 样式
+3. **缺少 `!important`**：没有使用 `!important` 标记来确保样式优先级，导致被其他样式覆盖
+4. **缺少行高设置**：没有设置 `line-height`，文字可能显示不正常
+5. **缺少最小宽度**：没有设置 `min-width`，按钮可能过窄
+
+**第三次问题原因（最终修复 - 根本原因）**：
+经过深入分析，发现了问题的根本原因：**HTML 结构严重错误**。
+
+**`show_stu.jsp` 原始错误结构**：
+```html
+</head>
+<form ...>              <!-- 第 13 行 - 没有 <body> 标签！ -->
+<input ...>
+<table>...</table>
+<button>确定</button>
+<body>                   <!-- 第 46 行 - body 才开始！ -->
+...
+</body>
+</form>                   <!-- form 关闭在 body 之后 -->
+</html>
+```
+
+**`DelScore.jsp` 原始错误结构**：
+```html
+</head>
+<input type="hidden">    <!-- 在 <body> 之前！ -->
+<body>
+...
+```
+
+**问题分析**：
+1. **元素位置错误**：`<form>`、`<input>`、`<button>` 等元素在 `<body>` 标签之前或之外
+2. **无效 HTML**：这是完全不符合 HTML 规范的结构
+3. **浏览器解析异常**：浏览器会尝试"修复"这种错误结构，但结果不可预测
+4. **CSS 无法正确匹配**：由于元素在 DOM 树中的位置异常，CSS 选择器无法正确匹配
+
 ### 修复方案
+
+**第一次修复**：
 将 `table.css` 中的按钮样式调整为合理大小：
 - `padding: 3px 10px` → `padding: 10px 20px`
 - `font-size: 1px` → `font-size: 14px`
 - `border-radius: 3px` → `border-radius: 5px`
 
+**第二次修复（补充）**：
+为确保样式正确生效，进行了以下优化：
+
+1. **使用更具体的选择器**：
+   - `button` → `button, form button, table button, td button, body button`
+   - `input[type=submit]` → `input[type=submit], form input[type=submit], table input[type=submit], td input[type=submit]`
+   - `input[type=button]` → `input[type=button], form input[type=button], table input[type=button], td input[type=button]`
+
+2. **添加 `!important` 标记**：所有样式属性后添加 `!important` 确保优先级
+
+3. **增加额外样式属性**：
+   - `line-height: 1.5` - 提高文字可读性
+   - `min-width: 80px` - 确保按钮最小宽度
+   - `margin: 5px 2px` - 确保按钮之间有间距
+   - `padding: 12px 24px` - 进一步增大内边距
+   - `border-radius: 6px` - 略微增大圆角
+
+**第三次修复（最终修复 - 根本解决）**：
+
+1. **修复 HTML 结构**：
+   - **`show_stu.jsp`**：将 `<form>` 移到 `<body>` 内部，确保所有表单元素都在 `<body>` 内，`</form>` 在 `</body>` 之前
+   - **`DelScore.jsp`**：将 `<input type="hidden">` 移到 `<form>` 内部
+
+2. **在每个页面添加内联样式**（最可靠的方式）：
+   在所有 4 个页面的 `<head>` 中添加 `<style>` 标签，直接定义按钮样式：
+   ```css
+   <style>
+   button,
+   input[type="submit"],
+   input[type="button"] {
+       display: inline-block !important;
+       padding: 12px 24px !important;
+       font-size: 14px !important;
+       font-weight: normal !important;
+       line-height: 1.5 !important;
+       cursor: pointer !important;
+       text-align: center !important;
+       text-decoration: none !important;
+       outline: none !important;
+       color: #ffffff !important;
+       background-color: #800080 !important;
+       border: none !important;
+       border-radius: 6px !important;
+       box-shadow: 0 3px #999 !important;
+       min-width: 80px !important;
+       margin: 5px 5px !important;
+       -webkit-appearance: none !important;
+       appearance: none !important;
+   }
+   ...
+   </style>
+   ```
+
+3. **添加浏览器兼容性属性**：
+   - `-webkit-appearance: none` - 移除 WebKit 浏览器的默认按钮样式
+   - `appearance: none` - 标准属性，移除浏览器默认样式
+
 ### 修改文件
-- `src/main/webapp/table.css`
+- `src/main/webapp/table.css`（多次修改优化）
+- `src/main/webapp/show_stu.jsp` - 修复 HTML 结构 + 添加内联样式
+- `src/main/webapp/DelScore.jsp` - 修复 HTML 结构 + 添加内联样式
+- `src/main/webapp/show_score.jsp` - 添加内联样式
+- `src/main/webapp/show_cla.jsp` - 添加内联样式
 
 ---
 
@@ -192,7 +296,11 @@ input[type=submit], input[type=button] {
 | `src/main/webapp/left.jsp` | 修改 | 导航链接从 JSP 改为 Servlet，确保首次进入加载数据 |
 | `src/main/java/cn/nankai/edu/cn/show_stuServlet.java` | 修改 | 添加无参数时的默认处理，修复空值检查逻辑 |
 | `src/main/java/cn/nankai/edu/cn/Show_claServlet.java` | 修改 | 添加缺失的 `JDBCemo.getInstence()` 调用 |
-| `src/main/webapp/table.css` | 修改 | 增大按钮尺寸和字体大小（1px → 14px） |
+| `src/main/webapp/table.css` | 修改 | 增大按钮尺寸和字体大小，使用更具体的选择器和 `!important` 确保优先级 |
+| `src/main/webapp/show_stu.jsp` | 重大修改 | 修复 HTML 结构（form/body 位置错误）+ 添加内联按钮样式 |
+| `src/main/webapp/DelScore.jsp` | 重大修改 | 修复 HTML 结构（input 在 body 之前）+ 添加内联按钮样式 |
+| `src/main/webapp/show_score.jsp` | 修改 | 添加内联按钮样式 |
+| `src/main/webapp/show_cla.jsp` | 修改 | 添加内联按钮样式 |
 
 ---
 
@@ -229,8 +337,16 @@ input[type=submit], input[type=button] {
 - 预期结果：显示所有班级数据
 
 ### 5. 按钮样式验证
-- 进入任意使用 `table.css` 的页面
-- 预期结果：按钮大小适中，文字清晰可见（字体 14px）
+- 登录后点击"查看学生信息"
+  - 预期结果："展示所有学生"按钮和"确定"按钮大小适中，文字清晰可见
+- 登录后点击"查看学生学分绩"
+  - 预期结果："查看所有或已选条件的学分绩信息"按钮文字清晰可见
+- 登录后点击"管理学生成绩"
+  - 预期结果："查看当前所有(或所选)信息"、"删除所选条件的成绩信息"、"批量删除"、"修改成绩"等按钮文字清晰可见
+- 登录后点击"查看班级信息"
+  - 预期结果："查看"按钮文字清晰可见
+
+**特别说明**：由于 CSS 使用了 `!important` 标记，可能需要清除浏览器缓存才能看到最新样式（使用 Ctrl+F5 强制刷新）。
 
 ---
 
@@ -259,4 +375,29 @@ input[type=submit], input[type=button] {
 
 3. **数据库连接**：`Show_claServlet` 修复了缺少 `JDBCemo.getInstence()` 的问题，确保数据库连接正确初始化。
 
-4. **按钮样式**：`form.css` 中的按钮样式原本就是正常的（`padding: 10px 25px`，未设置 font-size 继承默认值），只有 `table.css` 有问题。
+4. **按钮样式 - 根本原因**：
+   - **最严重的问题**：HTML 结构错误
+     - `show_stu.jsp`：`<form>` 在 `<body>` 之前，`</form>` 在 `</body>` 之后
+     - `DelScore.jsp`：`<input type="hidden">` 在 `<body>` 之前
+     - 这种无效 HTML 导致浏览器解析异常，CSS 无法正确匹配元素
+
+   - **外部 CSS 问题**：
+     - `form.css` 中的按钮样式原本就是正常的（`padding: 10px 25px`，未设置 font-size 继承默认值）
+     - `table.css` 原始 `font-size: 1px` 导致文字几乎看不见
+     - 选择器不够具体，且缺少 `!important` 标记，可能被其他样式覆盖
+
+   - **最终修复方案**：
+     1. **修复 HTML 结构**：确保所有元素都在正确的位置
+     2. **在每个页面添加内联样式**：这是最可靠的方式，优先级最高，不受外部 CSS 缓存和选择器优先级问题影响
+     3. **使用 `!important`**：确保样式不被覆盖
+     4. **添加浏览器兼容性属性**：`-webkit-appearance: none`、`appearance: none`
+
+5. **CSS 缓存问题**：
+   - 修改外部 CSS 后，浏览器可能缓存旧的样式
+   - 建议使用 `Ctrl+F5` 强制刷新，或清除浏览器缓存后再测试
+   - **内联样式不受缓存影响**，这是选择内联样式的重要原因之一
+
+6. **HTML 规范重要性**：
+   - 无效的 HTML 结构会导致各种不可预测的问题
+   - 浏览器会尝试"容错"解析，但结果因浏览器而异
+   - 开发时应确保 HTML 结构符合规范
