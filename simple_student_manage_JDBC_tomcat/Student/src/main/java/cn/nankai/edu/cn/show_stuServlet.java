@@ -147,6 +147,7 @@ public class show_stuServlet extends HttpServlet {
 		request.getSession().setAttribute("student", stu);
 		request.getSession().setAttribute("pageBean", pageBean);
 		request.getSession().setAttribute("searchParams", buildSearchParams(claname, sex, tea, id, major));
+		request.getSession().setAttribute("export_stu_condition", condition);
 		response.sendRedirect("show_stu.jsp");
 		return;
 	}

@@ -81,6 +81,8 @@ public class Show_scoreServlet extends HttpServlet {
 		request.getSession().setAttribute("avg_score", stu);
 		request.getSession().setAttribute("pageBean", pageBean);
 		request.getSession().setAttribute("searchParams", buildSearchParams(stuid, high, low));
+		String exportCondition = (condition != null && condition.isEmpty()) ? null : condition;
+		request.getSession().setAttribute("export_score_condition", exportCondition);
 		response.sendRedirect("show_score.jsp");
 		return;
 	}

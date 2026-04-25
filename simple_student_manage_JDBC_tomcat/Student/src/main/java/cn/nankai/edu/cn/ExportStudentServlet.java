@@ -20,12 +20,14 @@ public class ExportStudentServlet extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String condition = (String) request.getSession().getAttribute("export_stu_condition");
+		
 		List<Student> studentList = new ArrayList<>();
 		List<Integer> teaidList = new ArrayList<>();
 		List<Integer> majoridList = new ArrayList<>();
 
 		JDBCemo.getInstence();
-		JDBCemo.select("*", "student", null);
+		JDBCemo.select("*", "student", condition);
 
 		try {
 			while (JDBCemo.resulSet.next()) {

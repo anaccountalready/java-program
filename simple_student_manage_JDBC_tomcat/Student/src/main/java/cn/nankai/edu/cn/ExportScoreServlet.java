@@ -20,10 +20,12 @@ public class ExportScoreServlet extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String condition = (String) request.getSession().getAttribute("export_score_condition");
+		
 		List<Avg_score> scoreList = new ArrayList<>();
 
 		JDBCemo.getInstence();
-		JDBCemo.select("*", "v_stu_avgscore", null);
+		JDBCemo.select("*", "v_stu_avgscore", condition);
 
 		try {
 			while (JDBCemo.resulSet.next()) {
