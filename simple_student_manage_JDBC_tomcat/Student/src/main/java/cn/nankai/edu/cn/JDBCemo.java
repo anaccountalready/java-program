@@ -24,7 +24,7 @@ public class JDBCemo{
 		
 		String url = "jdbc:mysql://localhost:3306/myc_test?useUnicode=true&characterEncoding=utf8&useSSL=true";
 		String username="root";
-		String password="MsQ3Ly%sy";
+		String password="123";
 		try {
 			 try {
 				 //注册数据库驱动

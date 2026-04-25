@@ -28,70 +28,105 @@ background: rgb(223, 216, 232)
 table tr:nth-child(odd) {
 background: #FFF
 }
-button {
-  display: inline-block;
-  padding: 10px 20px;
-  font-size: 14px;
-  cursor: pointer;
-  text-align: center;   
-  text-decoration: none;
-  outline: none;
-  color: #fff;
-  background-color: #800080;
-  border: none;
-  border-radius: 5px;
-  box-shadow: 0 3px #999;
+
+button,
+form button,
+table button,
+td button,
+body button {
+  display: inline-block !important;
+  padding: 12px 24px !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  cursor: pointer !important;
+  text-align: center !important;   
+  text-decoration: none !important;
+  outline: none !important;
+  color: #fff !important;
+  background-color: #800080 !important;
+  border: none !important;
+  border-radius: 6px !important;
+  box-shadow: 0 3px #999 !important;
+  min-width: 80px !important;
+  margin: 5px 2px !important;
 }
 
-button:hover {background-color: #ff80ff}
-
-button:active {
-  background-color: #ff00ff;
-  box-shadow: 0 3px #666;
-  transform: translateY(4px);
+button:hover,
+form button:hover,
+table button:hover {
+  background-color: #ff80ff !important;
 }
 
-input[type=submit]{
- 			 display: inline-block;
-  padding: 10px 20px;
-  font-size: 14px;
-  cursor: pointer;
-  text-align: center;   
-  text-decoration: none;
-  outline: none;
-  color: #fff;
-  background-color: #800080;
-  border: none;
-  border-radius: 5px;
-  box-shadow: 0 3px #999;
- 		}
- input[type=submit]:hover{
- background-color: #ff80ff
- }
- input[type=submit]:active{
- background-color: #ff00ff;
-  box-shadow: 0 3px #666;
-  transform: translateY(4px);
- }
- input[type=button]{
- 			 display: inline-block;
-  padding: 10px 20px;
-  font-size: 14px;
-  cursor: pointer;
-  text-align: center;   
-  text-decoration: none;
-  outline: none;
-  color: #fff;
-  background-color: #800080;
-  border: none;
-  border-radius: 5px;
-  box-shadow: 0 3px #999;
- 		}
- 		input[type=button]:hover{
- background-color: #ff80ff
- }
- input[type=button]:active{
- background-color: #ff00ff;
-  box-shadow: 0 3px #666;
-  transform: translateY(4px);
- }
+button:active,
+form button:active,
+table button:active {
+  background-color: #ff00ff !important;
+  box-shadow: 0 3px #666 !important;
+  transform: translateY(4px) !important;
+}
+
+input[type=submit],
+form input[type=submit],
+table input[type=submit],
+td input[type=submit] {
+  display: inline-block !important;
+  padding: 12px 24px !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  cursor: pointer !important;
+  text-align: center !important;   
+  text-decoration: none !important;
+  outline: none !important;
+  color: #fff !important;
+  background-color: #800080 !important;
+  border: none !important;
+  border-radius: 6px !important;
+  box-shadow: 0 3px #999 !important;
+  min-width: 80px !important;
+  margin: 5px 2px !important;
+}
+
+input[type=submit]:hover,
+form input[type=submit]:hover {
+  background-color: #ff80ff !important;
+}
+
+input[type=submit]:active,
+form input[type=submit]:active {
+  background-color: #ff00ff !important;
+  box-shadow: 0 3px #666 !important;
+  transform: translateY(4px) !important;
+}
+
+input[type=button],
+form input[type=button],
+table input[type=button],
+td input[type=button] {
+  display: inline-block !important;
+  padding: 12px 24px !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  cursor: pointer !important;
+  text-align: center !important;   
+  text-decoration: none !important;
+  outline: none !important;
+  color: #fff !important;
+  background-color: #800080 !important;
+  border: none !important;
+  border-radius: 6px !important;
+  box-shadow: 0 3px #999 !important;
+  min-width: 80px !important;
+  margin: 5px 2px !important;
+}
+
+input[type=button]:hover,
+form input[type=button]:hover {
+  background-color: #ff80ff !important;
+}
+
+input[type=button]:active,
+form input[type=button]:active {
+  background-color: #ff00ff !important;
+  box-shadow: 0 3px #666 !important;
+  transform: translateY(4px) !important;
+}
