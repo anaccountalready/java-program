@@ -21,6 +21,8 @@ public class ExportStudentServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<Student> studentList = new ArrayList<>();
+		List<Integer> teaidList = new ArrayList<>();
+		List<Integer> majoridList = new ArrayList<>();
 
 		JDBCemo.getInstence();
 		JDBCemo.select("*", "student", null);
@@ -36,10 +38,20 @@ public class ExportStudentServlet extends HttpServlet {
 						JDBCemo.resulSet.getInt(6),
 						JDBCemo.resulSet.getInt(7)
 				);
+				studentList.add(stu);
+				teaidList.add(JDBCemo.resulSet.getInt(7));
+				majoridList.add(JDBCemo.resulSet.getInt(6));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
-				int teaid = JDBCemo.resulSet.getInt(7);
-				int majorid = JDBCemo.resulSet.getInt(6);
+		for (int i = 0; i < studentList.size(); i++) {
+			Student stu = studentList.get(i);
+			int teaid = teaidList.get(i);
+			int majorid = majoridList.get(i);
 
+			try {
 				JDBCemo.select("name", "teacher", " id=" + teaid);
 				if (JDBCemo.resulSet.next()) {
 					stu.setTeacher(JDBCemo.resulSet.getString("name"));
@@ -49,11 +61,9 @@ public class ExportStudentServlet extends HttpServlet {
 				if (JDBCemo.resulSet.next()) {
 					stu.setMajor(JDBCemo.resulSet.getString("name"));
 				}
-
-				studentList.add(stu);
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 
 		JDBCemo.destroy();

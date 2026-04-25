@@ -21,6 +21,7 @@ public class ExportClassServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<Classinfo> classList = new ArrayList<>();
+		List<Integer> teaidList = new ArrayList<>();
 
 		JDBCemo.getInstence();
 		JDBCemo.select("*", "class", null);
@@ -32,11 +33,25 @@ public class ExportClassServlet extends HttpServlet {
 						JDBCemo.resulSet.getInt("num"),
 						JDBCemo.resulSet.getInt("teaid")
 				);
-				classInfo.setTeaname(JDBCemo.resulSet.getInt("teaid"));
 				classList.add(classInfo);
+				teaidList.add(JDBCemo.resulSet.getInt("teaid"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}
+
+		for (int i = 0; i < classList.size(); i++) {
+			Classinfo classInfo = classList.get(i);
+			int teaid = teaidList.get(i);
+			
+			try {
+				JDBCemo.select("name", "teacher", " id=" + teaid);
+				if (JDBCemo.resulSet.next()) {
+					classInfo.setTeanameFromResult(JDBCemo.resulSet.getString("name"));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 
 		JDBCemo.destroy();

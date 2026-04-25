@@ -104,8 +104,8 @@ input[type="button"]:active {
 <td>人数</td>
 <td>班导</td>
 </tr>
-<c:forEach begin="0" end="${countcla - 1}" items ="${clainfo}" var="cla" varStatus="status">
-<c:if test="${status.index < countcla}">
+<c:forEach items="${clainfo}" var="cla" varStatus="status">
+<c:if test="${status.index < countcla and cla != null}">
 <tr>
 <td>${cla.name}</td>
 <td> ${cla.num }</td>

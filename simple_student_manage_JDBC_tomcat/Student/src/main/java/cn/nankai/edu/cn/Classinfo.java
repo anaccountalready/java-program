@@ -36,10 +36,12 @@ public void setTeaname(int teaid) {
 			this.teaname = JDBCemo.resulSet.getString("name");
 		}
 	} catch (SQLException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
-	
+}
+
+public void setTeanameFromResult(String teaname) {
+	this.teaname = teaname;
 }
 public Classinfo() {
 	super();

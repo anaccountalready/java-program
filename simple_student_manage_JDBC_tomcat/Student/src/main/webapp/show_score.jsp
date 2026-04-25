@@ -114,8 +114,8 @@ input[type="button"]:active {
 <td>学号</td>
 <td>学分绩</td>
 </tr>
-<c:forEach begin="0" end="${countavg - 1}" items ="${avg_score}" var="avg" varStatus="status">
-<c:if test="${status.index < countavg}">
+<c:forEach items="${avg_score}" var="avg" varStatus="status">
+<c:if test="${status.index < countavg and avg != null}">
 <tr>
 <td>${avg.stu_id}</td>
 <td> ${avg.avg_score }</td>

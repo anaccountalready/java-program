@@ -401,3 +401,208 @@ input[type=submit], input[type=button] {
    - 无效的 HTML 结构会导致各种不可预测的问题
    - 浏览器会尝试"容错"解析，但结果因浏览器而异
    - 开发时应确保 HTML 结构符合规范
+
+---
+
+## Bug 6：查看班级信息页面 JSP 报错 (HTTP ERROR 500)
+
+### 问题描述
+访问查看班级信息页面时，出现 HTTP ERROR 500 错误：
+```
+javax.servlet.ServletException: org.apache.jasper.JasperException: 
+An exception occurred processing [/show_cla.jsp] at line [107]
+<c:forEach begin="0" end="${countcla - 1}" items ="${clainfo}" var="cla" varStatus="status">
+```
+
+### 问题原因
+**根本原因**：JSTL `<c:forEach>` 标签同时使用 `begin/end` 和 `items` 属性，且 `end="${countcla - 1}"` 存在以下问题：
+
+1. **空指针风险**：当 `countcla` 为 `null` 时，EL 表达式 `${countcla - 1}` 无法执行减法运算
+2. **索引越界风险**：当 `countcla` 为 0 时，`end="-1"` 是无效的索引值
+3. **JSTL 规范问题**：同时使用 `begin/end` 和 `items` 时，JSTL 会根据索引访问数组元素，如果数组长度小于 `end` 值，会导致越界
+
+**受影响的页面**：
+- `show_cla.jsp` - 直接报错
+- `show_stu.jsp` - 存在同样问题
+- `show_score.jsp` - 存在同样问题
+
+### 修复方案
+1. **移除 `begin/end` 属性**：只使用 `items` 属性遍历集合
+2. **添加空值和边界检查**：使用 `<c:if>` 判断 `status.index < count` 和对象不为 `null`
+
+**修改前**：
+```jsp
+<c:forEach begin="0" end="${countcla - 1}" items ="${clainfo}" var="cla" varStatus="status">
+<c:if test="${status.index < countcla}">
+    ...
+</c:if>
+</c:forEach>
+```
+
+**修改后**：
+```jsp
+<c:forEach items="${clainfo}" var="cla" varStatus="status">
+<c:if test="${status.index < countcla and cla != null}">
+    ...
+</c:if>
+</c:forEach>
+```
+
+### 修改文件
+- `src/main/webapp/show_cla.jsp`
+- `src/main/webapp/show_stu.jsp`
+- `src/main/webapp/show_score.jsp`
+
+---
+
+## Bug 7：导出的 Excel 文件只有一条数据
+
+### 问题描述
+点击"导出Excel"按钮后，下载的 Excel 文件中只有一条数据，而数据库中有多条数据。
+
+### 问题原因
+**根本原因**：`JDBCemo.resulSet` 是静态变量，在循环内部调用 `JDBCemo.select()` 时会**覆盖**原来的 ResultSet。
+
+**代码执行流程分析**（以 `ExportStudentServlet` 为例）：
+
+```java
+// 原始代码
+while (JDBCemo.resulSet.next()) {  // 第1次循环：resulSet 是 student 表
+    Student stu = new Student(...);
+    
+    // 问题出在这里！
+    JDBCemo.select("name", "teacher", ...);  // 覆盖 resulSet！
+    // 现在 JDBCemo.resulSet 变成了 teacher 表的查询结果！
+    
+    JDBCemo.select("name", "major", ...);  // 再次覆盖 resulSet！
+    // 现在 JDBCemo.resulSet 变成了 major 表的查询结果！
+    
+    studentList.add(stu);
+}
+// 第2次循环：JDBCemo.resulSet.next() 实际遍历的是 major 表！
+// 由于 major 表可能只有几条数据，循环很快结束
+```
+
+**受影响的 Servlet**：
+1. **ExportStudentServlet**：
+   - 循环内调用 `JDBCemo.select("name", "teacher", ...)`
+   - 循环内调用 `JDBCemo.select("name", "major", ...)`
+
+2. **ExportClassServlet**：
+   - 循环内调用 `classInfo.setTeaname(teaid)`，而该方法内部调用了 `JDBCemo.select()`
+
+**ExportScoreServlet 不受影响**：它没有在循环内部调用 JDBC 查询。
+
+### 修复方案
+**核心思路**：先遍历 ResultSet 收集所有主数据，关闭/保存主 ResultSet 后，再遍历 List 查询关联数据。
+
+**修复步骤**：
+
+1. **ExportStudentServlet**：
+   - 第1步：遍历 student 表 ResultSet，收集所有 Student 对象到 List，同时保存 teaid 和 majorid 到单独的 List
+   - 第2步：遍历 List，逐个查询 teacher 和 major 信息
+
+2. **ExportClassServlet**：
+   - 第1步：遍历 class 表 ResultSet，收集所有 Classinfo 对象到 List，同时保存 teaid 到单独的 List
+   - 第2步：遍历 List，逐个查询 teacher 信息
+   - 需要在 `Classinfo` 类中添加新方法 `setTeanameFromResult(String teaname)`，避免内部调用 JDBC 查询
+
+### 修改文件
+- `src/main/java/cn/nankai/edu/cn/ExportStudentServlet.java` - 重构数据收集逻辑
+- `src/main/java/cn/nankai/edu/cn/ExportClassServlet.java` - 重构数据收集逻辑
+- `src/main/java/cn/nankai/edu/cn/Classinfo.java` - 新增 `setTeanameFromResult(String teaname)` 方法
+
+### 代码示例
+**修复后的 ExportStudentServlet 核心逻辑**：
+```java
+// 第1步：先收集所有主数据（不执行任何其他 JDBC 查询）
+List<Student> studentList = new ArrayList<>();
+List<Integer> teaidList = new ArrayList<>();
+List<Integer> majoridList = new ArrayList<>();
+
+JDBCemo.select("*", "student", null);
+while (JDBCemo.resulSet.next()) {
+    Student stu = new Student(...);
+    studentList.add(stu);
+    teaidList.add(JDBCemo.resulSet.getInt(7));
+    majoridList.add(JDBCemo.resulSet.getInt(6));
+}
+
+// 第2步：再查询关联数据（此时主 ResultSet 已遍历完毕）
+for (int i = 0; i < studentList.size(); i++) {
+    Student stu = studentList.get(i);
+    int teaid = teaidList.get(i);
+    int majorid = majoridList.get(i);
+    
+    JDBCemo.select("name", "teacher", " id=" + teaid);
+    if (JDBCemo.resulSet.next()) {
+        stu.setTeacher(JDBCemo.resulSet.getString("name"));
+    }
+    
+    JDBCemo.select("name", "major", " id=" + majorid);
+    if (JDBCemo.resulSet.next()) {
+        stu.setMajor(JDBCemo.resulSet.getString("name"));
+    }
+}
+```
+
+---
+
+## 本次新增修改文件清单
+
+| 文件路径 | 操作类型 | 修改内容 |
+|---------|---------|---------|
+| `src/main/webapp/show_cla.jsp` | 修改 | 修复 `<c:forEach>` 标签，移除 `begin/end`，添加空值检查 |
+| `src/main/webapp/show_stu.jsp` | 修改 | 修复 `<c:forEach>` 标签，移除 `begin/end`，添加空值检查 |
+| `src/main/webapp/show_score.jsp` | 修改 | 修复 `<c:forEach>` 标签，移除 `begin/end`，添加空值检查 |
+| `src/main/java/cn/nankai/edu/cn/ExportStudentServlet.java` | 重构 | 分离主数据收集和关联数据查询逻辑 |
+| `src/main/java/cn/nankai/edu/cn/ExportClassServlet.java` | 重构 | 分离主数据收集和关联数据查询逻辑 |
+| `src/main/java/cn/nankai/edu/cn/Classinfo.java` | 修改 | 新增 `setTeanameFromResult(String)` 方法 |
+
+---
+
+## 验证方法
+
+### 1. 查看班级信息页面验证
+- 登录后点击"查看班级信息"
+- 预期结果：页面正常显示，无 HTTP 500 错误
+- 验证分页功能：如果数据超过10条，验证分页导航正常工作
+
+### 2. Excel 导出验证
+- **学生信息导出**：
+  - 进入"查看学生信息"页面
+  - 点击"导出Excel"按钮
+  - 打开下载的 Excel 文件，验证数据条数与数据库一致
+
+- **学分绩导出**：
+  - 进入"查看学生学分绩"页面
+  - 点击"导出Excel"按钮
+  - 打开下载的 Excel 文件，验证数据条数
+
+- **班级信息导出**：
+  - 进入"查看班级信息"页面
+  - 点击"导出Excel"按钮
+  - 打开下载的 Excel 文件，验证数据条数
+
+### 3. 文件名验证
+- 导出的文件名格式应为：`页面名+日期.xlsx`
+- 例如：`学生信息20260425.xlsx`、`学分绩20260425.xlsx`、`班级信息20260425.xlsx`
+
+---
+
+## 经验总结
+
+### 1. JSTL `<c:forEach>` 使用注意事项
+- 避免同时使用 `begin/end` 和 `items` 属性，这会增加复杂性
+- 不要在 EL 表达式中进行可能导致空指针的运算（如 `${count - 1}`）
+- 使用 `<c:if>` 进行边界检查和空值检查
+
+### 2. 静态变量使用风险
+- `JDBCemo.resulSet` 是静态变量，每次调用 `JDBCemo.select()` 都会覆盖它
+- **绝对不要**在遍历 ResultSet 的循环内部再次调用 `JDBCemo.select()`
+- 正确的做法是：先遍历收集所有数据到 List，然后再查询关联数据
+
+### 3. 数据库查询最佳实践
+- 主数据查询和关联数据查询应该分离
+- 使用 JOIN 语句一次性获取所有数据（性能更好，代码更简洁）
+- 如果必须分多次查询，确保在再次查询前已完成对前一个 ResultSet 的遍历
