@@ -9,8 +9,47 @@
 <link rel="stylesheet"  type="text/css"  href="./table.css"/>
 <meta charset="utf-8">
 <title>学生信息</title>
+<style>
+button,
+input[type="submit"],
+input[type="button"] {
+    display: inline-block !important;
+    padding: 12px 24px !important;
+    font-size: 14px !important;
+    font-weight: normal !important;
+    line-height: 1.5 !important;
+    cursor: pointer !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    outline: none !important;
+    color: #ffffff !important;
+    background-color: #800080 !important;
+    border: none !important;
+    border-radius: 6px !important;
+    box-shadow: 0 3px #999 !important;
+    min-width: 80px !important;
+    margin: 5px 5px !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+}
+
+button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover {
+    background-color: #ff80ff !important;
+}
+
+button:active,
+input[type="submit"]:active,
+input[type="button"]:active {
+    background-color: #ff00ff !important;
+    box-shadow: 0 3px #666 !important;
+    transform: translateY(4px) !important;
+}
+</style>
 </head>
- <form action="${pageContext.request.contextPath}/show_stu" method="get" autocomplete="off">
+<body>
+<form action="${pageContext.request.contextPath}/show_stu" method="get" autocomplete="off">
 <input name="showall" type="submit" value="展示所有学生"/>
 <table>
 <tr>
@@ -43,7 +82,6 @@
 </tr>
 </table>
  <button type="submit">确定</button>
-<body>
 <table>
 <tr>
 <td>学号</td>
@@ -69,7 +107,6 @@
 
 </c:forEach>
 </table>
-</body>
 </form>
 <%!String [] class_name={
         	"计算机科学与技术一班",
@@ -84,4 +121,5 @@
         };%>
          <%!String []a={"男","女"};
         %>
+</body>
 </html>
